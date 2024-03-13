@@ -25,6 +25,27 @@ class Product extends Model
         return $this->HasMany(Product_Image::class);
     }
 
+    public function cart(): BelongsTo
+    {
+        return $this->belongsTo(cart::class);
+    }
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(order::class);
+    }
+    public function review(): HasMany
+    {
+        return $this->HasMany(review::class);
+    }
+    public function saved_product(): BelongsTo
+    {
+        return $this->belongsTo(saved_product::class);
+    }
+    public function viewd_product(): BelongsTo
+    {
+        return $this->belongsTo(Viewed_Product::class);
+    }
+
     protected $fillable = [
         'id',
         'title',
