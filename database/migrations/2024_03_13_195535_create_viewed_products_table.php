@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('viewed_products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
+            $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products');
+
         });
     }
 

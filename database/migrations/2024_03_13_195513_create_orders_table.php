@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('count');
+            $table->integer('price');
+            $table->integer('shipping_period');
+            $table->integer('shipping_cost');
+            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
+            $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products');
+
         });
     }
 
