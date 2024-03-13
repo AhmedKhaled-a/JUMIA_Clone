@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Product_Images extends Model
+class Product_Image extends Model
 {
+    protected $table = 'product_images';
     use HasFactory;
     public function product(): BelongsTo
     {
