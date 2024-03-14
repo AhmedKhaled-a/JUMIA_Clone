@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->string('category_thumb');
             $table->unsignedBigInteger('super_category_id')->nullable();
             $table->foreign('super_category_id')->references('id')->on('categories');
+
         });
     }
 

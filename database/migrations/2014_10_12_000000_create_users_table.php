@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->enum('gender',['female','male']);
             $table->string('username')->unique();
-            $table->integer('phone_number');
+            $table->string('phone_number');
             $table->string('address_country');
             $table->string('address_city');
             $table->string('address_district');
