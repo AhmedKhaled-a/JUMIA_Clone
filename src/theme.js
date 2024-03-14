@@ -1,5 +1,6 @@
 
 import {createTheme} from '@mui/material';
+import { red } from '@mui/material/colors';
 
 export const theme = createTheme({
   palette : {
@@ -10,10 +11,15 @@ export const theme = createTheme({
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
+      // light: '#fff2d6',
+      main: '#fff2d6',
+      // dark: '#633185',
       contrastText: '#000',
     },
+    background: {
+      default:'#f1f1f2',
+      // default: red,
+      paper : '#f1f1f2'
+    }
   }
 });

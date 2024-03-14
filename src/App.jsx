@@ -13,8 +13,10 @@ import CategoryPage from './Components/CategoryPage/CategoryPage';
 import CartPage from './Components/CartPage/CartPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Components/Layout';
+import globalStyles from './styles';
 
 function App() {
+  const classes = globalStyles();
   let routers = createBrowserRouter([
     {path: '/' , element:<Layout /> , children:[
         {index: true, element:<Home />},
@@ -27,7 +29,7 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <div className="container mt-5 vh-100 pt-5">
+        <div className="container-fluid mt-5 pt-5" style={{backgroundColor : theme.palette.background.default}}>
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
