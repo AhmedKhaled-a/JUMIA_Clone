@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Saved_Product extends Model
 {
     use HasFactory;
-
+    protected $table = 'saved_products';
     public function user(): BelongsTo
     {
         return $this->belongsTo(user::class);
