@@ -41,7 +41,6 @@ Route::put('/reviews/{id}', [ReviewController::class, 'update'])
 
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 ->name('reviews.destroy');
-<<<<<<< HEAD
 
 /**************************************** Messages ************************************************/
 
@@ -66,5 +65,3 @@ Route::put('/messages/{id}', [ReviewController::class, 'update'])
 
 Route::delete('/messages/{id}', [ReviewController::class, 'destroy'])
 ->name('reviews.destroy');
-=======
->>>>>>> c132d41ee345fe9f29bcc499b49ede74990d9744
