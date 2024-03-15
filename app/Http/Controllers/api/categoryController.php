@@ -56,14 +56,14 @@ class categoryController extends Controller
         if ($validator->fails()) {
             return response()->json(["message" => "error happend bad data bro..."]);
         } 
-        else {
+        // else {
             
-            $category = category::create([
-                'id' =>'',
-                'name' => $data['category']['name'],
-                'category_thumb'=>$data['category']['category_thumb'],
-                'super_category_id'=>$data['category']['super_category_id'],
-            ]);
+        //     $category = category::create([
+        //         'id' =>'',
+        //         'name' => $data['category']['name'],
+        //         'category_thumb'=>$data['category']['category_thumb'],
+        //         'super_category_id'=>$data['category']['super_category_id'],
+        //     ]);
             // store the review
             // associate review with product , user
         //     $user = User::find($data['user']['id']);
