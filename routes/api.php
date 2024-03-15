@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
+<<<<<<< HEAD
 use App\Http\Controllers\SavedProductsController;
 use App\Http\Controllers\UserController;
+=======
+use App\Http\Controllers\ProductController;
+>>>>>>> f13fb5e8ba35404037a26a12f33a4a3e0db1539d
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +25,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+//**************************************** Cart ********************************/
+Route::prefix('cart')->group(function () {
+    Route::post('/add/{user_id}', [CartController::class, 'addItem']);
+    Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
+    Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
+    Route::put('/{cartId}/update-count', [CartController::class, 'updateCount']);
 });
 
 //**************************************** Reviews ********************************/
@@ -73,6 +85,7 @@ Route::put('/messages/{id}', [MessageController::class, 'update'])
 Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 ->name('messages.destroy');
 
+<<<<<<< HEAD
 /**************************************** Saved Products ************************************************/
 
 Route::get('/products/usersaved/{userId}', [SavedProductsController::class, 'getSavedProducts'])
@@ -86,3 +99,14 @@ Route::get('/products/issaved/{userId}', [SavedProductsController::class, 'isSav
 
 Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'unsaveProduct'])
 ->name("saved.unsave");
+=======
+
+/*
+|--------------------------------------------------------------------------
+| Products Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('products', [ProductController::class, 'index']);
+Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+Route::post('products/add-product', [ProductController::class, 'store']);
+>>>>>>> f13fb5e8ba35404037a26a12f33a4a3e0db1539d

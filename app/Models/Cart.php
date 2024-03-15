@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
 class Cart extends Model
 {
+    protected $table = 'carts';
+
     use HasFactory;
     public function product(): HasMany
     {
