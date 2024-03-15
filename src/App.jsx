@@ -12,7 +12,6 @@ import { theme } from './theme';
 // import CategoryPage from './Components/CategoryPage/CategoryPage';
 import CartPage from './Components/CartPage/CartPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Layout from './Components/Layout';
 // import globalStyles from './styles';
 import MyAccount from './Pages/MyAccount';
 import Orders from './Pages/Orders';
@@ -24,6 +23,11 @@ import FollowedSellers from './Pages/FollowedSellers';
 import RecentlyViewed from './Pages/RecentlyViewed';
 import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
+import Login from './Components/Login/Login';
+import Layout from './Components/Layout/Layout';
+
+
+
 
 function App() {
   // const classes = globalStyles();
@@ -42,6 +46,7 @@ function App() {
         {path: '/account/viewed', element: <RecentlyViewed />},
         {path: '/account/address', element: <AddressBook />},
         {path: '/account/newsletter', element: <Newsletter />},
+        {path: '/login' , element:<Login/>},
     ]}
   ]);
 
