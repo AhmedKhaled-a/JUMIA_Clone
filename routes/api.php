@@ -31,8 +31,10 @@ Route::get('/reviews/create', [ReviewController::class, 'create'])->name('review
 Route::post('/reviews', [ReviewController::class, 'store'])
 ->name('reviews.store');
 
-Route::get('/reviews/{id}', [ReviewController::class, 'show'])
-->name('reviews.show');
+// Route::get('/reviews/{id}', [ReviewController::class, 'show'])
+// ->name('reviews.show');
+Route::get('/reviews/getbyproduct', [ReviewController::class, 'getProductReviews'])
+->name('reviews.getbyproduct');
 
 Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
 ->name('reviews.edit');
