@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('username')->unique();
-            $table->integer('phone_number');
+            $table->string('phone_number');
             $table->integer('confirmer_id');
 
         });

@@ -23,4 +23,15 @@ class Cart extends Model
     {
         return $this->hasOne(user::class);
     }
+    protected $fillable = [
+        
+        'id',
+        'count',
+        'product_id',
+        'user_id',
+        
+        
+        
+        
+    ];
 }
