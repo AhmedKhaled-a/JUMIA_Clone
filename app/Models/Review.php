@@ -17,4 +17,15 @@ class Review extends Model
     {
         return $this->hasOne(user::class);
     }
+    protected $fillable = [
+        'writer',
+        'title',
+        'product_id',
+        'user_id',
+        'content',
+        'rating',
+        'id'
+        
+        
+    ];
 }

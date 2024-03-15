@@ -19,4 +19,12 @@ class Saved_Product extends Model
     {
         return $this->HasMany(product::class);
     }
+    protected $fillable = [
+        'writer',
+        'title',
+        'product_id',
+        'user_id',
+        'id',
+        
+    ];
 }

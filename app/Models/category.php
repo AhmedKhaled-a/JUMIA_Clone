@@ -13,4 +13,12 @@ class category extends Model
     {
         return $this->belongsTo(category::class);
     }
+
+    protected $fillable = [
+        'name',
+        'id',
+        'category_thumb',
+        'super_category_id'
+        
+    ];
 }
