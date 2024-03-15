@@ -102,9 +102,14 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
-Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-Route::post('products/add-product', [ProductController::class, 'store']);
+
+Route::group(['prefix' => 'products'], function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+    Route::post('/add-product', [ProductController::class, 'store']);
+    Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
+});
 
 
 /**************************************** Orders ************************************************/
