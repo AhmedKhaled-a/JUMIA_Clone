@@ -7,18 +7,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Seller;
+use App\Models\Category;
+use App\Models\Review;
+use App\Models\Order;
 
 class Product extends Model
 {
     use HasFactory;
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(seller::class);
+        return $this->belongsTo(Seller::class);
     }
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function images(): HasMany
@@ -28,15 +32,15 @@ class Product extends Model
 
     public function cart(): BelongsTo
     {
-        return $this->belongsTo(cart::class);
+        return $this->belongsTo(Cart::class);
     }
     public function order(): BelongsTo
     {
-        return $this->belongsTo(order::class);
+        return $this->belongsTo(Order::class);
     }
     public function review(): HasMany
     {
-        return $this->HasMany(review::class);
+        return $this->HasMany(Review::class);
     }
 
     public function users_saved(): BelongsToMany
@@ -53,7 +57,6 @@ class Product extends Model
     }
 
     protected $fillable = [
-        'id',
         'title',
         'desc',
         'spec',

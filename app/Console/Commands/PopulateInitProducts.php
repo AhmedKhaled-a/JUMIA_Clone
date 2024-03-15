@@ -58,7 +58,8 @@ class PopulateInitProducts extends Command
                 'stock' => $product['stock'],
                 'brand' => $product['brand'],
                 'rating' => 0,
-                'thumbnail' => $thumbnail_path
+                'thumbnail' => $thumbnail_path,
+                'seller_id' => 1
             ]);
 
             // loop through images[]
