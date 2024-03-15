@@ -16,9 +16,6 @@ class Message extends Model
     protected $fillable = [
         'writer',
         'title',
-        'product_id',
-        'user_id',
-        'id'
-        
+        'content',        
     ];
 }
