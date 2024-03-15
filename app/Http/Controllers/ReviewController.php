@@ -71,7 +71,13 @@ class ReviewController extends Controller
             // store the review
             // associate review with product , user
             $user = User::find($data['user']['id']);
+            if (!$user) {
+                return response()->json(["message" => "no user with this id"]);
+            }
             $product = Product::find($data['product']['id']);
+            if (!$product) {
+                return response()->json(["message" => "no product with this id"]);
+            }
             $review->product()->associate($product);
             $review->user()->associate($user);
             $review->writer = $review->user->username;

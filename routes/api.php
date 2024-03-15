@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,24 +45,24 @@ Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 
 /**************************************** Messages ************************************************/
 
-Route::get('/messages', [ReviewController::class, 'index'])
+Route::get('/messages', [MessageController::class, 'index'])
 ->name("messages.index");
 
-Route::get('/messages/create', [ReviewController::class, 'create'])
+Route::get('/messages/create', [MessageController::class, 'create'])
 ->name('messages.create');
 
 
-Route::post('/messages', [ReviewController::class, 'store'])
+Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-Route::get('/messages/{id}', [ReviewController::class, 'show'])
+Route::get('/messages/{id}', [MessageController::class, 'show'])
 ->name('messages.show');
 
-Route::get('/messages/{id}/edit', [ReviewController::class, 'edit'])
+Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
 ->name('messages.edit');
 
-Route::put('/messages/{id}', [ReviewController::class, 'update'])
+Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
 
-Route::delete('/messages/{id}', [ReviewController::class, 'destroy'])
+Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 ->name('messages.destroy');
