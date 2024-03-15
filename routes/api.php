@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SavedProductsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,8 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 
 // Route::get('/reviews/{id}', [ReviewController::class, 'show'])
 // ->name('reviews.show');
+
+// ex : /api/reviews/getbyproduct?prodId=1
 Route::get('/reviews/getbyproduct', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
@@ -68,3 +72,17 @@ Route::put('/messages/{id}', [MessageController::class, 'update'])
 
 Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 ->name('messages.destroy');
+
+/**************************************** Saved Products ************************************************/
+
+Route::get('/products/usersaved/{userId}', [SavedProductsController::class, 'getSavedProducts'])
+->name("saved.index");
+
+Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'saveProduct'])
+->name("saved.save");
+
+Route::get('/products/issaved/{userId}', [SavedProductsController::class, 'isSavedProduct'])
+->name("saved.isSaved");
+
+Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'unsaveProduct'])
+->name("saved.unsave");
