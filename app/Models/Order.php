@@ -20,4 +20,14 @@ class Order extends Model
     {
         return $this->hasOne(user::class);
     }
+    protected $fillable = [
+        'count',
+        'price',
+        'shipping_period',
+        'shipping_cost',
+        'user_id',
+        'product_id',
+        'id'
+        
+    ];
 }
