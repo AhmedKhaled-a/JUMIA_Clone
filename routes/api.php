@@ -2,12 +2,9 @@
 
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
-<<<<<<< HEAD
 use App\Http\Controllers\SavedProductsController;
 use App\Http\Controllers\UserController;
-=======
 use App\Http\Controllers\ProductController;
->>>>>>> f13fb5e8ba35404037a26a12f33a4a3e0db1539d
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -85,7 +82,6 @@ Route::put('/messages/{id}', [MessageController::class, 'update'])
 Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 ->name('messages.destroy');
 
-<<<<<<< HEAD
 /**************************************** Saved Products ************************************************/
 
 Route::get('/products/usersaved/{userId}', [SavedProductsController::class, 'getSavedProducts'])
@@ -99,7 +95,6 @@ Route::get('/products/issaved/{userId}', [SavedProductsController::class, 'isSav
 
 Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'unsaveProduct'])
 ->name("saved.unsave");
-=======
 
 /*
 |--------------------------------------------------------------------------
@@ -109,4 +104,3 @@ Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'un
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
 Route::post('products/add-product', [ProductController::class, 'store']);
->>>>>>> f13fb5e8ba35404037a26a12f33a4a3e0db1539d

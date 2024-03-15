@@ -1,0 +1,47 @@
+[
+    {
+        "id": 7,
+        "name": "Phones and Tablets",
+        "super_category_id": null,
+        "category_thumb" : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.trX2qrIQ7-sPKWVb9YEIVwHaFj%26pid%3DApi&f=1&ipt=9589ccb5581f70541dca9b3a5ce5d080f3fd82063a641f51faf106a79dca1571&ipo=images"
+    },
+    {
+        "id": 1,
+        "name": "Android Phones",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Android_Phones.png"
+    },
+    {
+        "id": 2,
+        "name": "IOS Phones",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/iOS_Phones.png"
+    },
+    {
+        "id": 3,
+        "name": "Tablets",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Tablets.png"
+    },
+
+    {
+        "id": 4,
+        "name": "Cell Phones",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Cell_Phones.png"
+    },
+
+    {
+        "id": 5,
+        "name": "Smart Watches",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Smart_Watches.png"
+    },
+
+    {
+        "id": 6,
+        "name": "Accessories",
+        "super_category_id": 7,
+        "category_thumb": "https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Accessories.png"
+    }
+]
