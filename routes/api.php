@@ -67,5 +67,5 @@ Route::put('/messages/{id}', [ReviewController::class, 'update'])
 Route::delete('/messages/{id}', [ReviewController::class, 'destroy'])
 ->name('messages.destroy');
 /**************************************** Categories ************************************************/
-Route::get('/', [categoryController::class, 'index'])
+Route::get('/categories', [categoryController::class, 'index'])
 ->name("categories.index");
