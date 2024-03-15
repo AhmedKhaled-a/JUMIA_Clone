@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
 class Cart extends Model
 {
     protected $table = 'carts';
@@ -21,17 +20,12 @@ class Cart extends Model
 
     public function user(): HasOne
     {
-        return $this->hasOne(user::class);
+        return $this->hasOne(User::class);
     }
     protected $fillable = [
         
-        'id',
         'count',
         'product_id',
         'user_id',
-        
-        
-        
-        
     ];
 }

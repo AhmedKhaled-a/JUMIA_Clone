@@ -6,19 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
     use HasFactory;
     
-    public function product(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->HasMany(Product::class);
+        return $this->BelongsTo(Product::class);
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(user::class);
+        return $this->BelongsTo(User::class);
+    }
+
+    public function seller(): BelongsTo
+    {
+        return $this->BelongsTo(Seller::class);
     }
     protected $fillable = [
         'count',
@@ -27,7 +33,6 @@ class Order extends Model
         'shipping_cost',
         'user_id',
         'product_id',
-        'id'
-        
+        'order_status'        
     ];
 }

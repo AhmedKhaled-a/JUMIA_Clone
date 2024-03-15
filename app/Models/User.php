@@ -52,19 +52,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function cart(): HasOne
+    public function carts(): HasMany
     {
-        return $this->hasOne(cart::class);
+        return $this->HasMany(Cart::class);
     }
 
-    public function order(): HasMany
+    public function orders(): HasMany
     {
-        return $this->HasMany(order::class);
+        return $this->HasMany(Order::class);
     }
 
     public function review(): HasMany
     {
-        return $this->HasMany(review::class);
+        return $this->HasMany(Review::class);
     }
 
     public function saved_products(): BelongsToMany
@@ -76,6 +76,6 @@ class User extends Authenticatable
     }
     public function viewed_product(): HasMany
     {
-        return $this->HasMany(viewed_product::class);
+        return $this->HasMany(Viewed_Product::class);
     }
 }

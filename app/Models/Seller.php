@@ -13,14 +13,20 @@ class Seller extends Model
     {
         return $this->HasMany(Product::class);
     }
+
+    public function orders(): HasMany
+    {
+        return $this->HasMany(Order::class);
+    }
     protected $fillable = [
         'fullname',
         'email',
         'password',
-        'username',
+        'shop_name',
         'phone_number',
         'confirmer_id',
         'id'
         
     ];
+
 }

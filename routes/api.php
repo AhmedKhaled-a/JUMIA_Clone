@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,16 +85,16 @@ Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 
 /**************************************** Saved Products ************************************************/
 
-Route::get('/products/usersaved/{userId}', [SavedProductsController::class, 'getSavedProducts'])
+Route::get('/products/user-saved/{userId}', [SavedProductsController::class, 'getSavedProducts'])
 ->name("saved.index");
 
-Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'saveProduct'])
+Route::post('/products/save/{userId}', [SavedProductsController::class, 'saveProduct'])
 ->name("saved.save");
 
-Route::get('/products/issaved/{userId}', [SavedProductsController::class, 'isSavedProduct'])
+Route::get('/products/is-saved/{userId}', [SavedProductsController::class, 'isSavedProduct'])
 ->name("saved.isSaved");
 
-Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'unsaveProduct'])
+Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsaveProduct'])
 ->name("saved.unsave");
 
 /*
@@ -104,3 +105,15 @@ Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'un
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
 Route::post('products/add-product', [ProductController::class, 'store']);
+
+
+/**************************************** Orders ************************************************/
+// TODO: Reduce Count in DB automatically when order is made
+Route::post('/orders', [OrderController::class , 'store'])
+->name('orders.store'); // takes a cart array and stores them
+
+Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
+->name('orders.store');
+
+Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+->name('orders.store');

@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,18 +14,14 @@ class Saved_Product extends Model
     protected $table = 'saved_products';
     public function user(): BelongsTo
     {
-        return $this->belongsTo(user::class);
+        return $this->BelongsTo(User::class);
     }
-    public function product(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->HasMany(product::class);
+        return $this->BelongsTo(Product::class);
     }
     protected $fillable = [
-        'writer',
-        'title',
         'product_id',
         'user_id',
-        'id',
-        
     ];
 }
