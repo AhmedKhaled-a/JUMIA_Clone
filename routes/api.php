@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\categoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
@@ -104,3 +105,9 @@ Route::post('/products/usersaved/{userId}', [SavedProductsController::class, 'un
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
 Route::post('products/add-product', [ProductController::class, 'store']);
+/**************************************** categories ************************************************/
+Route::get('/categories', [categoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [categoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [categoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
+
