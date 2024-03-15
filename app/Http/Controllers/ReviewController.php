@@ -24,6 +24,7 @@ use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
@@ -87,12 +88,13 @@ class ReviewController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function getProductReviews(Request $request) 
     {
-        //
+        $productId = $request->input('prodId');
+        // dd($productId);
+        $reviews = Review::where('product_id' , $productId )->get();
+        // dd($reviews);
+        return response()->json($reviews);
     }
 
     /**

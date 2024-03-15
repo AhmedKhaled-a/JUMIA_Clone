@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -66,9 +67,12 @@ class User extends Authenticatable
         return $this->HasMany(review::class);
     }
 
-    public function saved_product(): HasMany
+    public function saved_products(): BelongsToMany
     {
-        return $this->HasMany(saved_product::class);
+        return $this->BelongsToMany(
+            Product::class,
+            'saved_products',
+        );
     }
     public function viewed_product(): HasMany
     {
