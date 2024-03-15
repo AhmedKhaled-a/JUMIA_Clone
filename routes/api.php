@@ -70,3 +70,12 @@ Route::delete('/messages/{id}', [MessageController::class, 'destroy'])
 /**************************************** Categories ************************************************/
 Route::get('/categories', [categoryController::class, 'index'])
 ->name("categories.index");
+
+Route::get('/categories/create', [categoryController::class, 'create'])
+->name('messages.create');
+
+Route::post('/categories', [categoryController::class, 'store'])
+->name("categories.store");
+
+Route::get('/categories/{id}', [categoryController::class, 'show'])
+->name('categories.show');
