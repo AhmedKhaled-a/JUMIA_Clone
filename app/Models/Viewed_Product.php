@@ -18,4 +18,11 @@ class Viewed_Product extends Model
     {
         return $this->HasMany(product::class);
     }
+    protected $fillable = [
+        
+        'product_id',
+        'user_id',
+        'id'
+        
+    ];
 }
