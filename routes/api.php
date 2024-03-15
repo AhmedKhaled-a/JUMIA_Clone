@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\categoryController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,23 +46,26 @@ Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 /**************************************** Messages ************************************************/
 
 Route::get('/messages', [ReviewController::class, 'index'])
-->name("reviews.index");
+->name("messages.index");
 
 Route::get('/messages/create', [ReviewController::class, 'create'])
-->name('reviews.create');
+->name('messages.create');
 
 
 Route::post('/messages', [ReviewController::class, 'store'])
-->name('reviews.store');
+->name('messages.store');
 
 Route::get('/messages/{id}', [ReviewController::class, 'show'])
-->name('reviews.show');
+->name('messages.show');
 
 Route::get('/messages/{id}/edit', [ReviewController::class, 'edit'])
-->name('reviews.edit');
+->name('messages.edit');
 
 Route::put('/messages/{id}', [ReviewController::class, 'update'])
-->name('reviews.update');
+->name('messages.update');
 
 Route::delete('/messages/{id}', [ReviewController::class, 'destroy'])
-->name('reviews.destroy');
+->name('messages.destroy');
+/**************************************** Categories ************************************************/
+Route::get('/', [categoryController::class, 'index'])
+->name("categories.index");
