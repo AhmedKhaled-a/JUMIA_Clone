@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\api\categoryController;
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
@@ -141,12 +141,12 @@ Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 
 
 /**************************************** categories ************************************************/
-Route::get('/categories', [categoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/create', [categoryController::class, 'create'])->name('categories.create');
-Route::post('/categories', [categoryController::class, 'store'])->name('categories.store');
-Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
-Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
-Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
