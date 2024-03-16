@@ -126,9 +126,14 @@ Route::post('/orders', [OrderController::class , 'store'])
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.store');
 
-Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
 ->name('orders.store');
 
+Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+->name('orders.store');
+// Admins only 
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
+->name('orders.store');
 
 
 
@@ -141,6 +146,4 @@ Route::post('/categories', [categoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
-// Admins only 
-Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
-->name('orders.store');
+
