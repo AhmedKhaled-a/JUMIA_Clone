@@ -18,7 +18,7 @@ class ProductController extends Controller
      *
      * This function retrieves a paginated list of products, encodes the thumbnails and images of each product into base64 format,
      * and returns the products as a JSON response.
-     *
+     *  
      * @return \Illuminate\Http\JsonResponse JSON response with the list of products including encoded thumbnails and images.
      */
     public function index()

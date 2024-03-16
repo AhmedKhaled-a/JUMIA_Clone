@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use function;
+// use function;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
@@ -58,7 +58,8 @@ class MessageController extends Controller
             $review->save();
 
             return response()->json(["message" => "added successfully"]);
-    }
+    };
+}
 
     /**
      * Display the specified resource.

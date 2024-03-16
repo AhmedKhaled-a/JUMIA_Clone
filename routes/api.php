@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
@@ -47,11 +49,11 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 // ->name('reviews.show');
 
 // ex : /api/reviews/getbyproduct?prodId=1
-Route::get('/reviews/getbyproduct', [ReviewController::class, 'getProductReviews'])
+Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
-Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
-->name('reviews.edit');
+// Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
+// ->name('reviews.edit');
 
 Route::put('/reviews/{id}', [ReviewController::class, 'update'])
 ->name('reviews.update');
@@ -64,18 +66,18 @@ Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 Route::get('/messages', [MessageController::class, 'index'])
 ->name("messages.index");
 
-Route::get('/messages/create', [MessageController::class, 'create'])
-->name('messages.create');
+// Route::get('/messages/create', [MessageController::class, 'create'])
+// ->name('messages.create');
 
 
 Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-Route::get('/messages/{id}', [MessageController::class, 'show'])
-->name('messages.show');
+// Route::get('/messages/{id}', [MessageController::class, 'show'])
+// ->name('messages.show');
 
-Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-->name('messages.edit');
+// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
+// ->name('messages.edit');
 
 Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
@@ -102,6 +104,11 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
+// Route::get('products', [ProductController::class, 'index']);
+// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+// Route::post('products/add-product', [ProductController::class, 'store']);
+
+
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
@@ -120,5 +127,41 @@ Route::post('/orders', [OrderController::class , 'store'])
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.store');
 
+Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
+->name('orders.store');
+
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
 ->name('orders.store');
+// Admins only 
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
+->name('orders.store');
+
+
+
+
+
+/**************************************** categories ************************************************/
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+// Admins only
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
+->name('orders.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'admins'], function() {
+    Route::get('/', [AdminController::class, 'index']);
+    Route::post('/add-admin', [AdminController::class, 'store']);
+    Route::get('/{id}', [AdminController::class, 'show']);
+    Route::put('/update-admin/{id}', [AdminController::class, 'update']);
+    Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
+});
