@@ -19,6 +19,5 @@ class Category extends Model
         'id',
         'category_thumb',
         'super_category_id'
-        
     ];
 }

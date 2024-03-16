@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
@@ -50,8 +52,11 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 
 // ex : /api/reviews/getbyproduct?prodId=1
 Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
+Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
+// Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
+// ->name('reviews.edit');
 // Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
 // ->name('reviews.edit');
 
@@ -68,6 +73,8 @@ Route::get('/messages', [MessageController::class, 'index'])
 
 // Route::get('/messages/create', [MessageController::class, 'create'])
 // ->name('messages.create');
+// Route::get('/messages/create', [MessageController::class, 'create'])
+// ->name('messages.create');
 
 
 Route::post('/messages', [MessageController::class, 'store'])
@@ -75,7 +82,11 @@ Route::post('/messages', [MessageController::class, 'store'])
 
 // Route::get('/messages/{id}', [MessageController::class, 'show'])
 // ->name('messages.show');
+// Route::get('/messages/{id}', [MessageController::class, 'show'])
+// ->name('messages.show');
 
+// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
+// ->name('messages.edit');
 // Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
 // ->name('messages.edit');
 
@@ -109,6 +120,11 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 // Route::post('products/add-product', [ProductController::class, 'store']);
 
 
+// Route::get('products', [ProductController::class, 'index']);
+// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+// Route::post('products/add-product', [ProductController::class, 'store']);
+
+
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
@@ -125,6 +141,9 @@ Route::post('/orders', [OrderController::class , 'store'])
 ->name('orders.store'); // takes a cart array and stores them
 
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
+->name('orders.store');
+
+Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
 ->name('orders.store');
 
 Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])

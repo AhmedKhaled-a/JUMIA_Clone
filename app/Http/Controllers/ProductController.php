@@ -111,9 +111,12 @@ class ProductController extends Controller
         $thumbnailPath = null;
         if ($request->has('thumbnail')) {
             $thumbnailData = $request->input('thumbnail');
+            $ext = explode('/', mime_content_type($thumbnailData))[1];
+            $thumbnailData = explode(',', $thumbnailData)[1];
+            
             $thumbnailData = base64_decode($thumbnailData); // Decode base64 data
-            $thumbnailName = Str::random(20) . '.png'; // Generate a random name for the thumbnail
-            $thumbnailPath = 'assets/uploads/product/' . $thumbnailName;
+            $thumbnailName = Str::random(20) . "." . $ext; // Generate a random name for the thumbnail
+            $thumbnailPath = 'assets/uploads/product' . $thumbnailName;
             file_put_contents(public_path($thumbnailPath), $thumbnailData); // Save the thumbnail
             $product->thumbnail = $thumbnailPath;
         }
