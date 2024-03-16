@@ -1,0 +1,92 @@
+.first-section {
+    height: 43vh;
+}
+img{
+    width: 200px;;
+}
+.terms .agree{
+    font-size: 12px;
+    color: #A3A3A6;
+    margin-top: 30px;
+    margin-left: 10px;
+}
+.terms .check {
+    width: 25px;
+    color: black;
+}
+.logo2{
+    width: 40px;
+    height: 40px;
+}
+.store{
+    position: relative;
+    left: 110px;
+    bottom: 20px;
+}
+.fa-google-play{
+    font-size:50px;
+}
+
+.fa-apple{
+    font-size: 50px;
+}
+.fa-google-play:hover,
+.fa-apple:hover {
+    color: orange;
+}
+
+
+
+label a ,a{
+    text-decoration: none;
+    color: orange;
+}
+label a:hover {
+   
+    text-decoration: underline;
+
+}
+
+.second-section{
+    background-color: #535357;
+    height: 85vh;
+}
+
+.second-section .footer-columns ul li {
+  margin-bottom: 5px; /* Adjust margin between list items */
+}
+
+.second-section h6,
+.second-section ul li a {
+  font-size: 13px; /* Adjust the font size as needed */
+  color: white; /* Set the text color to white */
+  text-decoration: none; /* Remove the default underline */
+}
+.second-section ul li a{
+    font-size: 12px !important ;
+}
+
+.second-section ul {
+  list-style: none; /* Remove the default bullet points */
+  padding-left: 0;
+}
+
+.second-section ul li a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.second-section i{
+    margin-top: 10px;
+    font-size: 25px;
+    color: white;
+}
+.second-section i:hover{
+    color: orange;
+}
+
+.paylogo{
+    text-align: center;
+}
+.second-section .paylogo img{
+    width: 70px;
+}

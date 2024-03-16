@@ -1,0 +1,50 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login{
+    width: 30% !important;
+}
+img{
+    width: 50px;
+    margin: 20px 0px;
+}
+form .Email{
+    height:55px ;
+}
+form .continue{
+    background-color: darkorange;
+    color: white;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+form .continue:hover{
+    background-color: orange;
+    color: white;
+}
+form .passkeys {
+    color: orange;
+    border-color: orange;
+    padding: 15px 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+form .passkeys:hover{
+    background-color: #FFFBF7;
+    border-color: orange;
+    color: orange;
+
+}
+form .facebook{
+padding: 20px , 10px;
+margin-top: 30px;
+margin-bottom: 20px;
+font-size: 18px;
+padding-right: 45px;
+font-weight: 600;
+}
+form i {
+    font-size: 25px;
+}
