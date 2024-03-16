@@ -95,7 +95,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->BelongsTo(Role::class, 'role_id');
 
     }
 

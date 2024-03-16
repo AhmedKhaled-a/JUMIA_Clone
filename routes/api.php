@@ -27,6 +27,7 @@ use App\Http\Controllers\OrderController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
