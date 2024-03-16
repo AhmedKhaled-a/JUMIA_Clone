@@ -21,30 +21,41 @@ class ProductController extends Controller
      *  
      * @return \Illuminate\Http\JsonResponse JSON response with the list of products including encoded thumbnails and images.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $offset = $request->input('offset');
+        $limit = $request->input('limit');
+        // dd($limit);
+
+        if (!$limit) {
+            $limit = Product::count();
+            // dd($limit);
+        }
+        if (!$offset) {
+            $offset = 0;
+        }
+
+        $products = Product::offset($offset)->take($limit)->with(['images'])->get();
 
         if ($products->count() > 0) {
-            foreach ($products as $product) {
-                // Retrieve and encode thumbnail
-                if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
-                    $thumbnailPath = $product->thumbnail;
-                    $product->thumbnail = $thumbnailPath;
-                }
+            // foreach ($products as $product) {
+            //     // Retrieve and encode thumbnail
+            //     if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
+            //         $thumbnailPath = $product->thumbnail;
+            //         $product->thumbnail = $thumbnailPath;
+            //     }
 
-                // Retrieve and encode images
-                $productImages = $product->images()->pluck('image');
-                foreach ($productImages as $key => $imagePath) {
-                    if (file_exists(public_path($imagePath))) {
-                        $imageData = $imagePath;
-                        $productImages[$key] = $imageData;
-                    } else {
-                        unset($productImages[$key]); // Remove non-existent image path
-                    }
-                }
-                $product->images = $productImages;
-            }
+            //     // Retrieve and encode images
+            //     $productImages = $product->images()->pluck('image');
+            //     foreach ($productImages as $key => $imagePath) {
+            //         if (file_exists(public_path($imagePath))) {
+            //             $productImages[$key] = $imagePath;
+            //         } else {
+            //             unset($productImages[$key]); // Remove non-existent image path
+            //         }
+            //     }
+            //     $product->images = $productImages;
+            // }
             return response()->json($products, 200);
         } else {
             return response()->json(['message' => 'No products found'], 404);
@@ -84,6 +95,22 @@ class ProductController extends Controller
         if ($ValidatedData->fails()) {
             return response()->json($ValidatedData->errors(), 400);
         }
+        /*
+            {
+                "title" : "pp",
+                "desc" : "desc",
+                "spec" : "this is very long spec",
+                "price" : 22,
+                "discount": 22.6,
+                "stock" : 100,
+                "rating" : 2.4,
+                "category_id" : 1,
+                "seller_id" : 1,
+                "thumbnail": "",
+                "images" : []
+
+            }
+        */
 
         $product = new Product();
 
@@ -113,36 +140,25 @@ class ProductController extends Controller
             $thumbnailData = $request->input('thumbnail');
             $ext = explode('/', mime_content_type($thumbnailData))[1];
             $thumbnailData = explode(',', $thumbnailData)[1];
-            
+
             $thumbnailData = base64_decode($thumbnailData); // Decode base64 data
             $thumbnailName = Str::random(20) . "." . $ext; // Generate a random name for the thumbnail
-            $thumbnailPath = 'assets/uploads/product' . $thumbnailName;
-            file_put_contents(public_path($thumbnailPath), $thumbnailData); // Save the thumbnail
+            $thumbnailPath = 'products/' . $thumbnailName;
+            Storage::disk('public')->put($thumbnailPath, $thumbnailData); // save thumbnail
             $product->thumbnail = $thumbnailPath;
         }
 
         $product->save(); // saving the product first to get the id
 
-        // if ($request->hasFile('images')) {
-        //     foreach ($request->file('images') as $image) {
-        //         $imageFileName = time() . '_' . $image->getClientOriginalName();
-        //         $imagePath = 'assets/uploads/product/' . $imageFileName;
-        //         $image->move(public_path('assets/uploads/product'), $imageFileName);
-
-        //         // Create a record in the product_images table
-        //         $productImage = new Product_Image();
-        //         $productImage->product_id = $product->id;
-        //         $productImage->image = $imagePath;
-        //         $product->images()->save($productImage);
-        //     }
-        // }
-
         if ($request->has('images')) {
             foreach ($request->input('images') as $imageData) {
+                $ext = explode('/', mime_content_type($imageData))[1];
+                $imageData = explode(',', $imageData)[1];
                 $imageData = base64_decode($imageData); // Decode base64 data
-                $imageName = Str::random(20) . '.png'; // Generate a random name for the image
-                $imagePath = 'assets/uploads/product/' . $imageName;
-                file_put_contents(public_path($imagePath), $imageData); // Save the image
+                
+                $imageName = Str::random(20) . "." . $ext; // Generate a random name for the image
+                $imagePath = 'products/' . $imageName;
+                Storage::disk('public')->put($imagePath, $imageData); // save the image
                 // Create a record in the product_images table
                 $productImage = new Product_Image();
                 $productImage->product_id = $product->id;
@@ -235,9 +251,13 @@ class ProductController extends Controller
         // Process thumbnail
         if ($request->has('thumbnail')) {
             $thumbnailData = base64_decode($request->input('thumbnail'));
-            $thumbnailName = Str::random(20) . '.png'; // Generate a random name for the thumbnail
-            $thumbnailPath = 'assets/uploads/product/' . $thumbnailName;
-            file_put_contents(public_path($thumbnailPath), $thumbnailData);
+
+            $ext = explode('/', mime_content_type($thumbnailData))[1];
+            $thumbnailData = explode(',', $thumbnailData)[1];
+
+            $thumbnailName = Str::random(20) . '.' . $ext; // Generate a random name for the thumbnail
+            $thumbnailPath = 'products/' . $thumbnailName;
+            Storage::disk('public')->put($thumbnailPath, $thumbnailData); // save thumbnail
 
             // Delete the existing thumbnail if it exists
             if ($product->thumbnail && File::exists(public_path($product->thumbnail))) {
@@ -266,9 +286,13 @@ class ProductController extends Controller
 
             foreach ($request->input('images') as $imageData) {
                 $imageData = base64_decode($imageData); // Decode base64 data
-                $imageName = Str::random(20) . '.png'; // Generate a random name for the image
-                $imagePath = 'assets/uploads/product/' . $imageName;
-                file_put_contents(public_path($imagePath), $imageData); // Save the image
+                $ext = explode('/', mime_content_type($imageData))[1];
+                $imageData = explode(',', $imageData)[1];
+
+                $imageName = Str::random(20) . '.' . $ext; // Generate a random name for the image
+
+                $imagePath = 'products/' . $imageName;
+                Storage::disk('public')->put($imagePath, $imagePath); // save the image
 
                 // Create a record in the product_images table
                 $productImage = new Product_Image();
