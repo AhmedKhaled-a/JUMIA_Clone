@@ -20,6 +20,7 @@ from and to front-end
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
@@ -71,6 +72,7 @@ class ReviewController extends Controller
             ]);
             // store the review
             // associate review with product , user
+           
             $user = User::find($data['user']['id']);
             if (!$user) {
                 return response()->json(["message" => "no user with this id"]);
