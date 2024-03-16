@@ -64,8 +64,8 @@ Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 Route::get('/messages', [MessageController::class, 'index'])
 ->name("messages.index");
 
-Route::get('/messages/create', [MessageController::class, 'create'])
-->name('messages.create');
+// Route::get('/messages/create', [MessageController::class, 'create'])
+// ->name('messages.create');
 
 
 Route::post('/messages', [MessageController::class, 'store'])
