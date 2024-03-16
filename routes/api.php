@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\categoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
@@ -72,11 +73,11 @@ Route::get('/messages', [MessageController::class, 'index'])
 Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-Route::get('/messages/{id}', [MessageController::class, 'show'])
-->name('messages.show');
+// Route::get('/messages/{id}', [MessageController::class, 'show'])
+// ->name('messages.show');
 
-Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-->name('messages.edit');
+// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
+// ->name('messages.edit');
 
 Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
@@ -103,13 +104,13 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
-Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-Route::post('products/add-product', [ProductController::class, 'store']);
+// Route::get('products', [ProductController::class, 'index']);
+// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+// Route::post('products/add-product', [ProductController::class, 'store']);
 
 
 
-    Route::group(['prefix' => 'products'], function () {
+Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
     Route::post('/add-product', [ProductController::class, 'store']);
@@ -126,9 +127,14 @@ Route::post('/orders', [OrderController::class , 'store'])
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.store');
 
-Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
 ->name('orders.store');
 
+Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+->name('orders.store');
+// Admins only 
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
+->name('orders.store');
 
 
 
@@ -141,6 +147,22 @@ Route::post('/categories', [categoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
-// Admins only 
+// Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'admins'], function() {
+    Route::get('/', [AdminController::class, 'index']);
+    Route::post('/add-admin', [AdminController::class, 'store']);
+    Route::get('/{id}', [AdminController::class, 'show']);
+    Route::put('/update-admin/{id}', [AdminController::class, 'update']);
+    Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
+});
+

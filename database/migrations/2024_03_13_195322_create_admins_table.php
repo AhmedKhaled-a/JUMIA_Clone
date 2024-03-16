@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +21,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('super_admin_id')->nullable();
             $table->foreign('super_admin_id')->references('id')->on('admins');
-           
+
         });
+
+        Admin::query()->create([
+            'username' => 'Admin',
+            'password' => bcrypt('password'),
+            'email' => 'admin@admin.com',
+        ]);
     }
 
     /**
