@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use function;
 use App\Models\Message;
+use App\Models\Product;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -58,6 +61,7 @@ class MessageController extends Controller
             $review->save();
 
             return response()->json(["message" => "added successfully"]);
+        }
     }
 
     /**

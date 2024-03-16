@@ -47,11 +47,11 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 // ->name('reviews.show');
 
 // ex : /api/reviews/getbyproduct?prodId=1
-Route::get('/reviews/getbyproduct', [ReviewController::class, 'getProductReviews'])
+Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
-Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
-->name('reviews.edit');
+// Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
+// ->name('reviews.edit');
 
 Route::put('/reviews/{id}', [ReviewController::class, 'update'])
 ->name('reviews.update');
@@ -121,4 +121,8 @@ Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.store');
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
+->name('orders.store');
+
+// Admins only 
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
