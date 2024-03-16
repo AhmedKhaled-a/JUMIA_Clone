@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\api\CategoryController;
+
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\MessageController;
@@ -51,7 +50,6 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 // ->name('reviews.show');
 
 // ex : /api/reviews/getbyproduct?prodId=1
-Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
