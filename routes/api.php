@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\categoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
@@ -103,13 +104,13 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
-Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-Route::post('products/add-product', [ProductController::class, 'store']);
+// Route::get('products', [ProductController::class, 'index']);
+// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+// Route::post('products/add-product', [ProductController::class, 'store']);
 
 
 
-    Route::group(['prefix' => 'products'], function () {
+Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
     Route::post('/add-product', [ProductController::class, 'store']);
@@ -141,6 +142,21 @@ Route::post('/categories', [categoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
-// Admins only 
+// Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'admins'], function() {
+    Route::get('/', [AdminController::class, 'index']);
+    Route::post('/add-admin', [AdminController::class, 'store']);
+    Route::get('/{id}', [AdminController::class, 'show']);
+    Route::put('/update-admin/{id}', [AdminController::class, 'update']);
+    Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
+});
