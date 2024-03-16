@@ -1,10 +1,26 @@
 <?php
+/*
+Basic json format
+from and to front-end
+{
+    "message": {
+        "title": "ahmed's2 title",
+        "content": "ahmed's2 content",
+    },
+    "user" : {
+        "id": 1 (can be NULL)
+    },
+}
+*/
 
 namespace App\Http\Controllers;
 
-use function;
 use App\Models\Message;
+use App\Models\Product;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -33,31 +49,31 @@ class MessageController extends Controller
         // get data
         $data = json_decode($request->getContent(), true);
 
-        $validator = Validator::make($data['review'], [
+        $validator = Validator::make($data['message'], [
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'rating' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(["message" => "error happend bad data bro..."]);
         } else {
             // create new review
-            $review = Review::create([
+            $msg = Message::create([
                 'writer' => '',
-                'title' => $data['review']['title'],
-                'content' => $data['review']['content'],
-                'rating' => $data['review']['rating'],
+                'title' => $data['message']['title'],
+                'content' => $data['message']['content'],
             ]);
             // store the review
             // associate review with product , user
             $user = User::find($data['user']['id']);
-            $product = Product::find($data['product']['id']);
-            $review->product()->associate($product);
-            $review->user()->associate($user);
-            $review->writer = $review->user->username;
-            $review->save();
+            if (!$user) {
+                return response()->json(["message" => "No user with this id"]);
+            }
+            $msg->user()->associate($user);
+            $msg->writer = $msg->user->username;
+            $msg->save();
 
             return response()->json(["message" => "added successfully"]);
+        }
     }
 
     /**
@@ -73,15 +89,40 @@ class MessageController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+    { 
+        {
+            // get data
+            $data = json_decode($request->getContent(), true);
+
+            $validator = Validator::make($data['message'], [
+                'title' => 'required|string|max:255',
+                'content' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["message" => "error happend bad data bro..."]);
+            } else {
+                // get message by id
+                $msg = Message::find($id);
+                if ($msg) {
+                    // update the message
+                    $msg->update([
+                        'title' => $data['message']['title'],
+                        'content' => $data['message']['content'],
+                    ]);
+
+                    return response()->json(["message" => "updated successfully"]);
+                } else {
+                    return response()->json(["message" => "error happend bad data bro..."]);
+                }
+            }
+            //
+        }
     }
 
     /**
@@ -89,6 +130,14 @@ class MessageController extends Controller
      */
     public function destroy(string $id)
     {
+        $msg = Message::find($id);
+        if ($msg) {
+            // remove message
+            $msg->delete();
+            return response()->json(["message" => "removed successfully"]);
+        } else {
+            return response()->json(["message" => "message not found"]);
+        }
         //
     }
 }

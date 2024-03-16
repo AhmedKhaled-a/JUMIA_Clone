@@ -89,4 +89,14 @@ class OrderController extends Controller
         $order->save();
         return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'order updated successfully']);
     }
+
+    public function deleteOrder(string $orderId) {
+        $order = Order::find($orderId);
+        $product = $order->product;
+        $product->stock += $order->count;
+        $product->save();
+        $order->delete();
+        return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'order deleted successfully']);
+
+    }
 }

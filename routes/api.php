@@ -48,11 +48,11 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 // ->name('reviews.show');
 
 // ex : /api/reviews/getbyproduct?prodId=1
-Route::get('/reviews/getbyproduct', [ReviewController::class, 'getProductReviews'])
+Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
 ->name('reviews.getbyproduct');
 
-Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
-->name('reviews.edit');
+// Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
+// ->name('reviews.edit');
 
 Route::put('/reviews/{id}', [ReviewController::class, 'update'])
 ->name('reviews.update');
@@ -65,8 +65,8 @@ Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])
 Route::get('/messages', [MessageController::class, 'index'])
 ->name("messages.index");
 
-Route::get('/messages/create', [MessageController::class, 'create'])
-->name('messages.create');
+// Route::get('/messages/create', [MessageController::class, 'create'])
+// ->name('messages.create');
 
 
 Route::post('/messages', [MessageController::class, 'store'])
@@ -141,3 +141,6 @@ Route::post('/categories', [categoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
+// Admins only 
+Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
+->name('orders.store');
