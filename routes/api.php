@@ -106,14 +106,10 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
 Route::post('products/add-product', [ProductController::class, 'store']);
-/**************************************** categories ************************************************/
-Route::get('/categories', [categoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/create', [categoryController::class, 'create'])->name('categories.create');
-Route::post('/categories', [categoryController::class, 'store'])->name('categories.store');
-Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
 
 
-Route::group(['prefix' => 'products'], function () {
+
+    Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
     Route::post('/add-product', [ProductController::class, 'store']);
@@ -132,3 +128,16 @@ Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
 ->name('orders.store');
+
+
+
+
+
+
+/**************************************** categories ************************************************/
+Route::get('/categories', [categoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [categoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [categoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
