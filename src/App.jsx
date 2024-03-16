@@ -1,11 +1,13 @@
 import './App.css';
 import BackToTopButton from './Components/BackToTopButton';
-import Home from './Components/Home/Home';
+// import Home from './Components/Home/Home';
+import Store from './Components/Store'
 
 function App() {
   return (
-    <div className="container mt-5 vh-100 pt-5">
-      <Home />
+    <div className="container mt-5">
+      {/* <Home /> */}
+      <Store />
       <BackToTopButton />
     </div>
   );

@@ -1,0 +1,60 @@
+.products-container{
+    background-color: #FFFFFF;
+}
+.products-container{
+    padding: 5px 17px;
+}
+.product-card{
+    border-radius: 10px;
+    transition: all .4s;
+    position: relative !important;
+}
+
+.product-card:hover{
+    box-shadow: 0px 12px 23px -12px rgba(0,0,0,0.67);
+    transform: scale(1.02);
+}
+.product-details .product-title{
+    font-size: 12px;
+    margin-bottom: 5px;
+    user-select: none;
+}
+
+.product-card button{
+    text-align: center;
+    font-size: 24px;
+    color: #FFFFFF;
+    width: 100%;
+    padding: 5px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    margin-top: 5px;
+    background-color: orange;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    visibility: hidden;
+}
+
+.product-card:hover button{
+    visibility: visible;
+}
+
+.save-icon{
+    background-color: #f0eeee;
+    padding: 6px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 30px;
+    border-radius: 50%;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.save-icon:hover{
+    background-color: #FEF3E9;
+}
