@@ -14,7 +14,7 @@ function Navbar() {
     <header className="navbar m-0 mb-5">
       <div className="container  d-flex justify-content-around">
         <div className='img-container'>
-      <a href="/" className="logo"><img className='logo' src={logo} alt="Logo" /></a>
+      <a href="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></a>
       </div>
         <div className="search-bar">
         <input type="text" placeholder="&#xF002; Search products, brands, and categories" className="search-input" />

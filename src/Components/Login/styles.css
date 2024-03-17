@@ -1,17 +1,7 @@
-body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.login-container img {
+    width: 64px;
 }
 
-.login{
-    width: 30% !important;
-}
-img{
-    width: 50px;
-    margin: 20px 0px;
-}
-form .Email{
-    height:55px ;
-}
 form .continue{
     background-color: darkorange;
     color: white;
@@ -20,6 +10,7 @@ form .continue{
     font-size: 18px;
     font-weight: 600;
 }
+
 form .continue:hover{
     background-color: orange;
     color: white;

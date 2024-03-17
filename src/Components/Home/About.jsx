@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function About() {
     return (
-        <div className='about mt-5'>
+        <div className='about my-5'>
             <h5>Jumia Egypt – Biggest Online Shopping Website</h5>
             <p>Online shopping sites are now part of our everyday lives, because everyone enjoys the possibility of being able to buy whatever they need, whether it’s clothing or electronics, without having to move an inch. It’s even better when you can buy everything you’re looking for, all from the same store. This is what Jumia Egypt offers and that’s what makes it one of the best online shopping websites in Egypt.</p>
             

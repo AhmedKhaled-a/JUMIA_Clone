@@ -50,18 +50,18 @@ export default function Home() {
             {/* ADS */}
             
             <div className='ad-horizontal mb-5'>
-                <a href=""><img src={process.env.PUBLIC_URL + '/images/1200x200.png'} className='w-100' /></a>
+                <a href=""><img src={process.env.PUBLIC_URL + '/images/1200x200.png'} className='w-100 m-0' /></a>
             </div>
             <div className='ad-horizontal mb-5'>
-                <a href=""><img src={process.env.PUBLIC_URL + '/images/1200x200EN.png'} className='w-100' /></a>
+                <a href=""><img src={process.env.PUBLIC_URL + '/images/1200x200EN.png'} className='w-100 m-0' /></a>
             </div>
             <div className='ad-cards'>
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/1.png'} alt="" />
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/3.png'} alt="" />
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/2.png'} alt="" />
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/4.png'} alt="" />
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/5.png'} alt="" />
-                <img className='ad-card' src={process.env.PUBLIC_URL + '/images/ad cards/6.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/1.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/3.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/2.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/4.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/5.png'} alt="" />
+                <img className='ad-card m-0' src={process.env.PUBLIC_URL + '/images/ad cards/6.png'} alt="" />
             </div>
 
             {/* ABOUT */}

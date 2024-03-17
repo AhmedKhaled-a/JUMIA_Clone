@@ -31,7 +31,7 @@ a:hover{
 
 .home-category-list{
   background-color: #FFFFFF;
-  height: 93%;
+  height: 100%;
   padding: 15px;
   list-style-type: none;
   font-size: 12px;
@@ -61,8 +61,11 @@ a:hover{
 .ad-horizontal,
 .ad-cards{
 background-color: #FFF;
-padding: 10px 5px;
+padding: 9px 8px;
 border-radius: 5px;
+}
+.ad-horizontal img {
+  border-radius: 5px;
 }
 .ad-cards{
   display: flex;

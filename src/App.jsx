@@ -25,11 +25,8 @@ import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
-
-
-
-// import Home from './Components/Home/Home';
 import Store from './Components/Store'
+import Register from './Components/Register';
 
 function App() {
   // const classes = globalStyles();
@@ -49,6 +46,7 @@ function App() {
         {path: '/account/address', element: <AddressBook />},
         {path: '/account/newsletter', element: <Newsletter />},
         {path: '/login' , element:<Login/>},
+        {path: '/register' , element:<Register/>},
     ]}
   ]);
 
@@ -56,7 +54,7 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <div className="container-fluid mt-5 pt-5" style={{backgroundColor : theme.palette.background.default}}>
+        <div className="">
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>

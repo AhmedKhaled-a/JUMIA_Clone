@@ -18,7 +18,7 @@ body {
   }
   
   .img-container{
-  width: 200px;
+  /* width: 200px; */
     margin-right: 20px;
   }
   .img-container .logo {
