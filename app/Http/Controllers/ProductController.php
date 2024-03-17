@@ -29,6 +29,7 @@ class ProductController extends Controller
         $cat = $request->input('category');
         // dd($limit);
 
+        // handling arguments
         if (!$limit) {
             $limit = Product::count();
             // dd($limit);
