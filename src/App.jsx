@@ -31,12 +31,29 @@ import SellerLogin from './Components/Seller/SellerLogin';
 
 // import Home from './Components/Home/Home';
 import Store from './Components/Store'
+import Register from './Components/Register';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem('gameToken') !== null) {
+      saveUserData()
+    }
+  }, [])
+  const [userData, setUserData] = useState(null)
+
+  function saveUserData() {
+    let incodedToken = localStorage.getItem('userToken');
+    let decodedToken = jwtDecode(incodedToken);
+    // console.log(decodedToken);
+    setUserData(decodedToken)
+  }
+
   // const classes = globalStyles();
   let routers = createBrowserRouter([
-    {path: '/' , element:<Layout /> , children:[
+    {path: '/' , element:<Layout userData={userData} setUserData={setUserData}/> , children:[
         {index: true, element:<Home />},
         // {path:'/category', element:<CategoryPage /> },
         {path:'/cart', element:<CartPage /> },
@@ -50,6 +67,8 @@ function App() {
         {path: '/account/viewed', element: <RecentlyViewed />},
         {path: '/account/address', element: <AddressBook />},
         {path: '/account/newsletter', element: <Newsletter />},
+        {path: '/login' , element:<Login saveUserData={saveUserData}/>},
+        {path: '/register' , element:<Register/>},
         {path: '/login' , element:<Login/>},
         {path: '/seller/login' , element:<SellerLogin />},
         {path: '/seller/signup' , element:<SellerSignup />},
@@ -60,7 +79,7 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <div className="container-fluid mt-5 pt-5" style={{backgroundColor : theme.palette.background.default}}>
+        <div className="">
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>

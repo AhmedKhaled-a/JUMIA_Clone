@@ -20,6 +20,11 @@
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "joi": "^17.12.2",
+<<<<<<< HEAD
+=======
+    "joi-phone-number": "^5.1.1",
+    "jwt-decode": "^4.0.0",
+>>>>>>> ce4f1694c5c5a0e08f6a47da91b2642957a1dc22
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-material-ui-carousel": "^3.4.2",
