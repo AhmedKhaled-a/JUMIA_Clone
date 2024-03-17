@@ -8,12 +8,12 @@ use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +156,9 @@ Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categ
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+/**************************************** Users ************************************************/
+Route::post('users/register', [UserController::class , 'register'])
+->name('user.register');
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +173,12 @@ Route::group(['prefix' => 'admins','middleware' => 'auth:admin'], function() {
     Route::put('/update-admin/{id}', [AdminController::class, 'update']);
     Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
 
 // User Auth
 Route::post('auth/user/login', [AuthUserController::class, 'login']);

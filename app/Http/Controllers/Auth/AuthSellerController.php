@@ -46,7 +46,7 @@ class AuthSellerController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * Log the seller out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
