@@ -119,6 +119,7 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('/get-brands', [ProductController::class, 'getProductBrands']);
 });
 
 Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
