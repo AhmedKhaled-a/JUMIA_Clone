@@ -67,8 +67,9 @@ function Login() {
             <h4>Welcome to Jumia</h4>
             <p>Type your e-mail or phone number to log in or create a Jumia account.</p>
             <form onSubmit={sumbitLoginForm} className='Login-form w-75 mx-auto my-5'>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="email" placeholder='Email' name='email' id='email' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="email" name='email' id='email' className='form-control px-3 py-2' />
+                    <span>Email</span>
                     {errorList.filter((error) => error.context.label == 'email')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'email')[0].message}
@@ -76,8 +77,9 @@ function Login() {
                         : ''
                     }
                 </div>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="password" placeholder='Password' name='password' id='password' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="password" name='password' id='password' className='form-control px-3 py-2' />
+                    <span>Password</span>
                     {errorList.filter((error) => error.context.label == 'password')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'password')[0].message !== '"password" is not allowed to be empty' ? 'password is invalid please try again!' : '"password" is not allowed to be empty'}

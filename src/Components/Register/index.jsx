@@ -73,8 +73,9 @@ export default function Register() {
             </div>
             <h4>Welcome to Jumia</h4>
             <form onSubmit={sumbitRegisterForm} className='register-form w-75 mx-auto my-5'>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="text" placeholder='Name' name='name' id='name' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="text"  name='name' id='name' className='form-control px-3 py-2' />
+                    <span>Name</span>
                     {errorList.filter((error) => error.context.label == 'name')[0] ?
                         <div className='form-alert-msg my-2 py-1'>
                             {errorList.filter((error) => error.context.label == 'name')[0].message}
@@ -82,8 +83,9 @@ export default function Register() {
                         : ''
                     }
                 </div>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="text" placeholder='Username' name='username' id='username' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="text"  name='username' id='username' className='form-control px-3 py-2' />
+                    <span>Username</span>
                     {errorList.filter((error) => error.context.label == 'username')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'username')[0].message}
@@ -91,8 +93,9 @@ export default function Register() {
                         : ''
                     }
                 </div>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="email" placeholder='Email' name='email' id='email' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="email"  name='email' id='email' className='form-control px-3 py-2' />
+                    <span>Email</span>
                     {errorList.filter((error) => error.context.label == 'email')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'email')[0].message}
@@ -100,8 +103,9 @@ export default function Register() {
                         : ''
                     }
                 </div>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="tel" placeholder='Phone' name='phone' id='phone' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="tel"  name='phone' id='phone' className='form-control px-3 py-2' />
+                    <span>Phone</span>
                     {errorList.filter((error) => error.context.label == 'phone')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'phone')[0].message}
@@ -109,8 +113,9 @@ export default function Register() {
                         : ''
                     }
                 </div>
-                <div className='my-4'>
-                    <input onChange={getUserData} type="password" placeholder='Password' name='password' id='password' className='form-control px-3 py-2' />
+                <div className='my-4 input-box'>
+                    <input onChange={getUserData} type="password"  name='password' id='password' className='form-control px-3 py-2' />
+                    <span>Password</span>
                     {errorList.filter((error) => error.context.label == 'password')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'password')[0].message !== '"password" is not allowed to be empty' ? 'password is invalid please try again!' : '"password" is not allowed to be empty'}
