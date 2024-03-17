@@ -10,7 +10,7 @@ import Joi from 'joi';
 
 
 
-function Login() {
+function Login({ saveUserData }) {
     let navigate = useNavigate()
     const [errorList, setErrorList] = useState([])
     const [isLoading, setLoading] = useState(false)
@@ -30,6 +30,8 @@ function Login() {
         let { data } = await axios.post('https://', user)
         // console.log(data);
         if (data.message == 'success') {
+            localStorage.setItem('userToken', data.token)
+            saveUserData()
             navigate('/home')
             setLoading(false)
         } else {
@@ -90,15 +92,16 @@ function Login() {
                 <div className="my-5">
                     <button type='sumbit' className='continue form-control btn mt-3'>{isLoading == true ? <FontAwesomeIcon icon={faSpinner} className='spinner fs-3' /> : 'Login'}</button>
                 </div>
-                <div>
+                {/* <div>
                     <p className='m-0'>By continuing you agree to Jumia’s</p>
                     <p className='mb-4 '><a className='text-warning text-hover' href="">Terms and Conditions</a></p>
-                </div>
+                </div> */}
+                <p className='my-4'>New to Jumia ? <Link className='ms-2 log' to='/login'>Register</Link></p>
+
                 <div>
                     <p>For further support, you may visit the Help Center or contact our customer service team.</p>
                     <img className='' src={process.env.PUBLIC_URL + '/images/jumia logo1.png'} alt="" style={{ width: '130px' }} />
                 </div>
-
             </form>
 
 

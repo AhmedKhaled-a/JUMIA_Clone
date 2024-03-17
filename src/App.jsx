@@ -27,11 +27,27 @@ import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
 import Store from './Components/Store'
 import Register from './Components/Register';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem('gameToken') !== null) {
+      saveUserData()
+    }
+  }, [])
+  const [userData, setUserData] = useState(null)
+
+  function saveUserData() {
+    let incodedToken = localStorage.getItem('userToken');
+    let decodedToken = jwtDecode(incodedToken);
+    // console.log(decodedToken);
+    setUserData(decodedToken)
+  }
+
   // const classes = globalStyles();
   let routers = createBrowserRouter([
-    {path: '/' , element:<Layout /> , children:[
+    {path: '/' , element:<Layout userData={userData} setUserData={setUserData}/> , children:[
         {index: true, element:<Home />},
         // {path:'/category', element:<CategoryPage /> },
         {path:'/cart', element:<CartPage /> },
@@ -45,7 +61,7 @@ function App() {
         {path: '/account/viewed', element: <RecentlyViewed />},
         {path: '/account/address', element: <AddressBook />},
         {path: '/account/newsletter', element: <Newsletter />},
-        {path: '/login' , element:<Login/>},
+        {path: '/login' , element:<Login saveUserData={saveUserData}/>},
         {path: '/register' , element:<Register/>},
     ]}
   ]);
