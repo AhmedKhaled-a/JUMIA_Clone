@@ -10,6 +10,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Divider from '@mui/material/Divider';
 import styled from '@emotion/styled';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { storageURL } from '../../../config/config';
 
 
 export default function CartCard(props) {
@@ -21,15 +22,15 @@ export default function CartCard(props) {
         variant: 'contained',
     }))
 
-    let { id, title, price, image, rating } = props.product;
-    let discount = 30;
+    let { id, title, price, thumbnail, discount } = props.product;
+
     return (
-        <Card sx={{ display: 'flex', height: '180px' }}>
+        <Card sx={{ display: 'flex', height: '220px', width:'100%' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
                 <CardMedia
                     component="img"
                     sx={{ width: '75px', height: '75px' }}
-                    image={image}
+                    image={`${storageURL}/${thumbnail}`}
                     alt="Live from space album cover"
                 />
                 <CardContent sx={{ flex: '1 0 auto', width: '64%' }}>
@@ -39,7 +40,6 @@ export default function CartCard(props) {
                                 {title}
                             </Typography>
                         </Grid>
-
                         <Grid item xs={3}>
                             <Grid container direction="column">
                                 <Grid item xs={6}>
@@ -54,11 +54,10 @@ export default function CartCard(props) {
                                 </Grid>
                             </Grid>
                         </Grid>
-
                     </Grid>
                     <Grid container sx={{ width: '100%' }} columns={12} columnSpacing={8} direction={'row'} spacing={2}>
                         <Grid item xs={6}>
-                            <IconButton onClick={() => { props.deleteProduct(id) }}>
+                            <IconButton onClick={() => { props.deleteProduct(props.cartId) }}>
                                 <DeleteIcon color='primary' />
                             </IconButton>
                         </Grid>
@@ -69,11 +68,14 @@ export default function CartCard(props) {
                                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                                 variant='contained'
                             >
-                                <CartButton onClick={() => props.changeCount(id, -1)}><RemoveIcon /></CartButton>
+                                
+                                <CartButton onClick={() => props.changeCount(props.cartId, -1)}><RemoveIcon /></CartButton>
+
                                 <Typography sx={{ padding: '8px' }} component="div" variant="h6">
-                                    {rating.count}
+                                    {props.count}
                                 </Typography>
-                                <CartButton onClick={() => props.changeCount(id, 1)} ><AddIcon /></CartButton>
+
+                                <CartButton onClick={() => props.changeCount(props.cartId, 1)} ><AddIcon /></CartButton>
 
                             </ButtonGroup>
                         </Grid>

@@ -32,7 +32,7 @@ export default function Register() {
         "username": "",
         "email": "",
         "password": "",
-        "gender": "",
+        "gender": "female",
         "phone_number": "",
         "address_country": "Egypt",
         "address_city": "",

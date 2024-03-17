@@ -79,7 +79,7 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <div className="">
+        <div>
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
