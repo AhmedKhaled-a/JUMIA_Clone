@@ -104,7 +104,7 @@ border-radius: 5px;
  .App {
    padding: 0.5rem 3.5rem; 
   color: var(--black);
-background-color: white;
+  background-color: white;
   height: 100vh;
   display: flex;
   align-items: center;

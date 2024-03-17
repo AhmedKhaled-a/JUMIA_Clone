@@ -87,13 +87,7 @@ function App() {
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
-      {/* <div className="App">
-      <div className="AppGlass">
-        <Sidebar/>
-        <MainDash/>
-        <RightSide/>
-      </div>
-    </div> */}
+  
     </>
   );
 }
