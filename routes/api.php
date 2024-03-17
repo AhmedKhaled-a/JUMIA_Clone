@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\Auth\AuthAdminController;
+use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
@@ -182,4 +184,32 @@ Route::group(['prefix' => 'admins'], function() {
     Route::get('/{id}', [AdminController::class, 'show']);
     Route::put('/update-admin/{id}', [AdminController::class, 'update']);
     Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
+});
+
+// User Auth
+Route::post('auth/user/login', [AuthUserController::class, 'login']);
+Route::group([
+    'middleware' => 'auth:user',
+    'prefix' => 'auth/user'
+
+], function ($router) {
+
+    Route::post('logout', [AuthUserController::class, 'logout']);
+    Route::post('refresh', [AuthUserController::class, 'refresh']);
+    Route::post('me', [AuthUserController::class, 'me']);
+
+});
+
+// Admin Auth
+Route::post('auth/admin/login', [AuthAdminController::class, 'login']);
+Route::group([
+    // 'middleware' => 'auth:admin',
+    'prefix' => 'auth/admin'
+
+], function ($router) {
+
+    Route::post('logout', [AuthAdminController::class, 'logout']);
+    Route::post('refresh', [AuthAdminController::class, 'refresh']);
+    Route::post('me', [AuthAdminController::class, 'me']);
+
 });

@@ -49,10 +49,11 @@ return [
             'driver' => 'jwt',
             'provider' => 'admins',
         ],
-        // 's' => [
-        //     'driver' => 'jwt',
-        //     'provider' => 'users',
-        // ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*
