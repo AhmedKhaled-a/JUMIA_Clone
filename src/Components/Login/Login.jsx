@@ -38,7 +38,7 @@ function Login() {
         }
     }
 
-    function sumbitRegisterForm(e) {
+    function sumbitLoginForm(e) {
         e.preventDefault();
         setLoading(true)
         let validation = validateForm()
@@ -66,7 +66,7 @@ function Login() {
             </div>
             <h4>Welcome to Jumia</h4>
             <p>Type your e-mail or phone number to log in or create a Jumia account.</p>
-            <form onSubmit={sumbitRegisterForm} className='register-form w-75 mx-auto my-5'>
+            <form onSubmit={sumbitLoginForm} className='Login-form w-75 mx-auto my-5'>
                 <div className='my-4'>
                     <input onChange={getUserData} type="email" placeholder='Email' name='email' id='email' className='form-control px-3 py-2' />
                     {errorList.filter((error) => error.context.label == 'email')[0] ?
