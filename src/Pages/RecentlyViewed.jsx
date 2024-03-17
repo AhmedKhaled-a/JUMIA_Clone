@@ -4,11 +4,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import { Container } from '@mui/material';
+import TopSelling from "../Components/Account/TopSelling";
 
 const drawerWidth = 240;
 
 export default function RecentlyViewed() {
     return (
+        <>
         <Container style={{display: 'grid', marginBottom: '50px'}}>
         <Box sx={{ display: "flex" }}>
             <Account />
@@ -21,7 +23,7 @@ export default function RecentlyViewed() {
                 mt: 5,
             }}
             >
-            <Toolbar />
+            {/* <Toolbar /> */}
 
             <div>
                 <div className="d-flex justify-content-center align-items-center flex-column h-100">
@@ -47,5 +49,7 @@ export default function RecentlyViewed() {
             </Box>
         </Box>
         </Container>
+        <TopSelling />
+        </>
     );
 }

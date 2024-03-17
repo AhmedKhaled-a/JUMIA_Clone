@@ -5,12 +5,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import { Link } from 'react-router-dom';
 import { Container } from '@mui/material';
+import TopSelling from '../Components/Account/TopSelling';
 
 const drawerWidth = 240;
 
 
 export default function OrdersClosed() {
     return (
+        <>
         <Container style={{display: 'grid', marginBottom: '50px'}}>
             <Box sx={{ display: "flex" }}>
                 <Account />
@@ -22,7 +24,7 @@ export default function OrdersClosed() {
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     }}
                 >
-                    <Toolbar />
+                    {/* <Toolbar /> */}
                     
                     <div className='border-bottom mb-5'>
                             <Link to="/orders/index" className='me-3'>
@@ -46,6 +48,8 @@ export default function OrdersClosed() {
                 </Box>
             </Box>
         </Container>
+        <TopSelling />
+        </>
         
     )
 }

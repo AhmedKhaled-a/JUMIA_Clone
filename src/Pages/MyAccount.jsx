@@ -27,7 +27,7 @@ export default function MyAccount() {
                         width: { sm: `calc(100% - ${drawerWidth}px)` },
                     }}
                 >
-                    <div className="row gap-3 mt-5">
+                    <div className="row gap-3">
                             <div className="card col-12 col-lg-5 p-0">
                                 <h5 class="card-header">ACCOUNT DETAILS</h5>
                                 <div class="card-body">

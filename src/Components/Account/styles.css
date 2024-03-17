@@ -1,0 +1,30 @@
+.card-link {
+    width: calc((100% / 6) - 30px);
+}
+.see-all {
+    padding: 2px 0px;
+    padding-left: 3px;
+}
+.see-all:hover {
+    background-color: #fcdbb9;
+    border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+    .card-link {
+        width: calc((100% / 3) - 30px);
+        margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-link {
+        width: calc((100% / 2) - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    .card-link {
+        width: calc(100% - 30px);
+    }
+}

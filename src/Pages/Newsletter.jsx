@@ -9,6 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
 import { Container } from '@mui/material';
+import TopSelling from '../Components/Account/TopSelling';
 
 const drawerWidth = 240;
 
@@ -28,6 +29,7 @@ export default function Newsletter() {
 
 
     return (
+        <>
         <Container style={{display: 'flex', marginBottom: '50px'}}>
             <Box sx={{ display: "flex" }}>
                 <Account />
@@ -39,7 +41,7 @@ export default function Newsletter() {
                         width: { sm: `calc(100% - ${drawerWidth}px)` },
                     }}
                 >
-                    <Toolbar />
+                    {/* <Toolbar /> */}
                     <div className='d-flex flex-wrap flex-column justify-content-start align-items-start'>
                         <div className="card col-12 col-lg-5 p-0 m-3">
                             <h5 class="card-header">PREFERRED LANGUAGE</h5>
@@ -88,5 +90,7 @@ export default function Newsletter() {
                 </Box>
             </Box>
         </Container>
+        <TopSelling />
+        </>
     )
 }
