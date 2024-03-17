@@ -25,11 +25,13 @@ import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
+import SellerLogin from './Components/Seller/SellerLogin';
 
 
 
 // import Home from './Components/Home/Home';
 import Store from './Components/Store'
+import SellerSignup from './Components/Seller/SellerSignup';
 
 function App() {
   // const classes = globalStyles();
@@ -49,6 +51,8 @@ function App() {
         {path: '/account/address', element: <AddressBook />},
         {path: '/account/newsletter', element: <Newsletter />},
         {path: '/login' , element:<Login/>},
+        {path: '/seller/login' , element:<SellerLogin />},
+        {path: '/seller/signup' , element:<SellerSignup />},
     ]}
   ]);
 
