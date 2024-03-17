@@ -14,7 +14,7 @@ function createData(name, trackingId, date, status) {
 
 const rows = [
   createData("Lasania Chiken Fri", 18908424, "2 March 2022", "Shipping"),
-  createData("Big Baza Bang ", 18908424, "2 March 2022", "Pending"),
+  createData("Big Baza Bang ", 18908424, "2 March 2022", "Processing"),
   createData("Mouth Freshner", 18908424, "2 March 2022", "Shipping"),
   createData("Cupcake", 18908421, "2 March 2022", "Delivered"),
 ];
@@ -28,7 +28,7 @@ const makeStyle=(status)=>{
       color: 'green',
     }
   }
-  else if(status === 'Pending')
+  else if(status === 'Processing')
   {
     return{
       background: '#ffadad8f',

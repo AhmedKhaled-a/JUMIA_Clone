@@ -101,8 +101,8 @@ border-radius: 5px;
   --activeItem: #f799a354;
 }
 
-.App {
-  /* padding: 0.5rem 3.5rem; */
+ .App {
+   padding: 0.5rem 3.5rem; 
   color: var(--black);
 background-color: white;
   height: 100vh;
@@ -134,4 +134,4 @@ background-color: white;
   .AppGlass{
     grid-template-columns: 1fr;
   } 
-}
+} 
