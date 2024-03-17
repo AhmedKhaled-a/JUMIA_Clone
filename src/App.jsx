@@ -26,6 +26,10 @@ import Newsletter from './Pages/Newsletter';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/Seller/SellerLogin';
+import './App.css'
+import MainDash from './Components/MainDash/MainDash';
+import RightSide from './Components/RightSide/RightSide';
+import Sidebar from './Components/Sidebar';
 
 
 
@@ -83,6 +87,7 @@ function App() {
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
+  
     </>
   );
 }
