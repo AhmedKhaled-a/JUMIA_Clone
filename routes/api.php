@@ -116,25 +116,16 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
-// Route::get('products', [ProductController::class, 'index']);
-// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-// Route::post('products/add-product', [ProductController::class, 'store']);
-
-
-// Route::get('products', [ProductController::class, 'index']);
-// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-// Route::post('products/add-product', [ProductController::class, 'store']);
-
-
-
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-    Route::post('/add-product', [ProductController::class, 'store']);
+});
+
+Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
+Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
-
 
 /**************************************** Orders ************************************************/
 // TODO: Reduce Count in DB automatically when order is made
@@ -142,19 +133,16 @@ Route::post('/orders', [OrderController::class , 'store'])
 ->name('orders.store'); // takes a cart array and stores them
 
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
-->name('orders.store');
+->name('orders.get-for-user');
 
 Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
-->name('orders.store');
-
-Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
-->name('orders.store');
+->name('orders.get-for-seller');
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
-->name('orders.store');
+->name('orders.update');
 // Admins only 
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
-->name('orders.store');
+->name('orders.delete')->middleware('auth:admin');
 
 
 
@@ -167,9 +155,6 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-// Admins only
-Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
-->name('orders.store');
 
 
 /*
@@ -178,7 +163,7 @@ Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'admins'], function() {
+Route::group(['prefix' => 'admins','middleware' => 'auth:admin'], function() {
     Route::get('/', [AdminController::class, 'index']);
     Route::post('/add-admin', [AdminController::class, 'store']);
     Route::get('/{id}', [AdminController::class, 'show']);
@@ -203,7 +188,7 @@ Route::group([
 // Admin Auth
 Route::post('auth/admin/login', [AuthAdminController::class, 'login']);
 Route::group([
-    // 'middleware' => 'auth:admin',
+    'middleware' => 'auth:admin',
     'prefix' => 'auth/admin'
 
 ], function ($router) {

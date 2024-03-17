@@ -92,6 +92,9 @@ class OrderController extends Controller
 
     public function deleteOrder(string $orderId) {
         $order = Order::find($orderId);
+        if(!$order) {
+            return response()->json(['code' => Errors::ERR_ORDER_NOT_FOUND ,'message' => 'order not found']);
+        }
         $product = $order->product;
         $product->stock += $order->count;
         $product->save();

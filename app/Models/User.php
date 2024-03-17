@@ -96,7 +96,6 @@ class User extends Authenticatable implements JWTSubject
     public function role(): BelongsTo
     {
         return $this->BelongsTo(Role::class, 'role_id');
-
     }
 
     public function isSuperAdmin()

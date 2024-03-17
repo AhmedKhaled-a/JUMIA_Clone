@@ -8,6 +8,9 @@
     
     class AdminController extends Controller
     {
+        public function index() {
+            return response()->json(Admin::all());
+        }
         public function store(Request $request)
         {
             // Check if the authenticated user is a super admin
