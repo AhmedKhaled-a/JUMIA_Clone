@@ -33,7 +33,7 @@ function ItemCarousel()
         },
     ]
     return (
-        <Carousel>
+        <Carousel indicators={false}>
             {
                 items.map( item => <Item key={item.id} item={item} /> )
             }

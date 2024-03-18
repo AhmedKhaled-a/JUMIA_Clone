@@ -32,7 +32,7 @@ import { jwtDecode } from 'jwt-decode';
 
 function App() {
   useEffect(() => {
-    if (localStorage.getItem('gameToken') !== null) {
+    if (localStorage.getItem('userToken') !== null) {
       saveUserData()
     }
   }, [])
