@@ -40,11 +40,10 @@ class ProductController extends Controller
 
         if (!$cat) {
             $products = Product::offset($offset)->take($limit)->with(['images'])->get();
-        }
-        else {
-            $category = Category::where('name', '=' , $cat)->first();
+        } else {
+            $category = Category::where('name', '=', $cat)->first();
             // dd($category, $cat);
-            if(!$category) {
+            if (!$category) {
                 return response()->json(['message' => 'Not a category products found'], 404);
             }
             // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
@@ -198,28 +197,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::find($id)->with(['images'])->first();
 
         if ($product) {
-            // Retrieve and encode thumbnail
-            if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
-                $thumbnailPath = public_path($product->thumbnail);
-                $thumbnailData = file_get_contents($thumbnailPath);
-                $product->thumbnail = base64_encode($thumbnailData);
-            }
-
-            // Retrieve and encode images
-            $productImages = $product->images()->pluck('image');
-            foreach ($productImages as $key => $imagePath) {
-                if (file_exists(public_path($imagePath))) {
-                    $imageData = file_get_contents(public_path($imagePath));
-                    $productImages[$key] = base64_encode($imageData);
-                } else {
-                    unset($productImages[$key]); // Remove non-existent image path
-                }
-            }
-            $product->images = $productImages;
-
             return response()->json($product, 200);
         } else {
             return response()->json(['message' => 'Product not found'], 404);
@@ -373,7 +353,10 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductBrands() {
-
+    public function getProductBrands()
+    {
+    }
+    public function getSellerProducts()
+    {
     }
 }

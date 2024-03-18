@@ -88,15 +88,6 @@ Route::get('/messages', [MessageController::class, 'index'])
 Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
 
 Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
@@ -130,8 +121,9 @@ Route::group(['prefix' => 'products'], function () {
 });
 
 Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
-Route::post('/add-product', [ProductController::class, 'store']);
+    Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
+    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
 
@@ -222,11 +214,5 @@ Route::group([
 });
 /**************************************** ViewedProduts ************************************************/
 
-// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-// Route::get('/product/create', [ViewedProductsController::class, 'create'])->name('product.create');
-// Route::post('/product', [ViewedProductsController::class, 'store'])->name('product.store');
-// Route::get('/product/{id}', [ViewedProductsController::class, 'show'])->name('product.show');
-// Route::put('/product/{id}', [ViewedProductsController::class, 'update'])->name('product.update');
-// Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
