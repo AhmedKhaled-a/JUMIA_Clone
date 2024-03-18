@@ -13,17 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-<<<<<<< HEAD
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
-
-
-
-
-
-
-=======
 use App\Http\Controllers\UserController;
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +144,7 @@ Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
 ->name('orders.update');
-// Admins only 
+// Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.delete')->middleware('auth:admin');
 
@@ -167,13 +159,11 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-<<<<<<< HEAD
 
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
-=======
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
+
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
@@ -237,3 +227,14 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Payment Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/checkout', [StripeController::class, 'checkout'])->name('payment.checkout');
+Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
+Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
