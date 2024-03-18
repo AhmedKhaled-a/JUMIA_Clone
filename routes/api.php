@@ -167,13 +167,10 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-<<<<<<< HEAD
 
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
-=======
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
