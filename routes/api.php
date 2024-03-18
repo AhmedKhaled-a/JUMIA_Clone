@@ -14,6 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ViewedProductsController;
+
+
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -167,6 +174,7 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
@@ -213,3 +221,13 @@ Route::group([
     Route::post('me', [AuthAdminController::class, 'me']);
 
 });
+/**************************************** ViewedProduts ************************************************/
+
+// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+// Route::get('/product/create', [ViewedProductsController::class, 'create'])->name('product.create');
+// Route::post('/product', [ViewedProductsController::class, 'store'])->name('product.store');
+// Route::get('/product/{id}', [ViewedProductsController::class, 'show'])->name('product.show');
+// Route::put('/product/{id}', [ViewedProductsController::class, 'update'])->name('product.update');
+// Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
+
+Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);

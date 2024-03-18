@@ -50,6 +50,14 @@ class Product extends Model
             'saved_products'
         ); 
     }
+    public function users_viewed(): BelongsToMany
+    {
+        return $this->BelongsToMany(
+            User::class,
+            'viewed_products'
+        ); 
+    }
+
 
     public function viewd_product(): BelongsTo
     {
