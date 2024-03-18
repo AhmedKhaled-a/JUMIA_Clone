@@ -11,6 +11,7 @@ use App\Models\Seller;
 use App\Models\Category;
 use App\Models\Review;
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -30,9 +31,9 @@ class Product extends Model
         return $this->HasMany(Product_Image::class);
     }
 
-    public function cart(): BelongsTo
+    public function cart(): HasMany
     {
-        return $this->belongsTo(Cart::class);
+        return $this->hasMany(Cart::class);
     }
     public function order(): BelongsTo
     {

@@ -26,15 +26,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
     Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
     Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
+    Route::delete('/{cart_id}', [CartController::class, 'deleteCartItem']);
     Route::put('/{cartId}/update-count', [CartController::class, 'updateCount']);
 });
 
@@ -183,6 +184,7 @@ Route::group(['prefix' => 'admins','middleware' => 'auth:admin'], function() {
 
 // User Auth
 Route::post('auth/user/login', [AuthUserController::class, 'login']);
+
 Route::group([
     'middleware' => 'auth:user',
     'prefix' => 'auth/user'
@@ -196,7 +198,7 @@ Route::group([
 });
 
 // Admin Auth
-Route::post('auth/admin/login', [AuthAdminController::class, 'login']);
+Route::post('auth/admin/login', [AuthAdminController::class, 'login'])->middleware('cors');
 Route::group([
     'middleware' => 'auth:admin',
     'prefix' => 'auth/admin'

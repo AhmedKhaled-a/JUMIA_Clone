@@ -18,6 +18,7 @@ namespace App\Http\Controllers;
 use App\Errors;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -25,13 +26,15 @@ class UserController extends Controller
     public function register(Request $request) {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {
-            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request']);
+            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'] , 404);
         }
 
         $validator = Validator::make($data, [
             'fullname' => 'required|string',
-            'email' => 'required|unique:users,email|',
+            'username' => "required|unique:users,username",
+            'email' => 'required|unique:users,email',
             'password' => "required",
+            'gender' => "required",
             'phone_number' => "required",
             'address_country' => "required",
             'address_city' => "required",
@@ -41,6 +44,7 @@ class UserController extends Controller
         if($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+        $data['password'] = Hash::make($data['password']);
 
         User::create($data);
         return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'user registered successfully']); 
