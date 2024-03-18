@@ -9,6 +9,7 @@ use App\Http\Resources\categoryResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -46,6 +47,7 @@ class CategoryController extends Controller
             }
         }
     }
+    
     public function store(Request $request)
     {
         // dd($request['category']['id']);
@@ -78,9 +80,9 @@ class CategoryController extends Controller
             // dd($thumbnailData);
             $thumbnailName = Str::random(20) . "." . $ext; // Generate a random name for the thumbnail
             // dd($thumbnailName);
-            $thumbnailPath = 'assets/uploads/categories/' . $thumbnailName;
+            $thumbnailPath = 'categories/' . $thumbnailName;
             // dd( $thumbnailPath);
-            file_put_contents( public_path($thumbnailPath), $thumbnailData ); // Save the thumbnail
+            Storage::disk('public')->put($thumbnailPath, $thumbnailData); // save thumbnail
             $category->category_thumb = $thumbnailPath;
             // dd( $thumbnailPath);
 
@@ -120,8 +122,9 @@ class CategoryController extends Controller
                 $thumbnailData = explode(',', $thumbnailData)[1];
 
                 $thumbnailName = Str::random(20) . "." . $ext; // Generate a random name for the thumbnail
-                $thumbnailPath = 'assets/uploads/product/' . $thumbnailName;
-                file_put_contents(public_path($thumbnailPath), $thumbnailData);
+                $thumbnailPath = 'categories/' . $thumbnailName;
+                // dd( $thumbnailPath);
+                Storage::disk('public')->put($thumbnailPath, $thumbnailData); // save thumbnail
 
                 // Delete the existing thumbnail if it exists
                 if ($category->category_thumb  && File::exists(public_path($category->category_thumb))) {

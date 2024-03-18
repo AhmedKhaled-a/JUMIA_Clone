@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Product_Image;
 // use Dotenv\Validator;
@@ -25,8 +26,10 @@ class ProductController extends Controller
     {
         $offset = $request->input('offset');
         $limit = $request->input('limit');
+        $cat = $request->input('category');
         // dd($limit);
 
+        // handling arguments
         if (!$limit) {
             $limit = Product::count();
             // dd($limit);
@@ -35,7 +38,20 @@ class ProductController extends Controller
             $offset = 0;
         }
 
-        $products = Product::offset($offset)->take($limit)->with(['images'])->get();
+        if (!$cat) {
+            $products = Product::offset($offset)->take($limit)->with(['images'])->get();
+        }
+        else {
+            $category = Category::where('name', '=' , $cat)->first();
+            // dd($category, $cat);
+            if(!$category) {
+                return response()->json(['message' => 'Not a category products found'], 404);
+            }
+            // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
+            $products = $category->products()->with('images')->offset($offset)->take($limit)->get();
+        }
+
+        
 
         if ($products->count() > 0) {
             // foreach ($products as $product) {
@@ -355,5 +371,9 @@ class ProductController extends Controller
         } else {
             return response()->json('Product not found', 404);
         }
+    }
+
+    public function getProductBrands() {
+
     }
 }
