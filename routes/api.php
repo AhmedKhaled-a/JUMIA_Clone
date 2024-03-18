@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthUserController;
@@ -13,17 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-<<<<<<< HEAD
 use App\Http\Controllers\ViewedProductsController;
-
-
-
-
-
-
-=======
 use App\Http\Controllers\UserController;
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
@@ -166,13 +158,10 @@ Route::post('/categories', [CategoryController::class, 'store'])->name('categori
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-<<<<<<< HEAD
 
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
-=======
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
@@ -226,12 +215,7 @@ Route::group([
 
 });
 /**************************************** ViewedProduts ************************************************/
-
-// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-// Route::get('/product/create', [ViewedProductsController::class, 'create'])->name('product.create');
-// Route::post('/product', [ViewedProductsController::class, 'store'])->name('product.store');
-// Route::get('/product/{id}', [ViewedProductsController::class, 'show'])->name('product.show');
-// Route::put('/product/{id}', [ViewedProductsController::class, 'update'])->name('product.update');
-// Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
-
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
+/**************************************** verification &reser routes  ************************************************/
+
+Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);

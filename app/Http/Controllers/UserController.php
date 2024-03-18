@@ -16,9 +16,23 @@
 namespace App\Http\Controllers;
 
 use App\Errors;
+use App\Mail\jumiaVerifcation;
+use App\Mail\Varification;
+// use Mail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+// use App\Models\Mail;
+// use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
+// use App\Http\Controller\Mail;
+
+// use App\Mail\SampleMail;
+// use JWTAuth;
+
 
 class UserController extends Controller
 {
@@ -42,7 +56,41 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        User::create($data);
+        $user=User::create($data);
+        
+        $verification_code = Str::random(20); //Generate verification code
+        DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
+
+        Mail::to($data['email'])->send(new jumiaVerifcation($verification_code));
+        
+            
         return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'user registered successfully']); 
     }
+    public function verifyUser($verification_code)
+    {
+        $check = DB::table('user_verifications')->where('token',$verification_code)->first();
+
+        if(!is_null($check)){
+            $user = User::find($check->user_id);
+
+            if($user->is_verified == 1){
+                return response()->json([
+                    'success'=> true,
+                    'message'=> 'Account already verified..'
+                ]);
+            }
+
+            $user->update(['is_verified' => 1]);
+            DB::table('user_verifications')->where('token',$verification_code)->delete();
+
+            return response()->json([
+                'success'=> true,
+                'message'=> 'You have successfully verified your email address.'
+            ]);
+        }
+
+        return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
+
+    }
 }
+     
