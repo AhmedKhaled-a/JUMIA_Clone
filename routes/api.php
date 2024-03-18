@@ -21,11 +21,6 @@ use App\Http\Controllers\ViewedProductsController;
 
 
 
-
-
-
-use App\Http\Controllers\UserController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
