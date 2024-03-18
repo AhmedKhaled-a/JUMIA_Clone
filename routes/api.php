@@ -9,11 +9,10 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-<<<<<<< HEAD
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewedProductsController;
 
 
@@ -21,9 +20,6 @@ use App\Http\Controllers\ViewedProductsController;
 
 
 
-=======
-use App\Http\Controllers\UserController;
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
