@@ -19,7 +19,7 @@ class ProductController extends Controller
      *
      * This function retrieves a paginated list of products, encodes the thumbnails and images of each product into base64 format,
      * and returns the products as a JSON response.
-     *  
+     *
      * @return \Illuminate\Http\JsonResponse JSON response with the list of products including encoded thumbnails and images.
      */
     public function index(Request $request)
@@ -51,7 +51,7 @@ class ProductController extends Controller
             $products = $category->products()->with('images')->offset($offset)->take($limit)->get();
         }
 
-        
+
 
         if ($products->count() > 0) {
             // foreach ($products as $product) {
@@ -171,7 +171,7 @@ class ProductController extends Controller
                 $ext = explode('/', mime_content_type($imageData))[1];
                 $imageData = explode(',', $imageData)[1];
                 $imageData = base64_decode($imageData); // Decode base64 data
-                
+
                 $imageName = Str::random(20) . "." . $ext; // Generate a random name for the image
                 $imagePath = 'products/' . $imageName;
                 Storage::disk('public')->put($imagePath, $imageData); // save the image
