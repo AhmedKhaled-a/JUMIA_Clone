@@ -50,13 +50,13 @@ export default function Register() {
     async function sendDataToApi() {
         console.log(user);
         // hash password using bcrypt
-        user.password = await new Promise((resolve, reject) => {
-            bcrypt.hash(user.password, 10, function(err, hash) {
-              if (err) reject(err)
-              resolve(hash)
-            });
-        })
-          
+        // user.password = await new Promise((resolve, reject) => {
+        //     bcrypt.hash(user.password, 10, function (err, hash) {
+        //         if (err) reject(err)
+        //         resolve(hash)
+        //     });
+        // })
+
         let { data } = await axios.post(`${baseURL}/api/users/register`, user)
         // console.log(data);
         if (data.code == 0) { // 0 ==>  no error code
@@ -87,8 +87,8 @@ export default function Register() {
             username: Joi.string().min(3).max(10).required(),
             email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }).required(),
             phone_number: joiPhoneValidate.string().phoneNumber({ format: "international", strict: true, defaultCountry: 'EG' }),
-            password: Joi.string().pattern(/^[A-Z][a-z]{5,15}/).required(),
-            gender: Joi.string().valid("male", "female" ).required(),
+            password: Joi.string().pattern(/^([A-Z]|[a-z]|[0-9]){5,15}/).required(),
+            gender: Joi.string().valid("male", "female").required(),
             address_country: Joi.string().required(),
             address_city: Joi.string().required(),
             address_district: Joi.string().required(),
@@ -156,9 +156,11 @@ export default function Register() {
                     }
                 </div>
 
-                <FormControl fullWidth sx={{marginBottom:"18px"}}>
+                <FormControl fullWidth sx={{ marginBottom: "18px" }}>
                     <InputLabel id="address_countryLB">Country</InputLabel>
                     <Select
+                        variant='standard'
+
                         labelId="address_countryLB"
                         id="address_country"
                         name="address_country"
@@ -173,15 +175,17 @@ export default function Register() {
                     </Select>
                 </FormControl>
 
-                <FormControl fullWidth sx={{marginBottom:"18px"}}>
+                <FormControl fullWidth sx={{ marginBottom: "18px" }}>
                     <InputLabel id="address_cityLB">City</InputLabel>
                     <Select
+                        variant='standard'
+
                         labelId="address_cityLB"
                         id="address_city"
                         name="address_city"
-                        value={ user?.address_city }
+                        value={user?.address_city}
                         label="Country"
-                        onChange={(e) => {console.log(e.target.value);setUser({ ...user, address_city : e.target.value});}}
+                        onChange={(e) => { console.log(e.target.value); setUser({ ...user, address_city: e.target.value }); }}
                     >
                         <MenuItem value={"Alexandria"} selected>Alexandria</MenuItem>
                         <MenuItem value={"Cairo"}>Cairo</MenuItem>
@@ -189,15 +193,17 @@ export default function Register() {
                     </Select>
                 </FormControl>
 
-                <FormControl fullWidth sx={{marginBottom:"18px"}}>
+                <FormControl fullWidth sx={{ marginBottom: "18px" }}>
                     <InputLabel id="address_countryLB">District</InputLabel>
                     <Select
+                        variant='standard'
+                        sx={{ padding: '1px' }}
                         labelId="address_countryLB"
                         id="address_district"
                         name="address_district"
                         label="District"
-                        value={ user?.address_district }
-                        onChange={(e) => {console.log(e.target.value);setUser({ ...user, address_district : e.target.value});}}
+                        value={user?.address_district}
+                        onChange={(e) => { console.log(e.target.value); setUser({ ...user, address_district: e.target.value }); }}
                     >
                         <MenuItem value={"Bab Sharq"} selected>Bab Sharq</MenuItem>
                         <MenuItem value={"Moharam Bik"}>Moharam Bik</MenuItem>
@@ -212,7 +218,7 @@ export default function Register() {
                         defaultValue="female"
                         name="gender"
                         id="gender"
-                        onChange={(e) => {console.log(e.target.value);setUser({ ...user, gender : e.target.value});}}
+                        onChange={(e) => { console.log(e.target.value); setUser({ ...user, gender: e.target.value }); }}
                     >
                         <FormControlLabel value="female" control={<Radio />} label="Female" />
                         <FormControlLabel value="male" control={<Radio />} label="Male" />

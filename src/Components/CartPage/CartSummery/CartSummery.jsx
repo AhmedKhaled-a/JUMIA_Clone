@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, Container, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useId } from 'react'
 import { CartTotalContext } from '../../../Contexts/CartTotalContext';
 import { baseURL } from '../../../config/config';
 import axios from 'axios';
@@ -9,9 +9,7 @@ export default function CartSummery() {
     // TODO: get user_id from context
     let user_id = 1;
 
-    let clearCart = (userId) => {
-        axios.delete(`${baseURL}/api/cart/usercart/${userId}`);
-    }
+    
     return (
         <Container maxWidth='xs' xs={12} md={6}>
             <Card>
@@ -30,7 +28,6 @@ export default function CartSummery() {
             <CardActions>
                 
             <Button size="small" variant="contained">Checkout (total)</Button>
-            <Button size="small" variant="contained" onClick={clearCart}>Clear Cart</Button>
             </CardActions>
         </Card>
       </Container>

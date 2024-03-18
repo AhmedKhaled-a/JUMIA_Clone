@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
+import { baseURL } from '../../config/config';
 
 
 
@@ -27,7 +28,8 @@ function Login({ saveUserData }) {
     }
 
     async function sendLoginDataToApi() {
-        let { data } = await axios.post('https://', user)
+        console.log(user);
+        let { data } = await axios.post(`${baseURL}/api/auth/user/login`, user) 
         // console.log(data);
         if (data.message == 'success') {
             localStorage.setItem('userToken', data.token)
@@ -56,7 +58,7 @@ function Login({ saveUserData }) {
     function validateForm() {
         let scheme = Joi.object({
             email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }).required(),
-            password: Joi.string().pattern(/^[A-Z][a-z]{5,15}/).required(),
+            password: Joi.string().pattern(/^([A-Z]|[a-z]|[0-9]){5,15}/).required(),
         })
         return scheme.validate(user, { abortEarly: false })
     }

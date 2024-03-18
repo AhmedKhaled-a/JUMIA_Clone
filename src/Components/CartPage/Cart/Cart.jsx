@@ -2,15 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import CartCard from '../CartCard/CartCard'
 import axios from 'axios';
 
-import { Container, Divider, Grid, Typography } from '@mui/material';
+import { Container, Divider, Grid, Typography, Button } from '@mui/material';
 import { CartTotalContext } from '../../../Contexts/CartTotalContext';
 import { baseURL } from '../../../config/config';
 
 const Cart = () => {
-    let [cartProducts, setCartProducts] = useState(null);
+    let [cartProducts, setCartProducts] = useState([]);
+    // TODO: get user_id from userContext
+    let user_id = 1;
 
     const { setTotal, total } = useContext(CartTotalContext);
 
+    let clearCart = (userId) => {
+        setCartProducts([]);
+        axios.delete(`${baseURL}/api/cart/usercart/${userId}`);
+    }
     let changeCount = (cartId, n) => {
         // deep copy
         let myCartCopy = [...cartProducts];
@@ -43,14 +49,11 @@ const Cart = () => {
         // setState
         setCartProducts(myCartProductsCopy);
 
-        // TODO: change user_id to get from context
         axios.delete(`${baseURL}/api/cart/${cartId}`);
     }
 
 
     useEffect(() => {
-        // TODO: get user_id from userContext
-        let user_id = 1;
         axios.get(`${baseURL}/api/cart/usercart/${user_id}`)
             .then((res) => {
                 console.log(res.data.cart_items);
@@ -81,7 +84,7 @@ const Cart = () => {
                 </Grid>
             })
         }
-
+        { cartProducts.length > 0 ? <Button sx={{margin:"18px"}} size="small" variant="contained" onClick={() => { clearCart(user_id) }}>Clear Cart</Button> : ''}
     </Grid>
 }
 
