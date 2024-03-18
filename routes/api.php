@@ -4,6 +4,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\Auth\AuthAdminController;
+use App\Http\Controllers\Auth\AuthSellerController;
 use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewedProductsController;
 
@@ -120,7 +122,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/get-brands', [ProductController::class, 'getProductBrands']);
 });
 
-Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
+Route::group(['prefix' => 'products', 'middleware' => ['auth:seller']], function () {
     Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
@@ -162,6 +164,10 @@ Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
+->name('user.register');
+/**************************************** Sellers ************************************************/
+
+Route::post('sellers/register', [SellerController::class , 'register'])
 ->name('user.register');
 
 /*
@@ -210,6 +216,20 @@ Route::group([
     Route::post('logout', [AuthAdminController::class, 'logout']);
     Route::post('refresh', [AuthAdminController::class, 'refresh']);
     Route::post('me', [AuthAdminController::class, 'me']);
+
+});
+
+// Seller Auth
+Route::post('auth/seller/login', [AuthSellerController::class, 'login'])->middleware('cors');
+Route::group([
+    'middleware' => 'auth:seller',
+    'prefix' => 'auth/seller'
+
+], function ($router) {
+
+    Route::post('logout', [AuthSellerController::class, 'logout']);
+    Route::post('refresh', [AuthSellerController::class, 'refresh']);
+    Route::post('me', [AuthSellerController::class, 'me']);
 
 });
 /**************************************** ViewedProduts ************************************************/

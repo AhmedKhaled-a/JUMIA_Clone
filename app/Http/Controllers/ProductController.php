@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Product_Image;
+use App\Models\Seller;
 // use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class ProductController extends Controller
 {
@@ -27,6 +29,8 @@ class ProductController extends Controller
         $offset = $request->input('offset');
         $limit = $request->input('limit');
         $cat = $request->input('category');
+        $priceLow = $request->input('pricelow');
+        $priceHigh = $request->input('pricehigh');
         // dd($limit);
 
         // handling arguments
@@ -37,9 +41,18 @@ class ProductController extends Controller
         if (!$offset) {
             $offset = 0;
         }
+        if (!$priceLow) {
+            $priceLow = 0;
+            // dd($priceLow);
+        }
+
+        if (!$priceHigh) {
+            $priceHigh = Product::max('price');
+            // dd($priceHigh);
+        }
 
         if (!$cat) {
-            $products = Product::offset($offset)->take($limit)->with(['images'])->get();
+            $products = Product::where('price', '>=' ,$priceLow)->where('price', '<=' ,$priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
         } else {
             $category = Category::where('name', '=', $cat)->first();
             // dd($category, $cat);
@@ -47,30 +60,11 @@ class ProductController extends Controller
                 return response()->json(['message' => 'Not a category products found'], 404);
             }
             // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
-            $products = $category->products()->with('images')->offset($offset)->take($limit)->get();
+            $products = $category->products()->with('images')->where('price', '>=' ,$priceLow)->where('price', '<=' ,$priceHigh)->offset($offset)->take($limit)->get();
         }
 
 
-
         if ($products->count() > 0) {
-            // foreach ($products as $product) {
-            //     // Retrieve and encode thumbnail
-            //     if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
-            //         $thumbnailPath = $product->thumbnail;
-            //         $product->thumbnail = $thumbnailPath;
-            //     }
-
-            //     // Retrieve and encode images
-            //     $productImages = $product->images()->pluck('image');
-            //     foreach ($productImages as $key => $imagePath) {
-            //         if (file_exists(public_path($imagePath))) {
-            //             $productImages[$key] = $imagePath;
-            //         } else {
-            //             unset($productImages[$key]); // Remove non-existent image path
-            //         }
-            //     }
-            //     $product->images = $productImages;
-            // }
             return response()->json($products, 200);
         } else {
             return response()->json(['message' => 'No products found'], 404);
@@ -355,8 +349,27 @@ class ProductController extends Controller
 
     public function getProductBrands()
     {
+        $brands = Product::distinct()->get();
+        if(!$brands) {
+            return response()->json('No brands', 404);
+        }
+
+        return response()->json($brands);
+
+
     }
-    public function getSellerProducts()
+    public function getSellerProducts(string $sellerId)
     {
+        $seller = Seller::find($sellerId);
+
+        if(!$seller) {
+            return response()->json(['message' => 'Seller not found'], 404);
+        }
+        // check if user trying to 
+        if( auth()->user()->id != $sellerId ) {
+            return response()->json(['message' =>'Not authenticated seller'], 404);
+        }
+        
+        return response()->json($seller->products);
     }
 }

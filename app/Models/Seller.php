@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Seller extends Model
+class Seller extends Authenticatable implements JWTSubject
 {
     use HasFactory;
-    public function product(): HasMany
+    public function products(): HasMany
     {
         return $this->HasMany(Product::class);
     }
@@ -28,5 +30,15 @@ class Seller extends Model
         'id'
         
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
 }
