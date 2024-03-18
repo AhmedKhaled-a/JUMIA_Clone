@@ -43,6 +43,7 @@ class User extends Authenticatable implements JWTSubject
         'address_city',
         'address_district',
         'role_id',
+        'is_verified'
         
     ];
 
@@ -87,9 +88,9 @@ class User extends Authenticatable implements JWTSubject
             'saved_products',
         );
     }
-    public function viewed_products(): HasMany
+    public function viewed_products():HasMany
     {
-        return $this->BelongsToMany(
+        return $this->hasMany(
             Product::class,
             'viewed_products',
         );

@@ -2,19 +2,28 @@
 
 
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\Auth\AuthAdminController;
+use App\Http\Controllers\Auth\AuthSellerController;
 use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
+
+
+
+
+
+
 use App\Http\Controllers\UserController;
 
 /*
@@ -84,15 +93,6 @@ Route::get('/messages', [MessageController::class, 'index'])
 Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
 
 Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
@@ -125,9 +125,10 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/get-brands', [ProductController::class, 'getProductBrands']);
 });
 
-Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
-Route::post('/add-product', [ProductController::class, 'store']);
+Route::group(['prefix' => 'products', 'middleware' => ['auth:seller']], function () {
+    Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
+    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
 
@@ -167,6 +168,10 @@ Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
+->name('user.register');
+/**************************************** Sellers ************************************************/
+
+Route::post('sellers/register', [SellerController::class , 'register'])
 ->name('user.register');
 
 /*
@@ -217,6 +222,20 @@ Route::group([
     Route::post('me', [AuthAdminController::class, 'me']);
 
 });
+
+// Seller Auth
+Route::post('auth/seller/login', [AuthSellerController::class, 'login'])->middleware('cors');
+Route::group([
+    'middleware' => 'auth:seller',
+    'prefix' => 'auth/seller'
+
+], function ($router) {
+
+    Route::post('logout', [AuthSellerController::class, 'logout']);
+    Route::post('refresh', [AuthSellerController::class, 'refresh']);
+    Route::post('me', [AuthSellerController::class, 'me']);
+
+});
 /**************************************** ViewedProduts ************************************************/
 
 // Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -227,6 +246,10 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
+/**************************************** verification &reser routes  ************************************************/
+
+Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
+
 
 
 /*
