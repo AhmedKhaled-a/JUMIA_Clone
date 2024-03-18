@@ -25,10 +25,20 @@ import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
+import SellerLogin from './Components/Seller/SellerLogin';
+import './App.css'
+import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
+import RightSide from './Components/Dashboards/SellerDashboard/RightSide/RightSide';
+import Sidebar from './Components/Dashboards/SellerDashboard/Sidebar';
+
+
+
+// import Home from './Components/Home/Home';
 import Store from './Components/Store'
 import Register from './Components/Register';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import SellerSignup from './Components/Seller/SellerSignup';
 
 function App() {
   useEffect(() => {
@@ -63,6 +73,9 @@ function App() {
         {path: '/account/newsletter', element: <Newsletter />},
         {path: '/login' , element:<Login saveUserData={saveUserData}/>},
         {path: '/register' , element:<Register/>},
+        {path: '/login' , element:<Login/>},
+        {path: '/seller/login' , element:<SellerLogin />},
+        {path: '/seller/signup' , element:<SellerSignup />},
     ]}
   ]);
 
@@ -70,10 +83,11 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <div className="">
+        <div>
           <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
+  
     </>
   );
 }
