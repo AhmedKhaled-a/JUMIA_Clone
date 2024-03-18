@@ -29,7 +29,7 @@ class AuthUserController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->guard('user')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email or password is incorrect'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -42,7 +42,7 @@ class AuthUserController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(["user" => auth()->user() , "role" => "user"]);
     }
 
     /**

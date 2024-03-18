@@ -19,7 +19,7 @@ class ProductController extends Controller
      *
      * This function retrieves a paginated list of products, encodes the thumbnails and images of each product into base64 format,
      * and returns the products as a JSON response.
-     *  
+     *
      * @return \Illuminate\Http\JsonResponse JSON response with the list of products including encoded thumbnails and images.
      */
     public function index(Request $request)
@@ -40,18 +40,17 @@ class ProductController extends Controller
 
         if (!$cat) {
             $products = Product::offset($offset)->take($limit)->with(['images'])->get();
-        }
-        else {
-            $category = Category::where('name', '=' , $cat)->first();
+        } else {
+            $category = Category::where('name', '=', $cat)->first();
             // dd($category, $cat);
-            if(!$category) {
+            if (!$category) {
                 return response()->json(['message' => 'Not a category products found'], 404);
             }
             // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
             $products = $category->products()->with('images')->offset($offset)->take($limit)->get();
         }
 
-        
+
 
         if ($products->count() > 0) {
             // foreach ($products as $product) {
@@ -171,7 +170,7 @@ class ProductController extends Controller
                 $ext = explode('/', mime_content_type($imageData))[1];
                 $imageData = explode(',', $imageData)[1];
                 $imageData = base64_decode($imageData); // Decode base64 data
-                
+
                 $imageName = Str::random(20) . "." . $ext; // Generate a random name for the image
                 $imagePath = 'products/' . $imageName;
                 Storage::disk('public')->put($imagePath, $imageData); // save the image
@@ -198,28 +197,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::find($id)->with(['images'])->first();
 
         if ($product) {
-            // Retrieve and encode thumbnail
-            if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
-                $thumbnailPath = public_path($product->thumbnail);
-                $thumbnailData = file_get_contents($thumbnailPath);
-                $product->thumbnail = base64_encode($thumbnailData);
-            }
-
-            // Retrieve and encode images
-            $productImages = $product->images()->pluck('image');
-            foreach ($productImages as $key => $imagePath) {
-                if (file_exists(public_path($imagePath))) {
-                    $imageData = file_get_contents(public_path($imagePath));
-                    $productImages[$key] = base64_encode($imageData);
-                } else {
-                    unset($productImages[$key]); // Remove non-existent image path
-                }
-            }
-            $product->images = $productImages;
-
             return response()->json($product, 200);
         } else {
             return response()->json(['message' => 'Product not found'], 404);
@@ -373,7 +353,10 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductBrands() {
-
+    public function getProductBrands()
+    {
+    }
+    public function getSellerProducts()
+    {
     }
 }

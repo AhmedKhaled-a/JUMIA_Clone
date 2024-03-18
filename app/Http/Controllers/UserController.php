@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
 // use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 // use App\Http\Controller\Mail;
@@ -39,13 +40,15 @@ class UserController extends Controller
     public function register(Request $request) {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {
-            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request']);
+            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'] , 404);
         }
 
         $validator = Validator::make($data, [
             'fullname' => 'required|string',
-            'email' => 'required|unique:users,email|',
+            'username' => "required|unique:users,username",
+            'email' => 'required|unique:users,email',
             'password' => "required",
+            'gender' => "required",
             'phone_number' => "required",
             'address_country' => "required",
             'address_city' => "required",
@@ -55,6 +58,7 @@ class UserController extends Controller
         if($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+        $data['password'] = Hash::make($data['password']);
 
         $user=User::create($data);
         

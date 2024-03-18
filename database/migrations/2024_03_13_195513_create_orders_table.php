@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('count');
             $table->integer('price');
-            $table->enum('order_status',['processing', 'rejected' ,'shipped', 'delivered']);
+            $table->enum('order_status',['processing', 'rejected' ,'shipping', 'delivered']);
             $table->integer('shipping_period');
             $table->integer('shipping_cost');
             $table->unsignedBigInteger('seller_id')->nullable()->references('id')->on('sellers');

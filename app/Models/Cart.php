@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,14 +11,14 @@ class Cart extends Model
     protected $table = 'carts';
 
     use HasFactory;
-    public function product(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->HasMany(product::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
     protected $fillable = [
         

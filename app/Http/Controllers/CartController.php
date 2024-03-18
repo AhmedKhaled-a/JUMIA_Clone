@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Http\Resources\CartResource;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -27,10 +28,13 @@ class CartController extends Controller
 
     public function getCart($userId)
     {
-        $cartItems = Cart::where('user_id', $userId)->get();
+        $cartItems = Cart::where('user_id', $userId)->with(['product'])->get();
+        // dd($cartItems);
         $totalItems = $cartItems->sum('count');
         $productCounts = $cartItems->groupBy('product_id')->map->sum('count');
 
+        // return response()->json($cartItems);
+         
         return [
             'total_items' => $totalItems,
             'productsCount' => $productCounts,
@@ -42,20 +46,50 @@ class CartController extends Controller
     {
         Cart::where('user_id', $userId)->delete();
 
-        return response()->json(['message' => 'Cart cleared']);
+        return response()->json(['message' => 'Cart cleared'], 200);
     }
+
+    public function deleteCartItem($cartId)
+    {
+        $cartItem = Cart::find($cartId);
+
+        if($cartItem) {
+            $cartItem->delete();
+        }
+        else {
+            return response()->json(['message' => 'Cart Item not found'] , 404);
+        }
+        return response()->json(['message' => 'Cart Item deleted'] , 200);
+    }
+
+    /*
+    {
+        count: 22,
+    }
+    */
 
     public function updateCount(Request $request, $cartId)
     {
-        $request->validate([
-            'count' => 'required|integer|min:1',
+        // get data
+        $data = json_decode($request->getContent(), true);
+
+        $validator = Validator::make($data, [
+            'count' => 'required|integer|min:0',
         ]);
 
-        $cart = Cart::findOrFail($cartId);
-        $cart->count = $request->count;
+        if($validator->fails()) {
+            return response()->json(["message" => "bad request"] , 404);
+        }
+
+        $cart = Cart::find($cartId);
+        if(!$cart) {
+            return response()->json(["message" => "no cart with this id"] , 404);
+        
+        }
+        $cart->count = $data['count'];
         $cart->save();
 
-        return new CartResource($cart);
+        return response()->json(["message" => "cart updated successfully"] , 200);
     }
 }
 

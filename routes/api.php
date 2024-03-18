@@ -10,12 +10,20 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+<<<<<<< HEAD
 use App\Http\Controllers\ViewedProductsController;
+
+
+
+
+
+
+=======
 use App\Http\Controllers\UserController;
+>>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +36,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
     Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
     Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
+    Route::delete('/{cart_id}', [CartController::class, 'deleteCartItem']);
     Route::put('/{cartId}/update-count', [CartController::class, 'updateCount']);
 });
 
@@ -83,15 +92,6 @@ Route::get('/messages', [MessageController::class, 'index'])
 Route::post('/messages', [MessageController::class, 'store'])
 ->name('messages.store');
 
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-// Route::get('/messages/{id}', [MessageController::class, 'show'])
-// ->name('messages.show');
-
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
-// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
-// ->name('messages.edit');
 
 Route::put('/messages/{id}', [MessageController::class, 'update'])
 ->name('messages.update');
@@ -125,8 +125,9 @@ Route::group(['prefix' => 'products'], function () {
 });
 
 Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
-Route::post('/add-product', [ProductController::class, 'store']);
+    Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
+    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
 
@@ -189,6 +190,7 @@ Route::group(['prefix' => 'admins','middleware' => 'auth:admin'], function() {
 
 // User Auth
 Route::post('auth/user/login', [AuthUserController::class, 'login']);
+
 Route::group([
     'middleware' => 'auth:user',
     'prefix' => 'auth/user'
@@ -202,7 +204,7 @@ Route::group([
 });
 
 // Admin Auth
-Route::post('auth/admin/login', [AuthAdminController::class, 'login']);
+Route::post('auth/admin/login', [AuthAdminController::class, 'login'])->middleware('cors');
 Route::group([
     'middleware' => 'auth:admin',
     'prefix' => 'auth/admin'
@@ -215,6 +217,14 @@ Route::group([
 
 });
 /**************************************** ViewedProduts ************************************************/
+
+// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+// Route::get('/product/create', [ViewedProductsController::class, 'create'])->name('product.create');
+// Route::post('/product', [ViewedProductsController::class, 'store'])->name('product.store');
+// Route::get('/product/{id}', [ViewedProductsController::class, 'show'])->name('product.show');
+// Route::put('/product/{id}', [ViewedProductsController::class, 'update'])->name('product.update');
+// Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
+
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
 /**************************************** verification &reser routes  ************************************************/
 
