@@ -27,9 +27,9 @@ import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/Seller/SellerLogin';
 import './App.css'
-import MainDash from './Components/MainDash/MainDash';
-import RightSide from './Components/RightSide/RightSide';
-import Sidebar from './Components/Sidebar';
+import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
+import RightSide from './Components/Dashboards/SellerDashboard/RightSide/RightSide';
+import Sidebar from './Components/Dashboards/SellerDashboard/Sidebar';
 
 
 
