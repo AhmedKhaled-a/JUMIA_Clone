@@ -8,13 +8,25 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +42,7 @@ class User extends Authenticatable
         'address_country',
         'address_city',
         'address_district',
+        'role_id',
         
     ];
 
@@ -74,8 +87,24 @@ class User extends Authenticatable
             'saved_products',
         );
     }
-    public function viewed_product(): HasMany
+    public function viewed_products(): HasMany
     {
-        return $this->HasMany(Viewed_Product::class);
+        return $this->BelongsToMany(
+            Product::class,
+            'viewed_products',
+        );
+    }
+   
+
+    public function role(): BelongsTo
+    {
+        return $this->BelongsTo(Role::class, 'role_id');
+    }
+
+    public function isSuperAdmin()
+    {
+        $superAdminRoleId = Role::where('name', 'super_admin')->value('id');
+        return $this->role_id === $superAdminRoleId;
     }
 }
+

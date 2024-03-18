@@ -41,6 +41,16 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+// $app->routeMiddleware([
+//     'auth' => App\Http\Middleware\Authenticate::class,
+// ]);
+
+// $app->register(App\Providers\AuthServiceProvider::class);
+
+// $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
+// $app->configure('jwt');
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

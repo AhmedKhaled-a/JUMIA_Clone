@@ -1,16 +1,29 @@
 <?php
 
+
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\api\categoryController;
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\Auth\AuthAdminController;
+use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProductsController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+<<<<<<< HEAD
+use App\Http\Controllers\ViewedProductsController;
+
+
+
+
+
+
+=======
+use App\Http\Controllers\UserController;
+>>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
@@ -23,14 +36,16 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
     Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
     Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
+    Route::delete('/{cart_id}', [CartController::class, 'deleteCartItem']);
     Route::put('/{cartId}/update-count', [CartController::class, 'updateCount']);
 });
 
@@ -54,6 +69,8 @@ Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductRevie
 
 // Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
 // ->name('reviews.edit');
+// Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])
+// ->name('reviews.edit');
 
 Route::put('/reviews/{id}', [ReviewController::class, 'update'])
 ->name('reviews.update');
@@ -68,6 +85,8 @@ Route::get('/messages', [MessageController::class, 'index'])
 
 // Route::get('/messages/create', [MessageController::class, 'create'])
 // ->name('messages.create');
+// Route::get('/messages/create', [MessageController::class, 'create'])
+// ->name('messages.create');
 
 
 Route::post('/messages', [MessageController::class, 'store'])
@@ -75,7 +94,11 @@ Route::post('/messages', [MessageController::class, 'store'])
 
 // Route::get('/messages/{id}', [MessageController::class, 'show'])
 // ->name('messages.show');
+// Route::get('/messages/{id}', [MessageController::class, 'show'])
+// ->name('messages.show');
 
+// Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
+// ->name('messages.edit');
 // Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])
 // ->name('messages.edit');
 
@@ -104,20 +127,17 @@ Route::post('/products/unsave/{userId}', [SavedProductsController::class, 'unsav
 | Products Routes
 |--------------------------------------------------------------------------
 */
-// Route::get('products', [ProductController::class, 'index']);
-// Route::get('products/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-// Route::post('products/add-product', [ProductController::class, 'store']);
-
-
-
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show'])->where('id', '[0-9]+');
-    Route::post('/add-product', [ProductController::class, 'store']);
+    Route::get('/get-brands', [ProductController::class, 'getProductBrands']);
+});
+
+Route::group(['prefix' => 'products', 'middleware' => ['auth:admin', 'auth:seller']], function () {
+Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
-
 
 /**************************************** Orders ************************************************/
 // TODO: Reduce Count in DB automatically when order is made
@@ -125,32 +145,39 @@ Route::post('/orders', [OrderController::class , 'store'])
 ->name('orders.store'); // takes a cart array and stores them
 
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
-->name('orders.store');
+->name('orders.get-for-user');
 
 Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
-->name('orders.store');
+->name('orders.get-for-seller');
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
-->name('orders.store');
+->name('orders.update');
 // Admins only 
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
-->name('orders.store');
+->name('orders.delete')->middleware('auth:admin');
 
 
 
 
 
 /**************************************** categories ************************************************/
-Route::get('/categories', [categoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/create', [categoryController::class, 'create'])->name('categories.create');
-Route::post('/categories', [categoryController::class, 'store'])->name('categories.store');
-Route::get('/categories/{id}', [categoryController::class, 'show'])->name('categories.show');
-Route::put('/categories/{id}', [categoryController::class, 'update'])->name('categories.update');
-Route::delete('/categories/{id}', [categoryController::class, 'destroy'])->name('categories.destroy');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+<<<<<<< HEAD
+
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
+=======
+>>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
+/**************************************** Users ************************************************/
+Route::post('users/register', [UserController::class , 'register'])
+->name('user.register');
 
 /*
 |--------------------------------------------------------------------------
@@ -158,7 +185,7 @@ Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'admins'], function() {
+Route::group(['prefix' => 'admins','middleware' => 'auth:admin'], function() {
     Route::get('/', [AdminController::class, 'index']);
     Route::post('/add-admin', [AdminController::class, 'store']);
     Route::get('/{id}', [AdminController::class, 'show']);
@@ -166,3 +193,47 @@ Route::group(['prefix' => 'admins'], function() {
     Route::delete('/delete-admin/{id}', [AdminController::class, 'destroy']);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
+// User Auth
+Route::post('auth/user/login', [AuthUserController::class, 'login']);
+
+Route::group([
+    'middleware' => 'auth:user',
+    'prefix' => 'auth/user'
+
+], function ($router) {
+
+    Route::post('logout', [AuthUserController::class, 'logout']);
+    Route::post('refresh', [AuthUserController::class, 'refresh']);
+    Route::post('me', [AuthUserController::class, 'me']);
+
+});
+
+// Admin Auth
+Route::post('auth/admin/login', [AuthAdminController::class, 'login'])->middleware('cors');
+Route::group([
+    'middleware' => 'auth:admin',
+    'prefix' => 'auth/admin'
+
+], function ($router) {
+
+    Route::post('logout', [AuthAdminController::class, 'logout']);
+    Route::post('refresh', [AuthAdminController::class, 'refresh']);
+    Route::post('me', [AuthAdminController::class, 'me']);
+
+});
+/**************************************** ViewedProduts ************************************************/
+
+// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+// Route::get('/product/create', [ViewedProductsController::class, 'create'])->name('product.create');
+// Route::post('/product', [ViewedProductsController::class, 'store'])->name('product.store');
+// Route::get('/product/{id}', [ViewedProductsController::class, 'show'])->name('product.show');
+// Route::put('/product/{id}', [ViewedProductsController::class, 'update'])->name('product.update');
+// Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
+
+Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);

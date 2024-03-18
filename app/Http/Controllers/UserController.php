@@ -1,71 +1,52 @@
 <?php
+/*
+{
+    "fullname":"Ahmed",
+    "email":"ahmed@gmail.com",
+    "password":"12345678",
+    "gender":"male",
+    "username":"ahmood",
+    "phone_number":"012333444111",
+    "address_country":"EG",
+    "address_city":"ALX",
+    "address_district":"CO",
+}
+*/
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SavedProductsResource;
-use App\Models\Product;
+use App\Errors;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // /**
-    //  * Display a listing of the resource.
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
+    public function register(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        if (empty($data)) {
+            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'] , 404);
+        }
 
-   
+        $validator = Validator::make($data, [
+            'fullname' => 'required|string',
+            'username' => "required|unique:users,username",
+            'email' => 'required|unique:users,email',
+            'password' => "required",
+            'gender' => "required",
+            'phone_number' => "required",
+            'address_country' => "required",
+            'address_city' => "required",
+            'address_district' => "required"
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    // public function create()
-    // {
-    //     //
-    // }
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        $data['password'] = Hash::make($data['password']);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    // public function show(string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        User::create($data);
+        return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'user registered successfully']); 
     }
 }

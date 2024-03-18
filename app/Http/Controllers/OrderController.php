@@ -18,6 +18,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Errors;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -25,7 +26,18 @@ class OrderController extends Controller
     {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {
-            return response()->json(['message' => 'bad request']);
+            return response()->json(['message' => 'Empty request']);
+        }
+
+        $validator = Validator::make($data['cart'], [
+            'count' => 'required|integer',
+            'product_id' => 'required|exists:App\Models\Product,id',
+            'shipping_cost' => "required",
+            'shipping_period' => "required"
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
 
         foreach ($data['cart'] as $cartItem) {
@@ -92,6 +104,9 @@ class OrderController extends Controller
 
     public function deleteOrder(string $orderId) {
         $order = Order::find($orderId);
+        if(!$order) {
+            return response()->json(['code' => Errors::ERR_ORDER_NOT_FOUND ,'message' => 'order not found']);
+        }
         $product = $order->product;
         $product->stock += $order->count;
         $product->save();
