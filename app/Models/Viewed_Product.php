@@ -12,17 +12,19 @@ class Viewed_Product extends Model
     use HasFactory;
     public function user(): BelongsTo
     {
-        return $this->belongsTo(user::class);
+        return $this->BelongsTo(User::class);
     }
-    public function product(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->HasMany(product::class);
+        return $this->BelongsTo(Product::class);
     }
+    protected $table='viewed_products';
+    
     protected $fillable = [
         
         'product_id',
         'user_id',
-        'id'
+        'viewed_it'
         
     ];
 }
