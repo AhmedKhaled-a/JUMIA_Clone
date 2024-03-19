@@ -39,7 +39,7 @@ import { useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
 import ProductsContainer from './Components/Store/ProductsContainer';
-import { CartContext } from './Contexts/CartContext';
+import CartContextProvider, { CartContext } from './Contexts/CartContext';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import UserDataContextProvider, { UserDataContext } from './Contexts/UserDataStore';
@@ -65,20 +65,13 @@ function App() {
     }
   }
 
-  // TODO: get user id from context
-  let user_id = 1;
-  const [cartProducts, setCartProducts] = useState([]);
+  
   useEffect(() => {
     if (localStorage.getItem('userToken') !== null) {
       saveUserData()
     }
 
-    // initialize cartdata
-    axios.get(`${baseURL}/api/cart/usercart/${user_id}`)
-      .then((res) => {
-        console.log(res.data.cart_items);
-        setCartProducts(res.data.cart_items);
-      }).catch(err => console.log(err));
+    
   }, []);
 
   // cart context data
@@ -126,9 +119,9 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div>
-          <CartContext.Provider value={{ cartProducts, setCartProducts }}>
+          <CartContextProvider>
             <RouterProvider router={routers} />
-          </CartContext.Provider>
+          </CartContextProvider>
         </div>
       </ThemeProvider>
 

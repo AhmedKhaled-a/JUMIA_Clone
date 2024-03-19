@@ -17,28 +17,42 @@ export default function ProductsContainer(props) {
 
 
     const addCart = (pId) => {
-        console.log(cartProducts);
+        // make a copy of cartProducts
         let cartCopy = [...cartProducts];
-        cartCopy.push({
-            count: 1,
-            product: props.products.find( (p) => p.id = pId )
-        });
-        setCartProducts(cartCopy);
         // send request to add to cart
         axios.post(`${baseURL}/api/cart/add/${user_id}`, JSON.stringify({ product_id: pId, count: 1 }))
+            .then((res) => {
+                // add cartProduct at the end
+                // console.log(res.data.cart_id);
+                cartCopy.push({
+                    id: res.data.cart_id,
+                    count: 1,
+                    product: props.products.find( (p) => p.id = pId )
+                });
+                setCartProducts(cartCopy);
+                console.log( "cartProducts");
+                console.log( cartProducts);
+                console.log( cartCopy);
+
+        })
+        .catch();
     }
 
     const isInCart = (pId) => {
         // console.log(cartProducts);
-        if (cartProducts.find((c) => c.product.id == pId)) {
-            return true
+        if (cartProducts.length > 0) {
+            if (cartProducts.find((c) => c.product.id == pId)) {
+                return true
+            }
+            return false
         }
-        return false
     }
 
     const incrementInCart = (pId) => {
         let cartProductsCopy = [...cartProducts];
+        console.log(cartProductsCopy);
         let cartItemIndex = cartProductsCopy.findIndex((c) => c.product.id == pId);
+        console.log(cartProductsCopy[cartItemIndex]);
 
         if (cartItemIndex >= 0) {
             cartProductsCopy[cartItemIndex].count++;

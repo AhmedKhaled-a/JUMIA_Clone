@@ -16,53 +16,13 @@ export default function Categories() {
     let classes = useStyles();
     let [categories, setCategories] = useState([]);
     useEffect(() => {
-        setCategories([
-            {
-                id: 1,
-                name: 'Android Phones',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Android_Phones.png',
-            },
-            {
-                id: 2,
-                name: 'IOS Phones',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/iOS_Phones.png',
-            },
-            {
-                id: 3,
-                name: 'Tablets',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Tablets.png',
-            },
-
-            {
-                id: 4,
-                name: 'Cell Phones',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Cell_Phones.png',
-            },
-
-            {
-                id: 5,
-                name: 'Smart Watches',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Smart_Watches.png',
-            },
-
-            {
-                id: 6,
-                name: 'Accessories',
-                super_category_id: null,
-                category_thumb: 'https://eg.jumia.is/cms/Icons-2023/Categories/Revamp/Phones/EN/Accessories.png',
-            },
-        ])
+        setCategories([])
 
         // get categories from api
         // axios.get("https://fakestoreapi.com/products/category/electronics")
         // .then((res) => {
         //     console.log(res.data);
-        //     setCartProducts(res.data);
+        //     setCategories(res.data);
         // }).catch(err => console.log(err));
     }, []);
 
