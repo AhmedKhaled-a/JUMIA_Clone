@@ -6,12 +6,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import BackToTopButton from './Components/BackToTopButton';
-import { CssBaseline,ThemeProvider, Theme } from '@mui/material';
+import { CssBaseline, ThemeProvider, Theme } from '@mui/material';
 import Home from './Components/Home/Home';
 import { theme } from './theme';
 // import CategoryPage from './Components/CategoryPage/CategoryPage';
 import CartPage from './Components/CartPage/CartPage';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 // import globalStyles from './styles';
 import MyAccount from './Pages/MyAccount';
 import Orders from './Pages/Orders';
@@ -26,57 +26,70 @@ import Newsletter from './Pages/Newsletter';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/Seller/SellerLogin';
+import axios from 'axios';
 import './App.css'
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
 import RightSide from './Components/Dashboards/SellerDashboard/RightSide/RightSide';
 import Sidebar from './Components/Dashboards/SellerDashboard/Sidebar';
 
-
-
 // import Home from './Components/Home/Home';
 import Store from './Components/Store'
 import Register from './Components/Register';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
+import CategoryPage from './Components/CategoryPage/CategoryPage';
+import UserDataContextProvider, { UserDataContext } from './Contexts/UserDataStore';
+import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
+import { baseURL } from './config/config';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
+
 
 function App() {
-  useEffect(() => {
-    if (localStorage.getItem('userToken') !== null) {
-      saveUserData()
-    }
-  }, [])
-  const [userData, setUserData] = useState(null)
+  let {UserDataValue, } = useContext(UserDataContext);
 
-  function saveUserData() {
-    let incodedToken = localStorage.getItem('userToken');
-    let decodedToken = jwtDecode(incodedToken);
-    // console.log(decodedToken);
-    setUserData(decodedToken)
+  
+  console.log(UserDataValue);
+
+
+
+  let LoginProtect = (props) => {
+    if (localStorage.getItem('userToken') == null) {
+      return props.children
+    }
+    else {
+      return <Navigate to={'/'} />
+    }
   }
+
 
   // const classes = globalStyles();
   let routers = createBrowserRouter([
-    {path: '/' , element:<Layout userData={userData} setUserData={setUserData}/> , children:[
-        {index: true, element:<Home />},
+    {
+      path: '/', element: <Layout  />, children: [
+        { index: true, element:<Home />},
         // {path:'/category', element:<CategoryPage /> },
-        {path:'/cart', element:<CartPage /> },
-        {path: '/account', element: <MyAccount />},
-        {path: '/orders/index', element: <Orders />},
-        {path: '/orders/closed', element: <OrdersClosed />},
-        {path: '/account/inbox', element: <Inbox />},
-        {path: '/account/reviews', element: <ReviewsIndex />},
-        {path: '/account/saved', element: <SavedItems />},
-        {path: '/account/followed-sellers', element: <FollowedSellers />},
-        {path: '/account/viewed', element: <RecentlyViewed />},
-        {path: '/account/address', element: <AddressBook />},
-        {path: '/account/newsletter', element: <Newsletter />},
-        {path: '/login' , element:<Login saveUserData={saveUserData}/>},
-        {path: '/register' , element:<Register/>},
-        {path: '/login' , element:<Login/>},
-        {path: '/seller/login' , element:<SellerLogin />},
-        {path: '/seller/signup' , element:<SellerSignup />},
-    ]}
+        { path: '/cart', element: <CartPage /> },
+        { path: '/account', element: <MyAccount /> },
+        { path: '/orders/index', element: <Orders /> },
+        { path: '/orders/closed', element: <OrdersClosed /> },
+        { path: '/account/inbox', element: <Inbox /> },
+        { path: '/account/reviews', element: <ReviewsIndex /> },
+        { path: '/account/saved', element: <SavedItems /> },
+        { path: '/account/followed-sellers', element: <FollowedSellers /> },
+        { path: '/account/viewed', element: <RecentlyViewed /> },
+        { path: '/account/address', element: <AddressBook /> },
+        { path: '/account/newsletter', element: <Newsletter /> },
+        { path: '/login', element:<LoginProtect><Login/></LoginProtect>  },
+        { path: '/register', element: <Register /> },
+        { path: '/login', element: <Login /> },
+        { path: '/seller/login', element: <SellerLogin /> },
+        { path: '/seller/signup', element: <SellerSignup /> },
+        { path: '/cat', element: <CategoryPage /> },
+        { path: '/dashboard', element: <SellerDashboard /> },
+        { path: '/store', element: <Store /> }
+      ]
+    }
   ]);
 
   return (
@@ -84,10 +97,10 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div>
-          <RouterProvider router={routers} />
+            <RouterProvider router={routers} />
         </div>
       </ThemeProvider>
-  
+
     </>
   );
 }
