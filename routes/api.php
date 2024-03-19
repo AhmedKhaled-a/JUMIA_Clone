@@ -16,11 +16,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
-
-
-
-
 
 
 
@@ -143,7 +140,7 @@ Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'
 
 Route::put('/orders/{orderId}', [OrderController::class , 'changeOrderStatus'])
 ->name('orders.update');
-// Admins only 
+// Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.delete')->middleware('auth:admin');
 
@@ -162,6 +159,7 @@ Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name(
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class , 'deleteOrder'])
 ->name('orders.store');
+
 
 /**************************************** Users ************************************************/
 Route::post('users/register', [UserController::class , 'register'])
@@ -246,3 +244,15 @@ Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct
 /**************************************** verification &reser routes  ************************************************/
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Payment Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/checkout', [StripeController::class, 'checkout'])->name('payment.checkout');
+Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
+Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
