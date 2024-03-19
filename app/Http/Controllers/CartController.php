@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Errors;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Http\Resources\CartResource;
@@ -7,20 +9,26 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    public function addItem(Request $request)
+    public function addItem(Request $request, string $user_id)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
+        $data = json_decode($request->getContent(), true);
+        if (empty($data)) {
+            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'] , 404);
+        }
+
+        $validator = Validator::make($data, [
             'product_id' => 'required|integer',
             'count' => 'required|integer|min:1',
-            'price' => 'required|integer|min:0',
         ]);
 
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $cart = new Cart();
-        $cart->user_id = $request->user_id;
-        $cart->product_id = $request->product_id;
-        $cart->count = $request->count;
-        $cart->price = $request->price;
+        $cart->user_id = $user_id;
+        $cart->product_id = $data['product_id'];
+        $cart->count = $data['count'];
         $cart->save();
 
         return response()->json(['message' => 'Item added to cart successfully']);
@@ -91,5 +99,6 @@ class CartController extends Controller
 
         return response()->json(["message" => "cart updated successfully"] , 200);
     }
+    
 }
 
