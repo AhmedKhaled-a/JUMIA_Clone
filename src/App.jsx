@@ -6,7 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import BackToTopButton from './Components/BackToTopButton';
-import { CssBaseline,ThemeProvider, Theme } from '@mui/material';
+import { CssBaseline, ThemeProvider, Theme } from '@mui/material';
 import Home from './Components/Home/Home';
 import { theme } from './theme';
 // import CategoryPage from './Components/CategoryPage/CategoryPage';
@@ -41,16 +41,27 @@ import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
 import ProductsContainer from './Components/Store/ProductsContainer';
 import { CartContext } from './Contexts/CartContext';
+import axios from 'axios';
+import { baseURL } from './config/config';
 
 function App() {
+  // TODO: get user id from context
+  let user_id = 1;
+  const [cartProducts, setCartProducts] = useState([]);
   useEffect(() => {
     if (localStorage.getItem('userToken') !== null) {
       saveUserData()
     }
+
+    // initialize cartdata
+    axios.get(`${baseURL}/api/cart/usercart/${user_id}`)
+      .then((res) => {
+        console.log(res.data.cart_items);
+        setCartProducts(res.data.cart_items);
+      }).catch(err => console.log(err));
   }, []);
 
   // cart context data
-  const [cartProducts, setCartProducts] = useState([]);
   // userdata
   const [userData, setUserData] = useState(null)
 
@@ -63,27 +74,29 @@ function App() {
 
   // const classes = globalStyles();
   let routers = createBrowserRouter([
-    {path: '/' , element:<Layout userData={userData} setUserData={setUserData}/> , children:[
-        {index: true, element:<Home />},
+    {
+      path: '/', element: <Layout userData={userData} setUserData={setUserData} />, children: [
+        { index: true, element: <Home /> },
         // {path:'/category', element:<CategoryPage /> },
-        {path:'/cart', element:<CartPage /> },
-        {path: '/account', element: <MyAccount />},
-        {path: '/orders/index', element: <Orders />},
-        {path: '/orders/closed', element: <OrdersClosed />},
-        {path: '/account/inbox', element: <Inbox />},
-        {path: '/account/reviews', element: <ReviewsIndex />},
-        {path: '/account/saved', element: <SavedItems />},
-        {path: '/account/followed-sellers', element: <FollowedSellers />},
-        {path: '/account/viewed', element: <RecentlyViewed />},
-        {path: '/account/address', element: <AddressBook />},
-        {path: '/account/newsletter', element: <Newsletter />},
-        {path: '/login' , element:<Login saveUserData={saveUserData}/>},
-        {path: '/register' , element:<Register/>},
-        {path: '/login' , element:<Login/>},
-        {path: '/seller/login' , element:<SellerLogin />},
-        {path: '/seller/signup' , element:<SellerSignup />},
-        {path: '/store' , element:<ProductsContainer />},
-    ]}
+        { path: '/cart', element: <CartPage /> },
+        { path: '/account', element: <MyAccount /> },
+        { path: '/orders/index', element: <Orders /> },
+        { path: '/orders/closed', element: <OrdersClosed /> },
+        { path: '/account/inbox', element: <Inbox /> },
+        { path: '/account/reviews', element: <ReviewsIndex /> },
+        { path: '/account/saved', element: <SavedItems /> },
+        { path: '/account/followed-sellers', element: <FollowedSellers /> },
+        { path: '/account/viewed', element: <RecentlyViewed /> },
+        { path: '/account/address', element: <AddressBook /> },
+        { path: '/account/newsletter', element: <Newsletter /> },
+        { path: '/login', element: <Login saveUserData={saveUserData} /> },
+        { path: '/register', element: <Register /> },
+        { path: '/login', element: <Login /> },
+        { path: '/seller/login', element: <SellerLogin /> },
+        { path: '/seller/signup', element: <SellerSignup /> },
+        { path: '/store', element: <Store /> },
+      ]
+    }
   ]);
 
   return (
@@ -91,12 +104,12 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div>
-          <CartContext.Provider value={{cartProducts, setCartProducts}}> 
+          <CartContext.Provider value={{ cartProducts, setCartProducts }}>
             <RouterProvider router={routers} />
           </CartContext.Provider>
         </div>
       </ThemeProvider>
-  
+
     </>
   );
 }
