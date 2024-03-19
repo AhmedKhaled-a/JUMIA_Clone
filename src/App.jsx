@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 
 import BackToTopButton from './Components/BackToTopButton';
 import { CssBaseline, ThemeProvider, Theme } from '@mui/material';
+import { CssBaseline, ThemeProvider, Theme } from '@mui/material';
 import Home from './Components/Home/Home';
 import { theme } from './theme';
 // import CategoryPage from './Components/CategoryPage/CategoryPage';
@@ -38,6 +39,10 @@ import Register from './Components/Register';
 import { useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
+import ProductsContainer from './Components/Store/ProductsContainer';
+import { CartContext } from './Contexts/CartContext';
+import axios from 'axios';
+import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import UserDataContextProvider, { UserDataContext } from './Contexts/UserDataStore';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
@@ -62,12 +67,38 @@ function App() {
     }
   }
 
+  // TODO: get user id from context
+  let user_id = 1;
+  const [cartProducts, setCartProducts] = useState([]);
+  useEffect(() => {
+    if (localStorage.getItem('userToken') !== null) {
+      saveUserData()
+    }
+
+    // initialize cartdata
+    axios.get(`${baseURL}/api/cart/usercart/${user_id}`)
+      .then((res) => {
+        console.log(res.data.cart_items);
+        setCartProducts(res.data.cart_items);
+      }).catch(err => console.log(err));
+  }, []);
+
+  // cart context data
+  // userdata
+  const [userData, setUserData] = useState(null)
+
+  function saveUserData() {
+    let incodedToken = localStorage.getItem('userToken');
+    let decodedToken = jwtDecode(incodedToken);
+    // console.log(decodedToken);
+    setUserData(decodedToken)
+  }
 
   // const classes = globalStyles();
   let routers = createBrowserRouter([
     {
-      path: '/', element: <Layout  />, children: [
-        { index: true, element:<Home />},
+      path: '/', element: <Layout userData={userData} setUserData={setUserData} />, children: [
+        { index: true, element: <Home /> },
         // {path:'/category', element:<CategoryPage /> },
         { path: '/cart', element: <CartPage /> },
         { path: '/account', element: <MyAccount /> },
@@ -97,7 +128,9 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div>
+          <CartContext.Provider value={{ cartProducts, setCartProducts }}>
             <RouterProvider router={routers} />
+          </CartContext.Provider>
         </div>
       </ThemeProvider>
 
