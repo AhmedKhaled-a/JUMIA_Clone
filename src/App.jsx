@@ -39,13 +39,19 @@ import Register from './Components/Register';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
+import ProductsContainer from './Components/Store/ProductsContainer';
+import { CartContext } from './Contexts/CartContext';
 
 function App() {
   useEffect(() => {
     if (localStorage.getItem('userToken') !== null) {
       saveUserData()
     }
-  }, [])
+  }, []);
+
+  // cart context data
+  const [cartProducts, setCartProducts] = useState([]);
+  // userdata
   const [userData, setUserData] = useState(null)
 
   function saveUserData() {
@@ -76,6 +82,7 @@ function App() {
         {path: '/login' , element:<Login/>},
         {path: '/seller/login' , element:<SellerLogin />},
         {path: '/seller/signup' , element:<SellerSignup />},
+        {path: '/store' , element:<ProductsContainer />},
     ]}
   ]);
 
@@ -84,7 +91,9 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <div>
-          <RouterProvider router={routers} />
+          <CartContext.Provider value={{cartProducts, setCartProducts}}> 
+            <RouterProvider router={routers} />
+          </CartContext.Provider>
         </div>
       </ThemeProvider>
   

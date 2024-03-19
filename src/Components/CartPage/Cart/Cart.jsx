@@ -5,9 +5,11 @@ import axios from 'axios';
 import { Container, Divider, Grid, Typography, Button } from '@mui/material';
 import { CartTotalContext } from '../../../Contexts/CartTotalContext';
 import { baseURL } from '../../../config/config';
+import { CartContext } from '../../../Contexts/CartContext';
 
 const Cart = () => {
-    let [cartProducts, setCartProducts] = useState([]);
+    const {cartProducts, setCartProducts} = useContext(CartContext);
+    // let [cartProducts, setCartProducts] = useState([]);
     // TODO: get user_id from userContext
     let user_id = 1;
 
