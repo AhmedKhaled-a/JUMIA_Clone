@@ -40,12 +40,11 @@ import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
 import ProductsContainer from './Components/Store/ProductsContainer';
 import { CartContext } from './Contexts/CartContext';
-import axios from 'axios';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import UserDataContextProvider, { UserDataContext } from './Contexts/UserDataStore';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
-import { baseURL } from './config/config';
+
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
 
