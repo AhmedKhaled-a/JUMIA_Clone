@@ -127,17 +127,20 @@ class UserController extends Controller
     }
     public function reset($remember_token){
          $user = User::where('remember_token', '=', $remember_token)->first();
+        //  dd($user);
         
          if (!empty($user)){
             $data['user']=$user;
-            return view('passwordReset',$data);
+            return ($data);
     }
     else{
         abort(404);
     }
 }
 public function postResetPasswordLink(Request $request,$remember_token) {
-    $user = User::where('remember_token', '=', $remember_token)->first();
+   
+    $user=User::where('remember_token', '=', $remember_token)->first();
+    dd($user);
     if (!empty($user)){
        
         $user->password=Hash::make($request->password);
@@ -152,7 +155,6 @@ public function postResetPasswordLink(Request $request,$remember_token) {
         
 }
 else{
-    abort(404);
-}
-}     
+    abort(404);}
+    }     
 }
