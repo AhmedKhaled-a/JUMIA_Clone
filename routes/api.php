@@ -253,6 +253,8 @@ Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser'
 |--------------------------------------------------------------------------
 */
 
-Route::post('/checkout', [StripeController::class, 'checkout'])->name('payment.checkout');
-Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
-Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
+Route::post('/checkout', [StripeController::class, 'checkout'])->middleware('cors');
+Route::get('/success', [StripeController::class, 'success'])->middleware('cors');
+Route::get('/cancel', [StripeController::class, 'cancel'])->middleware('cors');
+Route::post('/webhook', [StripeController::class, 'webhook'])->middleware('cors');
+
