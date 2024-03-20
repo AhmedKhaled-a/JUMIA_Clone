@@ -13,21 +13,15 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = category::all();
-        if ($categories->count() > 0) {
-            foreach ($categories as $category) {
-                // Retrieve and encode thumbnail
-                if ($category->category_thumb && file_exists(public_path($category->category_thumb))) {
-                    $thumbnailPath = $category->category_thumb;
-                    $category->category_thumb = $thumbnailPath;
 
+        $categories = Category::all();
+        if ($categories->count() > 0) {
                     return response()->json($categories, 200);
-                } else {
+
                     return response()->json(['message' => 'No categories found'], 404);
-                };
-            }
+
         }
     }
     public function show(string $id)
@@ -50,8 +44,6 @@ class CategoryController extends Controller
     
     public function store(Request $request)
     {
-        // dd($request['category']['id']);
-
         // $data = json_decode($request->getContent(), true);
         // dd($data['category']['id']);
         $validator = Validator::make($request['category'], [

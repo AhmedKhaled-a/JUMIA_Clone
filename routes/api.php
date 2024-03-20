@@ -123,9 +123,10 @@ Route::group(['prefix' => 'products'], function () {
 Route::group(['prefix' => 'products', 'middleware' => ['auth:seller']], function () {
     Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
-    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
+Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
+
 
 /**************************************** Orders ************************************************/
 // TODO: Reduce Count in DB automatically when order is made
