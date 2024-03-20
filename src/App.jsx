@@ -6,7 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import BackToTopButton from './Components/BackToTopButton';
-import { CssBaseline, ThemeProvider, Theme } from '@mui/material';
+import { CssBaseline, ThemeProvider, Theme, CircularProgress } from '@mui/material';
 import Home from './Components/Home/Home';
 import { theme } from './theme';
 // import CategoryPage from './Components/CategoryPage/CategoryPage';
@@ -74,15 +74,6 @@ function App() {
 
 
     }, []);
-
- 
-
-
-
-
-
-
-
     // const classes = globalStyles();
     let routers = createBrowserRouter([
         {
@@ -123,7 +114,7 @@ function App() {
             <CssBaseline />
             <ThemeProvider theme={theme}>
                 {
-                    userData.loading ? <img src='./images/iti.png' /> : <div>
+                    userData.loading ? <CircularProgress sx={{marginLeft:'50%'}} /> : <div>
                         <RouterProvider router={routers} />
                     </div>
                 }

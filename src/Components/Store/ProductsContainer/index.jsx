@@ -6,39 +6,30 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { baseURL, storageURL } from '../../../config/config';
 import Product from './Product/Product';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, fetchCartItems } from '../../CartPage/cartSlice';
+import { userDataSelector } from '../../../userSlice';
+import { CircularProgress } from '@mui/material';
 import { productsDataSelector } from '../ProductsSlice';
-import { useSelector } from 'react-redux';
 
 
 export default function ProductsContainer(props) {
-    let { cartProducts, setCartProducts } = useState([]);
-    // TODO: get user_id from context
-    let user_id = 1;
+    // let { cartProducts, setCartProducts } = useState([]);
+    const cart = useSelector(cartDataSelector);
+    const cartProducts = cart.cart;
+    const userData = useSelector(userDataSelector);
+    const products = useSelector(productsDataSelector);
+    const productsCartCounts = cart.productsCount;
+
     // const products = useSelector(productsDataSelector);
+    const dispatch = useDispatch();
 
     const addCart = (pId) => {
-
-        // make a copy of cartProducts
-        let cartCopy = [...cartProducts];
-        // send request to add to cart
-        axios.post(`${baseURL}/api/cart/add/${user_id}`, JSON.stringify({ product_id: pId, count: 1 }))
-            .then((res) => {
-                // add cartProduct at the end
-                // console.log(res.data.cart_id);
-                cartCopy.push({
-                    id: res.data.cart_id,
-                    count: 1,
-                    product: props.products.find( (p) => p.id = pId )
-                });
-                setCartProducts(cartCopy);
-                console.log( "cartProducts");
-                console.log( cartProducts);
-                console.log( cartCopy);
-
-        })
-        .catch();
+        dispatch(addProductToCart([pId, userData.user.id]))
     }
 
+
+    // 
     const isInCart = (pId) => {
         // console.log(cartProducts);
         if (cartProducts?.length > 0) {
@@ -47,39 +38,44 @@ export default function ProductsContainer(props) {
             }
             return false
         }
+
     }
 
-    const incrementInCart = (pId) => {
-        let cartProductsCopy = [...cartProducts];
-        console.log(cartProductsCopy);
-        let cartItemIndex = cartProductsCopy.findIndex((c) => c.product.id == pId);
-        console.log(cartProductsCopy[cartItemIndex]);
+    // change count in cart
+    const changeInCart = (pId, n) => {
+        let cartItem = cartProducts.find((c) => c.product.id == pId);
 
-        if (cartItemIndex >= 0) {
-            cartProductsCopy[cartItemIndex].count++;
-            console.log(cartProductsCopy);
-            setCartProducts(cartProductsCopy);
-            let cartId = cartProductsCopy[cartItemIndex].id;
-            console.log( cartProductsCopy[cartItemIndex].id);
-            axios.put(`${baseURL}/api/cart/${cartId}/update-count` , JSON.stringify({
-                count : cartProductsCopy[cartItemIndex].count
-            })).then(res => console.log(res));
+        let count = cartItem.count;
+        let newCount = count + n;
+        dispatch(changeCountByValueAction( [cartItem.id, n] ))
+
+        axios.put(`${baseURL}/api/cart/${cartItem.id}/update-count`, JSON.stringify({
+            count: newCount
+        }, { Authorization: `Bearer ${userData.token}` })).then(res => console.log(res));
+    }
+
+    useEffect(() => {
+        if (userData.user) {
+            dispatch(fetchCartItems(userData.user.id));
+            console.log("done");
         }
+        console.log(userData.user);
 
-    }
+    }, []);
 
     return (
         <>
-            <div className='products-container rounded-1'>
+            {userData.loading || cart.loading || products.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
                 <h4 className='pb-2  border-bottom'>Android Phones</h4>
                 <div className="product-cards row flex-wrap g-3">
                     {
-                        props.products?.map((prod) => {
-                            return <Product incrementInCart={incrementInCart} addCart={addCart} isInCart={isInCart} key={prod.id} product={prod} />
+                        products?.map((prod) => {
+                            return <Product changeInCart={changeInCart} addCart={addCart} isInCart={isInCart} key={prod.id} product={prod} />
                         })
                     }
                 </div>
-            </div>
+            </div>}
         </>
     )
+
 }

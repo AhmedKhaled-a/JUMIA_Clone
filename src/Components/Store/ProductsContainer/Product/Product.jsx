@@ -4,8 +4,13 @@ import { Rating } from '@mui/material';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { useSelector } from 'react-redux';
+import { cartDataSelector } from '../../../CartPage/cartSlice';
 
 export default function Product(props) {
+    const cart = useSelector(cartDataSelector);
+    const productsCartCounts = cart.productsCount;
     let { id, title, price, rating, thumbnail } = props.product;
 
     return (
@@ -23,7 +28,16 @@ export default function Product(props) {
                     <p className='m-0 ms-1 text-muted'>({ Math.round(rating * 2) / 2 })</p>
                 </div>
             </div>
-            {props.isInCart(id) ? <button onClick={() => {props.incrementInCart(id)}} class="bg-primary"><AddIcon/></button> : <button onClick={() => {props.addCart(id)}} class="">Add to Cart</button>}
+            {props.isInCart(id) ? 
+            <div className='container'>
+                <div className="row">
+                <button className='col-3' onClick={() => {props.changeInCart(id , 1)}} class="bg-primary"><AddIcon/></button>
+                <p className='col-6'>{productsCartCounts[id]}</p>
+                <button className='col-3' onClick={() => {props.changeInCart(id , 1)}} class="bg-primary"><RemoveIcon/></button>
+                </div>
+            </div>
+             : 
+            <button onClick={() => {props.addCart(id)}} class="">Add to Cart</button>}
             <span className='save-icon'><FontAwesomeIcon icon={faHeart} color='orange' /></span>
         </div>
     )

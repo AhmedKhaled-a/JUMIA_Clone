@@ -6,6 +6,7 @@ import axios from 'axios'
 import { baseURL } from '../../config/config'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts, productsDataSelector, setProducts } from './ProductsSlice'
+import { CircularProgress } from '@mui/material'
 
 
 export default function Store() {
@@ -19,15 +20,6 @@ export default function Store() {
         pricehigh: 10000
     });
 
-    const getProducts = (url) => {
-        axios.get(`${baseURL}/api/${url}`)
-        .then( (res) => {
-            console.log(res.data);
-            dispatch(setProducts(res.data));
-        })
-        .catch((err) => console.log(err));
-    }
-
     let handleBrand = (brand) => {
         setParams({...params, brand: brand})
     }
@@ -36,7 +28,7 @@ export default function Store() {
         setParams({...params, pricelow: priceLow, pricehigh: priceHigh})
     }
 
-    let makeArgumentStr= () => {
+    let makeArgumentStr = () => {
         let paramString = '';
         for (let key in params) {
             paramString += `${key}=${params[key]}&`
@@ -60,8 +52,7 @@ export default function Store() {
         dispatch(fetchProducts("products"));
     }, []);
 
-    return (
-            <div className="row">              
+    return ( products.loading ?  <CircularProgress sx={{marginLeft:'50%'}} /> : <div className="row">              
                     <div className="col-3">
                         <Filter handleBrand={handleBrand}  handlePrice={handlePrice} filter={filter} />
                     </div>

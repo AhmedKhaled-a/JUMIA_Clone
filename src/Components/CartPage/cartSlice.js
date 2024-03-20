@@ -12,6 +12,14 @@ let initialState = {
     productsCount: null,
 }
 
+export const addProductToCart = createAsyncThunk('carts/addProductToCart', ([pId, user_id]) => {
+    let token = localStorage.getItem('userToken');
+    return axios.post(`${baseURL}/api/cart/add/${user_id}`, JSON.stringify({ product_id: pId, count: 1 }),
+        { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+            return res.data;
+        });
+});
 
 export const fetchCartItems = createAsyncThunk('carts/fetchCartItems', (user_id) => {
     let token = localStorage.getItem('userToken');
@@ -37,12 +45,12 @@ export const cartSlice = createSlice({
         // takes cart_item id and value [cart_item_id, value]
         changeCountByValueAction: (state, action) => { // takes array(2) [0 => cid , 1 => val]
 
-            let cartItemIndex = state.cart.findIndex((c) => c.id == action.payload[0]);
-            let cartItem = state.cart[cartItemIndex];
+            // get id of cart item
+            let cartItem = state.cart.find( (c) => c.id == action.payload[0] );
 
             cartItem.count += action.payload[1];
 
-            state.productsCount[cartItem.product.id] += action.payload[1];
+            state.productsCount[ cartItem.product.id ] += action.payload[1];
             state.totalItems += action.payload[1];
         },
 
@@ -75,7 +83,7 @@ export const cartSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchCartItems.pending, state => {
             state.loading = true;
-        });
+        })
 
         builder.addCase(fetchCartItems.fulfilled , (state,action) => {
             state.loading = false;
@@ -83,10 +91,18 @@ export const cartSlice = createSlice({
             state.totalItems = action.payload.total_items;
             state.productsCount = action.payload.productsCount;
             
-        });
+        })
+
+        builder.addCase(addProductToCart.fulfilled , (state,action) => {
+            state.loading = false;
+            state.cart.push( {...action.payload.cart, count : 1, product: action.payload.product} );
+            state.totalItems += 1;
+            state.productsCount[action.payload.cart.product.id] = 1 ;
+            
+        })
     }
 });
 
 export const { addItemToCartAction, changeCountByValueAction, addOneExistingProductAction, deleteCartItemAction, clearCartAction, initCartAction } = cartSlice.actions;
-export const cartDataSelector = (state) => state.carts.cart;
+export const cartDataSelector = (state) => state.carts;
 export default cartSlice.reducer;

@@ -2,23 +2,24 @@ import React, { useEffect, useState } from 'react'
 import CartCard from '../CartCard/CartCard'
 import axios from 'axios';
 
-import { Container, Divider, Grid, Typography, Button } from '@mui/material';
+import { Container, Divider, Grid, Typography, Button, CircularProgress } from '@mui/material';
 import { baseURL } from '../../../config/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems } from '../cartSlice';
 import { userDataSelector } from '../../../userSlice';
 
 const Cart = () => {
-
-    const cartProducts = useSelector(cartDataSelector);
-    console.log(cartProducts);
+    const cart = useSelector(cartDataSelector);
+    const cartCount = cart.totalItems;
+    const cartProducts = cart.cart;
+    // console.log(cartProducts);
     const userData = useSelector(userDataSelector);
+    const [total, setTotal] = useState(0);
+    console.log(userData.loading);
+
 
     const dispatch = useDispatch();
 
-    const user_id = userData.user.id;
-    // console.log(user_id);
-    const [ total, setTotal ] = useState(0);
 
     let clearCart = (userId) => {
         dispatch(clearCartAction())
@@ -26,46 +27,56 @@ const Cart = () => {
     }
 
     let changeCount = (cartId, n) => {
+        let count = cartProducts.find((c) => c.id == cartId).count;
         dispatch(changeCountByValueAction([cartId, n]))
-        let updatedCount = cartProducts.find( (c) => c.id == cartId ).count;
-        axios.put(`${baseURL}/api/cart/${cartId}/update-count`, JSON.stringify({ count: updatedCount }));
+        axios.put(`${baseURL}/api/cart/${cartId}/update-count`, JSON.stringify({ count: ++count }));
     }
 
     let deleteProduct = (cartId) => {
-        dispatch(deleteCartItemAction(cartId))
+        dispatch(deleteCartItemAction(cartId));
+
         axios.delete(`${baseURL}/api/cart/${cartId}`);
     }
 
     useEffect(() => {
-        dispatch(fetchCartItems(userData?.user.id));
-    } , [])
+        if (userData.user) {
+            dispatch(fetchCartItems(userData.user.id));
+            console.log("done");
+        }
+        console.log(userData.user);
+
+    }, [])
 
 
     useEffect(() => {
-        let calculatedTotal = 0;
-        cartProducts?.forEach((cart) => {
-            let count = cart.count; // will change
-            calculatedTotal += cart.product.price * count;
-        })
-        setTotal(calculatedTotal.toFixed(2))
+        // if (cartProducts) {
+        //     let calculatedTotal = 0;
+        //     cartProducts?.forEach((c) => {
+        //         let count = c.count; // will change
+        //         calculatedTotal += cart.product.price * count;
+        //     })
+        //     setTotal(calculatedTotal.toFixed(2));
+        // }
     }, [cartProducts]);
 
-    return <Grid container spacing={1} justifyContent='center' sx={{ marginBottom: '20px' }}>
+    return <div>{userData.loading || cart.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <Grid container spacing={1} justifyContent='center' sx={{ marginBottom: '20px' }}>
         <Grid item>
             <Typography variant='h5' gutterBottom>
-                Cart ({cartProducts?.length})
+                Cart ({cartCount})
             </Typography>
         </Grid>
         <Divider sx={{ width: '100%' }} />
         {
             cartProducts?.map((cart) => {
-                return <Grid item xs={12}>
-                    <CartCard count={cart.count} cartId={cart.id} product={cart.product} key={cart.id} changeCount={changeCount} deleteProduct={deleteProduct} />
-                </Grid>
+                if (cart)
+                    return <Grid item xs={12}>
+                        <CartCard count={cart.count} cartId={cart.id} product={cart.product} key={cart.id} changeCount={changeCount} deleteProduct={deleteProduct} />
+                    </Grid>
             })
         }
-        { cartProducts.length > 0 ? <Button sx={{margin:"18px"}} size="small" variant="contained" onClick={() => { clearCart(user_id) }}>Clear Cart</Button> : ''}
+        {cartProducts.length > 0 ? <Button sx={{ margin: "18px" }} size="small" variant="contained" onClick={() => { clearCart(userData.user.id) }}>Clear Cart</Button> : ''}
     </Grid>
+    }</div>
 }
 
 export default Cart;

@@ -6,9 +6,11 @@ import { faRocketchat } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../userSlice';
+import { cartDataSelector } from '../CartPage/cartSlice';
 
 
 function Navbar({ logout }) {
+  const cartCount = useSelector(cartDataSelector).totalItems;
   const userData = useSelector(userDataSelector);
   console.log(userData);
   return (
@@ -54,8 +56,8 @@ function Navbar({ logout }) {
           </ul>
         </div>
         <div className="user-links">
-          <Link to="cart"><i className="fa fa-shopping-cart"></i> Cart (0)</Link>
-          <Link to="/dashboard">dashboard</Link>
+          <Link to="cart"><i className="fa fa-shopping-cart"></i> Cart ({cartCount})</Link>
+          {/* <Link to="/dashboard">dashboard</Link> */}
         </div>
       </div>
     </header>

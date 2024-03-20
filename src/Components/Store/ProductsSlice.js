@@ -5,10 +5,10 @@ import { baseURL } from "../../config/config";
 
 let initialState = {
     loading: false,
-    products : []
+    products: []
 }
 
-export const fetchProducts = createAsyncThunk('products/fetchProducts' , (url) => {
+export const fetchProducts = createAsyncThunk('products/fetchProducts', (url) => {
     let token = localStorage.getItem('userToken');
     return axios.get(
         `${baseURL}/api/${url}`,
@@ -23,8 +23,8 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts' , (url) =
 export const productsSlice = createSlice({
     name: 'products',
     initialState,
-    reducers : {
-        setProducts : (state, action) => {
+    reducers: {
+        setProducts: (state, action) => {
             state.products = action.payload;
         }
     },
@@ -35,12 +35,13 @@ export const productsSlice = createSlice({
             state.loading = true;
         })
 
-        builder.addCase(fetchProducts.fulfilled , (state,action) => {
+        builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.loading = false;
             state.products = action.payload;
-            
-        })
+
+        })       
     }
+
 });
 
 export const { setProducts } = productsSlice.actions;
