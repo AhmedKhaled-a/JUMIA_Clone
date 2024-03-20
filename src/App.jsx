@@ -47,7 +47,7 @@ import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashb
 
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
-import { CartContext } from './Contexts/CartContext';
+// import { CartContext } from './Contexts/CartContext';
 import Categories from './Components/CategoryPage/Categories/Categories';
 
 function App() {
@@ -112,8 +112,8 @@ function App() {
         { path: '/cat', element: <CategoryPage /> },
         { path: '/dashboard', element: <SellerDashboard /> },
         { path: '/store', element: <Store /> }
-      ]
-    }
+      ] 
+    },
         {path:'/cart', element:<CartPage /> },
         {path: '/account', element: <MyAccount />},
         {path: '/orders/index', element: <Orders />},
@@ -133,8 +133,7 @@ function App() {
         {path: '/store' , element:<ProductsContainer />},
         {path: '/categories' , element:<Categories />},
 
-    ]}
-  ]);
+    ])
 
   return (
     <>
@@ -149,6 +148,6 @@ function App() {
 
     </>
   );
-}
+ }
 
 export default App;

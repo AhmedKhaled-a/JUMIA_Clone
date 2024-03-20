@@ -1,4 +1,3 @@
-// Categories.jsx
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import Carousel from "react-multi-carousel";
