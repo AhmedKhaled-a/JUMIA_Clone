@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
 import { baseURL } from '../../config/config';
-import { setToken, setType, setUser, userDataSelector } from '../../userSlice';
+import { setTokenAction, setTypeAction, setUserAction } from '../../userSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -39,15 +39,14 @@ function Login() {
 
     async function sendLoginDataToApi() {
         // console.log(user);
-        let { res } = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => console.log(err))
-        // console.log(data);
-        if (res.data.token) {
-            localStorage.setItem('userToken', res.data.token);
+        let { data } = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => console.log(err))
+        console.log(data);
+        if (data.token) {
+            localStorage.setItem('userToken', data.token);
             localStorage.setItem('userType', 'user');
-
-            dispatch(setUser(res.data.user));
-            dispatch(setType('user'));
-            dispatch(setToken(res.data.token));
+            dispatch(setUserAction(data.user));
+            dispatch(setTypeAction('user'));
+            dispatch(setTokenAction(data.token));
             navigate('/')
         } else {
             setLoading(false)
@@ -64,7 +63,7 @@ function Login() {
         } else {
             sendLoginDataToApi()
         }
-        console.log(errorList);
+        // console.log(errorList);
     }
 
     function validateForm() {

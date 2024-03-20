@@ -43,7 +43,7 @@ import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashb
 
 import Updates from './Components/Dashboards/SellerDashboard/Updates/Updates';
 import { useDispatch } from 'react-redux';
-import { setToken, setType, setUser } from './userSlice';
+import { setTokenAction, setTypeAction, setUserAction } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoute';
 
 
@@ -89,9 +89,9 @@ function App() {
             */
             console.log(res);
             if (res) {
-                dispatch(setUser(res.data.user));
-                dispatch(setType(res.data.role));
-                dispatch(setToken(token));
+                dispatch(setUserAction(res.data.user));
+                dispatch(setTypeAction(res.data.role));
+                dispatch(setTokenAction(token));
             }
         };
 

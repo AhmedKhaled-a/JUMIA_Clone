@@ -12,12 +12,12 @@ export const userSlice = createSlice({
     initialState,
     reducers : {
         // you can mutate state here it is okay
-        setUser : (state, action) => {state.user = action.payload},
-        setType : (state, action) => {state.type = action.payload},
-        setToken : (state, action) => {state.token = action.payload},
+        setUserAction : (state, action) => {state.user = action.payload},
+        setTypeAction : (state, action) => {state.type = action.payload},
+        setTokenAction : (state, action) => {state.token = action.payload},
     }
 });
 
-export const { setUser, setType, setToken } = userSlice.actions;
+export const { setUserAction, setTypeAction, setTokenAction } = userSlice.actions;
 export const userDataSelector = (state) => state.users;
 export default userSlice.reducer;
