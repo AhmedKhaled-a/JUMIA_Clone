@@ -46,6 +46,7 @@ import { fetchUser, setTokenAction, setTypeAction, setUserAction, userDataSelect
 import { ProtectedRoute } from './ProtectedRoute';
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
 import { cartDataSelector, fetchCartItems, initCartAction } from './Components/CartPage/cartSlice';
+import Success from './Components/Payment/Success';
 
 
 // function to access base auth route used in protected route
@@ -113,7 +114,8 @@ function App() {
                         { path: 'products', element: <BasicTable /> }
                     ]
                 },
-                { path: '/store', element: <Store /> }
+                { path: '/store', element: <Store /> },
+                {path: '/payment/success' , element:<Success />},
             ]
         }
     ]);
