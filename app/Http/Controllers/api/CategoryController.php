@@ -12,18 +12,36 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
+
 {
-    public function index(Request $request)
-    {
+public function index(Request $request)
+{
+    // Retrieve super category ID from the query string
+    $superCategoryId = $request->input('super_category_id');
 
+    // Fetch categories based on super category ID if provided
+    if ($superCategoryId !== null) {
+        $categories = Category::where('super_category_id', $superCategoryId)->get();
+    } else {
+        // Fetch all categories if no super category ID provided
         $categories = Category::all();
-        if ($categories->count() > 0) {
-                    return response()->json($categories, 200);
-
-                    return response()->json(['message' => 'No categories found'], 404);
-
-        }
     }
+
+    // Modify category_thumb paths to start with 'storage'
+    $categories->transform(function ($category) {
+        $category->category_thumb = 'storage/' . $category->category_thumb;
+        return $category;
+    });
+
+    return response()->json($categories, 200);
+}
+
+    
+    
+    
+    
+    
+    
     public function show(string $id)
     {
         $category = category::find($id);
