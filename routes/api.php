@@ -20,14 +20,6 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
 
 
-
-
-
-
-=======
-use App\Http\Controllers\UserController;
->>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
