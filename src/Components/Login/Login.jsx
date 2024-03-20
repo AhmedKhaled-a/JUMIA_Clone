@@ -1,4 +1,4 @@
-import { useState, React } from 'react'
+import { useState, React, useContext } from 'react'
 import './styles.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,12 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
 import { baseURL } from '../../config/config';
+import { UserDataContext } from '../../Contexts/UserDataStore';
 
 
 
-
-
-function Login({ saveUserData }) {
+function Login() {
+    let {userData,setUserData} = useContext(UserDataContext);
     let navigate = useNavigate()
     const [errorList, setErrorList] = useState([])
     const [isLoading, setLoading] = useState(false)
@@ -26,18 +26,29 @@ function Login({ saveUserData }) {
         // console.log(myUser);
         setUser(myUser)
     }
-
+    async function getUserWithToken(token) {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        const bodyParameters = {
+            key: "value"
+        };
+        let { data } = await axios.post(`${baseURL}/api/auth/user/me`, {}, config)
+        return data;
+    }
     async function sendLoginDataToApi() {
-        console.log(user);
+        // console.log(user);
         let { data } = await axios.post(`${baseURL}/api/auth/user/login`, user) 
-        // console.log(data);
-        if (data.message == 'success') {
-            localStorage.setItem('userToken', data.token)
-            saveUserData()
-            navigate('/home')
+        console.log(data);
+        if (data.access_token) {
+            localStorage.setItem('userToken', data.access_token)
+            localStorage.setItem('tokenType', data.token_type)
+            await getUserWithToken(data.access_token).then((data) => setUserData(data)).catch()
+            // console.log(userData);
+            navigate('/')
             setLoading(false)
         } else {
-            setApiError(data.message)
+            // setApiError(data.message)
             setLoading(false)
         }
     }

@@ -6,7 +6,6 @@ import TopDeals from './TopDeals/TopDeals';
 import Categories from './Categories/Categories';
 
 export default function CategoryPage() {
-    let theme = useTheme();
     return (
         <Container maxWidth='lg'>
             <PriceRangedProducts />

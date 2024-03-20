@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ItemCarousel from './ItemCarousel'
 import CategoryList from './CategoryList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAward, faBuilding, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons'
 import About from './About'
+import { UserDataContext } from '../../Contexts/UserDataStore'
+
 
 
 
 export default function Home() {
+    let {userData} = useContext(UserDataContext);
+    // console.log(userData);
     return (
         <>
             {/* FIRST SECTION => SLIDER WITH CATEGORIES LIST */}

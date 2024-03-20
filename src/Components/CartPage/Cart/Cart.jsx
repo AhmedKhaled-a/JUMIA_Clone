@@ -56,11 +56,7 @@ const Cart = () => {
 
 
     useEffect(() => {
-        axios.get(`${baseURL}/api/cart/usercart/${user_id}`)
-            .then((res) => {
-                console.log(res.data.cart_items);
-                setCartProducts(res.data.cart_items);
-            }).catch(err => console.log(err));
+        
     }, []);
 
     useEffect(() => {
