@@ -41,6 +41,7 @@ import { jwtDecode } from 'jwt-decode';
 import SellerSignup from './Components/Seller/SellerSignup';
 import ProductsContainer from './Components/Store/ProductsContainer';
 import { CartContext } from './Contexts/CartContext';
+import Categories from './Components/CategoryPage/Categories/Categories';
 
 function App() {
   useEffect(() => {
@@ -83,6 +84,8 @@ function App() {
         {path: '/seller/login' , element:<SellerLogin />},
         {path: '/seller/signup' , element:<SellerSignup />},
         {path: '/store' , element:<ProductsContainer />},
+        {path: '/categories' , element:<Categories />},
+
     ]}
   ]);
 
