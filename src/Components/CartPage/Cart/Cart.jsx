@@ -5,12 +5,13 @@ import axios from 'axios';
 import { Container, Divider, Grid, Typography, Button } from '@mui/material';
 import { baseURL } from '../../../config/config';
 import { useDispatch, useSelector } from 'react-redux';
-import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction } from '../cartSlice';
+import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems } from '../cartSlice';
 import { userDataSelector } from '../../../userSlice';
 
 const Cart = () => {
 
     const cartProducts = useSelector(cartDataSelector);
+    console.log(cartProducts);
     const userData = useSelector(userDataSelector);
 
     const dispatch = useDispatch();
@@ -34,6 +35,10 @@ const Cart = () => {
         dispatch(deleteCartItemAction(cartId))
         axios.delete(`${baseURL}/api/cart/${cartId}`);
     }
+
+    useEffect(() => {
+        dispatch(fetchCartItems(userData?.user.id));
+    } , [])
 
 
     useEffect(() => {

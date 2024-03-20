@@ -35,8 +35,8 @@ import {
       path: 'products'
     },
     {
-      icon: UilChart,
-      heading: ''
+      icon: UilSignOutAlt,
+      heading: 'Sign out'
     },
   ];
   

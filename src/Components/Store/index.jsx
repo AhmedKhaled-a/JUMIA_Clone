@@ -4,19 +4,26 @@ import Filter from './Filter'
 import ProductsContainer from './ProductsContainer'
 import axios from 'axios'
 import { baseURL } from '../../config/config'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts, productsDataSelector, setProducts } from './ProductsSlice'
 
 
 export default function Store() {
-    let [ products, setProducts] = useState(null);
+    // let [ products, setProducts] = useState(null);
+
+    const products = useSelector(productsDataSelector);
+    const dispatch = useDispatch();
+
     let [ params, setParams ] = useState({
-        pricelow: 99,
-        pricehigh: 100000
+        pricelow: 20,
+        pricehigh: 10000
     });
 
     const getProducts = (url) => {
         axios.get(`${baseURL}/api/${url}`)
         .then( (res) => {
-            setProducts(res.data);
+            console.log(res.data);
+            dispatch(setProducts(res.data));
         })
         .catch((err) => console.log(err));
     }
@@ -39,16 +46,21 @@ export default function Store() {
     }
 
     let filter = () => {
-        getProducts(`products?${makeArgumentStr()}`);
+        let argString = makeArgumentStr();
+
+        // remove trailing &
+        if(argString[argString.length - 1] == '&' ) {
+            argString.substring(argString.length - 2, argString.length - 1);
+        }
+        dispatch(fetchProducts(`products?${argString}`));
         window.scrollTo(0, 0);
     }
 
     useEffect(() => {
-        getProducts("products");
+        dispatch(fetchProducts("products"));
     }, []);
 
     return (
-        <>
             <div className="row">              
                     <div className="col-3">
                         <Filter handleBrand={handleBrand}  handlePrice={handlePrice} filter={filter} />
@@ -57,6 +69,5 @@ export default function Store() {
                         <ProductsContainer products={products} />
                     </div>
             </div>
-        </>
     )
 }

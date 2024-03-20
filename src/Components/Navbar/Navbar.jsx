@@ -12,6 +12,7 @@ function Navbar({ logout }) {
   const userData = useSelector(userDataSelector);
   console.log(userData);
   return (
+    
     <header className="navbar m-0 mb-5">
       <div className="container  d-flex justify-content-around">
         <div className='img-container'>
@@ -50,13 +51,10 @@ function Navbar({ logout }) {
             <li><a className="dropdown-item mt-2" href="#">Create A return</a></li>
             <hr />
             <button className='sign-in-button btn  p-2 text-white text-start'> <FontAwesomeIcon icon={faRocketchat} />Live Chat</button>
-
-
-
           </ul>
         </div>
         <div className="user-links">
-          <a href="#"><i className="fa fa-shopping-cart"></i> Cart (0)</a>
+          <Link to="cart"><i className="fa fa-shopping-cart"></i> Cart (0)</Link>
           <Link to="/dashboard">dashboard</Link>
         </div>
       </div>

@@ -36,15 +36,16 @@ import Store from './Components/Store'
 import Register from './Components/Register';
 import { useEffect, useState } from 'react';
 import SellerSignup from './Components/Seller/SellerSignup';
-import ProductsContainer from './Components/Store/ProductsContainer';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
 
 import Updates from './Components/Dashboards/SellerDashboard/Updates/Updates';
-import { useDispatch } from 'react-redux';
-import { setTokenAction, setTypeAction, setUserAction } from './userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser, setTokenAction, setTypeAction, setUserAction, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoute';
+import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
+import { cartDataSelector, fetchCartItems, initCartAction } from './Components/CartPage/cartSlice';
 
 
 // function to access base auth route used in protected route
@@ -60,49 +61,24 @@ export const access = async () => {
     );
 };
 
+
 function App() {
+    const userData = useSelector(userDataSelector)
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-    let timeout;
     // get userData
     useEffect(() => {
 
-        // if token exists get userdata to use in the whole app
-        // timeout = setTimeout( () => {clearTimeout(timeout); setLoading(false)} , 2000);
-        // check if there is a token in local storage
-        // check if there is a type in local storage
-        let token = localStorage.getItem('userToken') // user, seller, admin
-        // call access if both exist
-        const authorize = async () => {
-            setLoading(true);
-            let res = null;
-
-            res = await access().catch(err => console.log(err))
-            .finally(() => {setLoading(false)})
-
-            // result should be
-            /*
-                {
-                    user : {...}
-                    role : admin,user,seller
-                }
-            */
-            console.log(res);
-            if (res) {
-                dispatch(setUserAction(res.data.user));
-                dispatch(setTypeAction(res.data.role));
-                dispatch(setTokenAction(token));
-            }
-        };
-
-        authorize();
-
-        // get cart data
+        dispatch(fetchUser());
+        console.log(userData);
+        
 
 
-        // inside then => setUser, setToken, setType
-        // else redirect to login
     }, []);
+
+ 
+
+
+
 
 
 
@@ -110,7 +86,7 @@ function App() {
     // const classes = globalStyles();
     let routers = createBrowserRouter([
         {
-            path: '/', element: <Layout userData={{}} />, children: [
+            path: '/', element: <Layout />, children: [
                 { index: true, element: <Home /> },
                 // {path:'/category', element:<CategoryPage /> },
                 { path: '/cart', element: <CartPage /> },
@@ -131,8 +107,8 @@ function App() {
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
                 {
-                    path: '/dashboard', element: <ProtectedRoute><SellerDashboard /></ProtectedRoute>, children: [
-                        { index: true, element: <Updates /> },
+                    path: '/dashboard', element: <SellerDashboard />, children: [
+                        { index: true, element: <MainDash /> },
                         { path: 'orders', element: <BasicTable /> },
                         { path: 'products', element: <BasicTable /> }
                     ]
@@ -147,7 +123,7 @@ function App() {
             <CssBaseline />
             <ThemeProvider theme={theme}>
                 {
-                    loading ? <img src='./images/iti.png' /> : <div>
+                    userData.loading ? <img src='./images/iti.png' /> : <div>
                         <RouterProvider router={routers} />
                     </div>
                 }

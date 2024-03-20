@@ -9,16 +9,20 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 import { baseURL } from '../../../config/config';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { styled } from '@mui/styles';
 
 function valuetext(value) {
-    return `${value}°C`;
+    return value;
 }
-const minDistance = 1000;
+const minDistance = 10;
 
 export default function Filter(props) {
+
     // BRAND HANDELING
     const [brands, setBrands] = useState([]);
+    // const [priceValue, setPriceValue] = useState([99, 10000]);
+
 
     useEffect(() => {
         axios.get(`${baseURL}/api/products/get-brands`)
@@ -32,24 +36,21 @@ export default function Filter(props) {
     //  PRICE RANGE HANDELING
     // const priceInput = document.querySelectorAll('.price-input input')
     // console.log(priceInput);
-    const [priceValue, setPriceValue] = useState([99, 10000]);
 
-    const setPrice = (event, newValue, activeThumb) => {
+    const [priceValue, setPriceValue] = React.useState([20, 10000]);
+
+    const handleChange1 = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
             return;
         }
 
         if (activeThumb === 0) {
-            setPriceValue([ Math.min(newValue[0], priceValue[1] - minDistance), priceValue[1] ]);
+            setPriceValue([Math.min(newValue[0], priceValue[1] - minDistance), priceValue[1]]);
         } else {
-            setPriceValue( [priceValue[0], Math.max(newValue[1], priceValue[0] + minDistance)] );
+            setPriceValue([priceValue[0], Math.max(newValue[1], priceValue[0] + minDistance)]);
         }
     };
-
-    // RATING
-    const [rating, setRating] = React.useState(2);
-
-
+    
     return (
         <>
             {/* PRODUCTS Filter */}
@@ -69,10 +70,10 @@ export default function Filter(props) {
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue="female"
                                 name="radio-buttons-group"
-                                onChange={ (e) => { props.handleBrand(e.target.value) }}
+                                onChange={(e) => { props.handleBrand(e.target.value) }}
                             >
                                 {
-                                    brands.map((brand,index) => {
+                                    brands.map((brand, index) => {
                                         return <FormControlLabel key={index} value={brand.brand} control={<Radio />} label={brand.brand} />
                                     })
                                 }
@@ -84,39 +85,32 @@ export default function Filter(props) {
 
                 {/*  PRICE FILTER  */}
                 <div className="price-filter mb-3 p-3 border-bottom">
-                    <Slider
-                        onChange={() => {setPrice();props.handlePrice(priceValue[0],priceValue[1] ) }}
-                        getAriaLabel={() => 'Minimum distance shift'}
-                        value={priceValue}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
-                        disableSwap
-                        min={99}
-                        max={10000}
-                    />
-                    <div class="price-input d-flex">
+                    <Box sx={{ width: 140 }}>
+                        <Slider
+                            getAriaLabel={() => 'Minimum distance'}
+                            max={10000}
+                            min={20}
+                            shiftStep={100}
+                            value={priceValue}
+                            onChange={handleChange1}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            onChangeCommitted={() => {props.handlePrice(priceValue[0] , priceValue[1])}}
+                            disableSwap
+                        />
+                    </Box>
+                    <div class="price-input d-flex space-between">
                         <div class="field d-flex align-items-center">
                             <span>Min</span>
-                            <input type="number" class="input-min" value={priceValue[0]} />
+                            <input type="text" style={{width: '1.7em'}} class="input-min" value={priceValue[0]} />
                         </div>
-                        <div class="separator">-</div>
-                        <div class="field d-flex align-items-center">
+                        
+                        <div className="separator p-0 m-0">-</div>
+                        <div className="field d-flex align-items-center">
                             <span>Max</span>
                             <input type="number" class="input-max" value={priceValue[1]} />
                         </div>
                     </div>
-                </div>
-
-                {/* RATING FILTER */}
-                <div className="rating-filter mb-4 p-3 border-bottom">
-                    <h6>PRODUCT RATING</h6>
-                    <Rating
-                        name="rating"
-                        value={rating}
-                    // onChange={(event, newValue) => {
-                    //     setRating(newValue);
-                    // }}
-                    />
                 </div>
 
                 {/* DISCOUNT CHECK */}

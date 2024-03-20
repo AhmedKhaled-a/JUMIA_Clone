@@ -6,16 +6,18 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { baseURL, storageURL } from '../../../config/config';
 import Product from './Product/Product';
 import axios from 'axios';
+import { productsDataSelector } from '../ProductsSlice';
+import { useSelector } from 'react-redux';
 
 
 export default function ProductsContainer(props) {
     let { cartProducts, setCartProducts } = useState([]);
     // TODO: get user_id from context
     let user_id = 1;
-
-
+    // const products = useSelector(productsDataSelector);
 
     const addCart = (pId) => {
+
         // make a copy of cartProducts
         let cartCopy = [...cartProducts];
         // send request to add to cart
@@ -39,7 +41,7 @@ export default function ProductsContainer(props) {
 
     const isInCart = (pId) => {
         // console.log(cartProducts);
-        if (cartProducts.length > 0) {
+        if (cartProducts?.length > 0) {
             if (cartProducts.find((c) => c.product.id == pId)) {
                 return true
             }
