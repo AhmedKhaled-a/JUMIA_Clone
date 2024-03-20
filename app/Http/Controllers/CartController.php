@@ -31,7 +31,7 @@ class CartController extends Controller
         $cart->count = $data['count'];
         $cart->save();
 
-        return response()->json(['message' => 'Item added to cart successfully']);
+        return response()->json([ 'cart_id' => $cart->id, 'message' => 'Item added to cart successfully']);
     }
 
     public function getCart($userId)

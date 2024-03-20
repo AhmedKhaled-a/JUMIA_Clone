@@ -81,7 +81,7 @@ class OrderController extends Controller
 
     public function getForSeller(string $sellerId)
     {
-        $orders = Order::where('seller_id' , $sellerId)->get();
+        $orders = Order::where('seller_id' , $sellerId)->with(['product'])->get();
         // dd($orders);
         return response()->json($orders);
     }

@@ -129,9 +129,10 @@ Route::group(['prefix' => 'products'], function () {
 Route::group(['prefix' => 'products', 'middleware' => ['auth:seller']], function () {
     Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
-    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
+Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
+
 
 /**************************************** Orders ************************************************/
 // TODO: Reduce Count in DB automatically when order is made
@@ -259,9 +260,11 @@ Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser'
 |--------------------------------------------------------------------------
 */
 
-Route::post('/checkout', [StripeController::class, 'checkout'])->name('payment.checkout');
-Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
-Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
+
+Route::post('/checkout', [StripeController::class, 'checkout'])->middleware('cors');
+Route::get('/success', [StripeController::class, 'success'])->middleware('cors');
+Route::get('/cancel', [StripeController::class, 'cancel'])->middleware('cors');
+Route::post('/webhook', [StripeController::class, 'webhook'])->middleware('cors');
 
 /**************************************** reset password routes  ************************************************/
 Route::post('user/foreget',[UserController::class,'resetPasswordLink']);

@@ -37,7 +37,7 @@ class AuthUserController extends Controller
             return response()->json(['error' => 'Email or password is incorrect'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json(['user' => auth()->user(), 'token' => $token, 'expires_in' => auth()->factory()->getTTL() * 60]);
     }
 
     /**
@@ -84,7 +84,7 @@ class AuthUserController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'user',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 3600
         ]);
     }
 

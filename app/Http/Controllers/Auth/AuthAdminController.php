@@ -29,8 +29,8 @@ class AuthAdminController extends Controller
         if (! $token = auth()->guard('admin')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        return response()->json(['admin' => auth()->user, 'token' => $token, 'expires_in' => auth()->factory()->getTTL() * 60]);
+        // return $this->respondWithToken($token);
     }
 
     /**
@@ -40,7 +40,7 @@ class AuthAdminController extends Controller
      */
     public function me()
     {
-        return response()->json( ["user" => auth()->user() , "role" => "admin"] );
+        return response()->json( [ "user" => auth()->user() , "role" => "admin" ] );
     }
 
     /**
@@ -77,7 +77,7 @@ class AuthAdminController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'admin',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 3600
         ]);
     }
 }
