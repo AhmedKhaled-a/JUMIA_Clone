@@ -40,7 +40,7 @@ class AuthAdminController extends Controller
      */
     public function me()
     {
-        return response()->json( ["user" => auth()->user() , "role" => "admin"] );
+        return response()->json( [ "user" => auth()->user() , "role" => "admin" ] );
     }
 
     /**
