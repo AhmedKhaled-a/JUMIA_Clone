@@ -223,6 +223,11 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
-/**************************************** verification &reser routes  ************************************************/
+/**************************************** verification  routes  ************************************************/
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
+
+/**************************************** reset password routes  ************************************************/
+Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
+Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
+Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);

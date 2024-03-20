@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\getContent;
+use Illuminate\Support\Str;
 
 
 
@@ -28,7 +33,7 @@ class AuthUserController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->guard('user')->attempt($credentials)) {
+        if (!$token = auth()->guard('user')->attempt($credentials)) {
             return response()->json(['error' => 'Email or password is incorrect'], 401);
         }
 
@@ -42,7 +47,7 @@ class AuthUserController extends Controller
      */
     public function me()
     {
-        return response()->json(["user" => auth()->user() , "role" => "user"]);
+        return response()->json(["user" => auth()->user(), "role" => "user"]);
     }
 
     /**
@@ -82,4 +87,8 @@ class AuthUserController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+
+
+   
 }
