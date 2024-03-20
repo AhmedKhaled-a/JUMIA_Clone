@@ -10,9 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 // ----------------- Icons ----------------------
@@ -43,7 +41,7 @@ function Account(props) {
 
     const handleDrawerToggle = () => {
         if (!isClosing) {
-        setMobileOpen(!mobileOpen);
+            setMobileOpen(!mobileOpen);
         }
     };
 
@@ -153,7 +151,7 @@ function Account(props) {
 
     return (
         <Box sx={{ display: "flex" }}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         {/* <AppBar
             position="fixed"
             elevation={0}

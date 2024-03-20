@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import {  CardActionArea, CardActions } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import './styles.css';
 

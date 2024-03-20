@@ -1,11 +1,10 @@
 import { Button, Card, CardActions, CardContent, Container, Typography } from '@mui/material'
-import React, { useContext, useId } from 'react'
-import { CartTotalContext } from '../../../Contexts/CartTotalContext';
+import React, {  useState } from 'react'
 import { baseURL } from '../../../config/config';
 import axios from 'axios';
 
 export default function CartSummery() {
-    const {total} = useContext(CartTotalContext);
+    const {total} = useState(0);
     // TODO: get user_id from context
     let user_id = 1;
 

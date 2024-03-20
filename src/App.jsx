@@ -23,110 +23,127 @@ import FollowedSellers from './Pages/FollowedSellers';
 import RecentlyViewed from './Pages/RecentlyViewed';
 import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
-import Login from './Components/Login/Login';
+import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/Seller/SellerLogin';
+import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
+
 import axios from 'axios';
 import './App.css'
-import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
-import RightSide from './Components/Dashboards/SellerDashboard/RightSide/RightSide';
-import Sidebar from './Components/Dashboards/SellerDashboard/Sidebar';
 
 // import Home from './Components/Home/Home';
 import Store from './Components/Store'
 import Register from './Components/Register';
-import { useContext, useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
 import SellerSignup from './Components/Seller/SellerSignup';
 import ProductsContainer from './Components/Store/ProductsContainer';
-import CartContextProvider, { CartContext } from './Contexts/CartContext';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
-import UserDataContextProvider, { UserDataContext } from './Contexts/UserDataStore';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
 
-import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
+import Updates from './Components/Dashboards/SellerDashboard/Updates/Updates';
+import { useDispatch } from 'react-redux';
+import { setToken, setType, setUser } from './userSlice';
+import { ProtectedRoute } from './ProtectedRoute';
 
+
+// function to access base auth route used in protected route
+// TODO: create a function that returns yes or no , authenticated or not instead of using me
+export const access = async () => {
+    let userType = localStorage.getItem('userType') // user, seller, admin
+    let token = localStorage.getItem('userToken') // user, seller, admin
+
+    return await axios.post(
+        `${baseURL}/api/auth/${userType}/me`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+};
 
 function App() {
-  let {UserDataValue, } = useContext(UserDataContext);
+    const dispatch = useDispatch();
+    // get userData
+    useEffect(() => {
+        // if token exists get userdata to use in the whole app
 
-  
-  console.log(UserDataValue);
+        // check if there is a token in local storage
+        // check if there is a type in local storage
+        let token = localStorage.getItem('userToken') // user, seller, admin
+        // call access if both exist
+        const authorize = async () => {
+            let result = null;
+
+            result = await access().catch(err => console.log(err));
+            // result should be
+            /*
+                {
+                    user : {...}
+                    role : admin,user,seller
+                }
+            */
+           console.log(result);
+            if (result) {
+                dispatch(setUser(result.data.user));
+                dispatch(setType(result.data.role));
+                dispatch(setToken(token));
+            }
+        };
+
+        authorize();
+
+        // inside then => setUser, setToken, setType
+        // else redirect to login
+    }, []);
 
 
 
-  let LoginProtect = (props) => {
-    if (localStorage.getItem('userToken') == null) {
-      return props.children
-    }
-    else {
-      return <Navigate to={'/'} />
-    }
-  }
 
-  
-  useEffect(() => {
-    if (localStorage.getItem('userToken') !== null) {
-      saveUserData()
-    }
+    // const classes = globalStyles();
+    let routers = createBrowserRouter([
+        {
+            path: '/', element: <Layout userData={{}} />, children: [
+                { index: true, element: <Home />  },
+                // {path:'/category', element:<CategoryPage /> },
+                { path: '/cart', element: <CartPage /> },
+                { path: '/account', element: <MyAccount /> },
+                { path: '/orders/index', element: <Orders /> },
+                { path: '/orders/closed', element: <OrdersClosed /> },
+                { path: '/account/inbox', element: <Inbox /> },
+                { path: '/account/reviews', element: <ReviewsIndex /> },
+                { path: '/account/saved', element: <SavedItems /> },
+                { path: '/account/followed-sellers', element: <FollowedSellers /> },
+                { path: '/account/viewed', element: <RecentlyViewed /> },
+                { path: '/account/address', element: <AddressBook /> },
+                { path: '/account/newsletter', element: <Newsletter /> },
+                { path: '/login', element: <Login />},
+                { path: '/register', element: <Register /> },
+                { path: '/login', element: <Login /> },
+                { path: '/seller/login', element: <SellerLogin /> },
+                { path: '/seller/signup', element: <SellerSignup /> },
+                { path: '/cat', element: <CategoryPage /> },
+                {
+                    path: '/dashboard', element: <ProtectedRoute><SellerDashboard /></ProtectedRoute>, children: [
+                        { index: true, element: <Updates /> },
+                        { path: 'orders', element: <BasicTable /> },
+                        { path: 'products', element: <BasicTable /> }
+                    ]
+                },
+                { path: '/store', element: <Store /> }
+            ]
+        }
+    ]);
 
-    
-  }, []);
+    return (
+        <>
+            <CssBaseline />
+            <ThemeProvider theme={theme}>
+                <div>
+                    <RouterProvider router={routers} />
+                </div>
+            </ThemeProvider>
 
-  // cart context data
-  // userdata
-  const [userData, setUserData] = useState(null)
-
-  function saveUserData() {
-    let incodedToken = localStorage.getItem('userToken');
-    let decodedToken = jwtDecode(incodedToken);
-    // console.log(decodedToken);
-    setUserData(decodedToken)
-  }
-
-  // const classes = globalStyles();
-  let routers = createBrowserRouter([
-    {
-      path: '/', element: <Layout userData={userData} setUserData={setUserData} />, children: [
-        { index: true, element: <Home /> },
-        // {path:'/category', element:<CategoryPage /> },
-        { path: '/cart', element: <CartPage /> },
-        { path: '/account', element: <MyAccount /> },
-        { path: '/orders/index', element: <Orders /> },
-        { path: '/orders/closed', element: <OrdersClosed /> },
-        { path: '/account/inbox', element: <Inbox /> },
-        { path: '/account/reviews', element: <ReviewsIndex /> },
-        { path: '/account/saved', element: <SavedItems /> },
-        { path: '/account/followed-sellers', element: <FollowedSellers /> },
-        { path: '/account/viewed', element: <RecentlyViewed /> },
-        { path: '/account/address', element: <AddressBook /> },
-        { path: '/account/newsletter', element: <Newsletter /> },
-        { path: '/login', element:<LoginProtect><Login/></LoginProtect>  },
-        { path: '/register', element: <Register /> },
-        { path: '/login', element: <Login /> },
-        { path: '/seller/login', element: <SellerLogin /> },
-        { path: '/seller/signup', element: <SellerSignup /> },
-        { path: '/cat', element: <CategoryPage /> },
-        { path: '/dashboard', element: <SellerDashboard /> },
-        { path: '/store', element: <Store /> }
-      ]
-    }
-  ]);
-
-  return (
-    <>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <div>
-          <CartContextProvider>
-            <RouterProvider router={routers} />
-          </CartContextProvider>
-        </div>
-      </ThemeProvider>
-
-    </>
-  );
+        </>
+    );
 }
 
 export default App;

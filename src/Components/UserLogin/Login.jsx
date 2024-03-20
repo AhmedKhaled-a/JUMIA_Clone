@@ -6,49 +6,50 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
 import { baseURL } from '../../config/config';
-import { UserDataContext } from '../../Contexts/UserDataStore';
+import { setToken, setType, setUser, userDataSelector } from '../../userSlice';
+import { useDispatch } from 'react-redux';
 
+
+// every user type will have a login page
 
 
 function Login() {
-    let {userData,setUserData} = useContext(UserDataContext);
-    let navigate = useNavigate()
-    const [errorList, setErrorList] = useState([])
-    const [isLoading, setLoading] = useState(false)
-    const [apiError, setApiError] = useState('')
+    // let {userData,setUserData} = useContext(UserDataContext);
+
+    // const userData = useSelector(userDataSelector);
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         "email": "",
         "password": ""
     })
+
     function getUserData(event) {
         let myUser = { ...user };
         myUser[event.target.name] = event.target.value;
         // console.log(myUser);
-        setUser(myUser)
+        setUser(myUser);
     }
-    async function getUserWithToken(token) {
-        const config = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
-        const bodyParameters = {
-            key: "value"
-        };
-        let { data } = await axios.post(`${baseURL}/api/auth/user/me`, {}, config)
-        return data;
-    }
+
+
+    let navigate = useNavigate();
+    const [errorList, setErrorList] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState('');
+
+
     async function sendLoginDataToApi() {
         // console.log(user);
-        let { data } = await axios.post(`${baseURL}/api/auth/user/login`, user) 
-        console.log(data);
-        if (data.access_token) {
-            localStorage.setItem('userToken', data.access_token)
-            localStorage.setItem('tokenType', data.token_type)
-            await getUserWithToken(data.access_token).then((data) => setUserData(data)).catch()
-            // console.log(userData);
+        let { res } = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => console.log(err))
+        // console.log(data);
+        if (res.data.token) {
+            localStorage.setItem('userToken', res.data.token);
+            localStorage.setItem('userType', 'user');
+
+            dispatch(setUser(res.data.user));
+            dispatch(setType('user'));
+            dispatch(setToken(res.data.token));
             navigate('/')
-            setLoading(false)
         } else {
-            // setApiError(data.message)
             setLoading(false)
         }
     }
@@ -105,10 +106,6 @@ function Login() {
                 <div className="my-5">
                     <button type='sumbit' className='continue form-control btn mt-3'>{isLoading == true ? <FontAwesomeIcon icon={faSpinner} className='spinner fs-3' /> : 'Login'}</button>
                 </div>
-                {/* <div>
-                    <p className='m-0'>By continuing you agree to Jumia’s</p>
-                    <p className='mb-4 '><a className='text-warning text-hover' href="">Terms and Conditions</a></p>
-                </div> */}
                 <p className='my-4'>New to Jumia ? <Link className='ms-2 log' to='/login'>Register</Link></p>
 
                 <div>
@@ -116,18 +113,6 @@ function Login() {
                     <img className='' src={process.env.PUBLIC_URL + '/images/jumia logo1.png'} alt="" style={{ width: '130px' }} />
                 </div>
             </form>
-
-
-            {/* <form action="" method="post">
-                <input type="submit" value="Login With Passkeys" className='passkeys btn btn-outline-info form-control mt-3 mb-4' />
-                <button type='submit' className='facebook btn btn-primary form-control'>
-                    <div className='me-5 d-flex justify-content-around mt-1'>
-                        <i class=" fa-brands fa-square-facebook"></i>
-                        <span>Login With Facebook </span>
-                    </div>
-                </button>
-
-            </form> */}
 
         </div>
 

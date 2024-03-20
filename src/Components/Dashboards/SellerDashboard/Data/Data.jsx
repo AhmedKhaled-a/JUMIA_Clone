@@ -22,22 +22,21 @@ import {
     {
       icon: UilEstate,
       heading: "Dashboard",
+      path: "",
     },
     {
       icon: UilClipboardAlt,
       heading: "Orders",
-    },
-    {
-      icon: UilUsersAlt,
-      heading: "Customers",
+      path: "orders",
     },
     {
       icon: UilPackage,
-      heading: 'Products'
+      heading: 'Products',
+      path: 'products'
     },
     {
       icon: UilChart,
-      heading: 'Analytics'
+      heading: ''
     },
   ];
   

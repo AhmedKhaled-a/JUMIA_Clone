@@ -5,11 +5,14 @@ import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "./Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [selected, setSelected] = useState(0);
 
-  const [expanded, setExpaned] = useState(true)
+  const [expanded, setExpaned] = useState(true);
+
+  const navigate = useNavigate();
 
   const sidebarVariants = {
     true: {
@@ -38,12 +41,13 @@ const Sidebar = () => {
       </div>
 
       <div className="menu">
+        
         {SidebarData.map((item, index) => {
           return (
             <div
               className={selected === index ? "menuItem active" : "menuItem"}
               key={index}
-              onClick={() => setSelected(index)}
+              onClick={() => {setSelected(index);navigate(item.path) }}
             >
               <item.icon />
               <span>{item.heading}</span>

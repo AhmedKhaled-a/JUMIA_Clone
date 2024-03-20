@@ -1,16 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import ItemCarousel from './ItemCarousel'
 import CategoryList from './CategoryList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAward, faBuilding, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons'
 import About from './About'
-import { UserDataContext } from '../../Contexts/UserDataStore'
 
 
 
 
 export default function Home() {
-    let {userData} = useContext(UserDataContext);
+    let {userData} = useState(null);
     // console.log(userData);
     return (
         <>

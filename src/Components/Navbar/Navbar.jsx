@@ -1,15 +1,16 @@
 import React from 'react';
 import './styles.css';
 import logo from './imgs/jumia logo1.png';
-import Login from '../Login/Login';
 import { Link } from 'react-router-dom';
 import { faRocketchat } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
+import { userDataSelector } from '../../userSlice';
 
 
-
-
-function Navbar({ userData, logout }) {
+function Navbar({ logout }) {
+  const userData = useSelector(userDataSelector);
+  console.log(userData);
   return (
     <header className="navbar m-0 mb-5">
       <div className="container  d-flex justify-content-around">
@@ -25,8 +26,8 @@ function Navbar({ userData, logout }) {
           <a className="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <i className="fa-regular mx-1 fa-user"></i> <span className='text-hover'> Account </span></a>
 
           <ul className="dropdown-menu" >
-            {!userData ? <Link to="/login" className='dropdown-item'><i className="fa-regular me-2 fa-user"></i> Sign in</Link> : <></>}
-            {userData ?
+            {!userData.user ? <Link to="/login" className='dropdown-item'><i className="fa-regular me-2 fa-user"></i> Sign in</Link> : <></>}
+            {userData.user ?
               <>
                 <li><a className="dropdown-item" href="#"><i className="fa-regular me-2 fa-user"></i> My Account</a></li>
                 <li><a className="dropdown-item" href="#"><i className="fa-regular fa-heart me-2"></i> Orders</a></li>
@@ -56,6 +57,7 @@ function Navbar({ userData, logout }) {
         </div>
         <div className="user-links">
           <a href="#"><i className="fa fa-shopping-cart"></i> Cart (0)</a>
+          <Link to="/dashboard">dashboard</Link>
         </div>
       </div>
     </header>

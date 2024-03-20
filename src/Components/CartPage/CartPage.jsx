@@ -4,7 +4,6 @@ import Cart from './Cart/Cart'
 import CartSummery from './CartSummery/CartSummery'
 import RecentlyViewed from './RecentlyViewed/RecentlyViewed'
 import useStyles from './styles'
-import { CartTotalContext } from '../../Contexts/CartTotalContext'
 
 export default function CartPage() {
   const classes = useStyles();
@@ -12,7 +11,6 @@ export default function CartPage() {
 
   return (
     <>  <Container fixed sx={{ display: 'flex' }} maxWidth="xl" className={classes.container}>
-      <CartTotalContext.Provider value={{ total, setTotal }}>
         <Grid container>
           <Grid item xs={12} lg={6}>
             <Cart />
@@ -21,7 +19,6 @@ export default function CartPage() {
             <CartSummery />
           </Grid>
         </Grid>
-      </CartTotalContext.Provider>
     </Container>
       <Container fixed maxWidth="lg" className={classes.container}>
         <RecentlyViewed />

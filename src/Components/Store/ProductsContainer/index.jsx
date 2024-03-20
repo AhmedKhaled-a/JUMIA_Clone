@@ -6,11 +6,10 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { baseURL, storageURL } from '../../../config/config';
 import Product from './Product/Product';
 import axios from 'axios';
-import { CartContext } from '../../../Contexts/CartContext';
 
 
 export default function ProductsContainer(props) {
-    let { cartProducts, setCartProducts } = useContext(CartContext);
+    let { cartProducts, setCartProducts } = useState([]);
     // TODO: get user_id from context
     let user_id = 1;
 

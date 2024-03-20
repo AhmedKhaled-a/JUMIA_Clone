@@ -18,7 +18,7 @@ export default function MyAccount() {
             <Box sx={{ display: "flex" }}>
 
                 <Account />
-                <Toolbar />
+                {/* <Toolbar /> */}
                 <Box
                     component="main"
                     sx={{
