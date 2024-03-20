@@ -4,56 +4,37 @@ import axios from 'axios';
 
 import { Container, Divider, Grid, Typography, Button } from '@mui/material';
 import { baseURL } from '../../../config/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction } from '../cartSlice';
+import { userDataSelector } from '../../../userSlice';
 
 const Cart = () => {
-    const {cartProducts, setCartProducts} = useState([]);
 
-    let user_id = 1;
+    const cartProducts = useSelector(cartDataSelector);
+    const userData = useSelector(userDataSelector);
 
+    const dispatch = useDispatch();
+
+    const user_id = userData.user.id;
+    // console.log(user_id);
     const [ total, setTotal ] = useState(0);
+
     let clearCart = (userId) => {
-        setCartProducts([]);
+        dispatch(clearCartAction())
         axios.delete(`${baseURL}/api/cart/usercart/${userId}`);
     }
+
     let changeCount = (cartId, n) => {
-        // deep copy
-        let myCartCopy = [...cartProducts];
-        // do changes
-        let found = myCartCopy.find((c) => c.id == cartId)
-        if (found)
-            found.count += n;
-        else console.log("not found");
-
-        if (found.count < 0) {
-            found.count = 0;
-        }
-        // setState
-        setCartProducts(myCartCopy);
-
-        // Todo : send request to server with productId, n
-
-        axios.put(`${baseURL}/api/cart/${cartId}/update-count`, JSON.stringify({ count: found.count }));
+        dispatch(changeCountByValueAction([cartId, n]))
+        let updatedCount = cartProducts.find( (c) => c.id == cartId ).count;
+        axios.put(`${baseURL}/api/cart/${cartId}/update-count`, JSON.stringify({ count: updatedCount }));
     }
 
     let deleteProduct = (cartId) => {
-        // deep copy
-        let myCartProductsCopy = [...cartProducts];
-        // do changes
-        
-        let foundIndex = myCartProductsCopy.findIndex((c) => c.id == cartId)
-        if (foundIndex >= 0)
-            myCartProductsCopy.splice(foundIndex, 1);
-        else console.log("not found");
-        // setState
-        setCartProducts(myCartProductsCopy);
-
+        dispatch(deleteCartItemAction(cartId))
         axios.delete(`${baseURL}/api/cart/${cartId}`);
     }
 
-
-    useEffect(() => {
-        
-    }, []);
 
     useEffect(() => {
         let calculatedTotal = 0;

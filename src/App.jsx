@@ -62,18 +62,24 @@ export const access = async () => {
 
 function App() {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    let timeout;
     // get userData
     useEffect(() => {
-        // if token exists get userdata to use in the whole app
 
+        // if token exists get userdata to use in the whole app
+        // timeout = setTimeout( () => {clearTimeout(timeout); setLoading(false)} , 2000);
         // check if there is a token in local storage
         // check if there is a type in local storage
         let token = localStorage.getItem('userToken') // user, seller, admin
         // call access if both exist
         const authorize = async () => {
-            let result = null;
+            setLoading(true);
+            let res = null;
 
-            result = await access().catch(err => console.log(err));
+            res = await access().catch(err => console.log(err))
+            .finally(() => {setLoading(false)})
+
             // result should be
             /*
                 {
@@ -81,15 +87,18 @@ function App() {
                     role : admin,user,seller
                 }
             */
-           console.log(result);
-            if (result) {
-                dispatch(setUser(result.data.user));
-                dispatch(setType(result.data.role));
+            console.log(res);
+            if (res) {
+                dispatch(setUser(res.data.user));
+                dispatch(setType(res.data.role));
                 dispatch(setToken(token));
             }
         };
 
         authorize();
+
+        // get cart data
+
 
         // inside then => setUser, setToken, setType
         // else redirect to login
@@ -102,7 +111,7 @@ function App() {
     let routers = createBrowserRouter([
         {
             path: '/', element: <Layout userData={{}} />, children: [
-                { index: true, element: <Home />  },
+                { index: true, element: <Home /> },
                 // {path:'/category', element:<CategoryPage /> },
                 { path: '/cart', element: <CartPage /> },
                 { path: '/account', element: <MyAccount /> },
@@ -115,7 +124,7 @@ function App() {
                 { path: '/account/viewed', element: <RecentlyViewed /> },
                 { path: '/account/address', element: <AddressBook /> },
                 { path: '/account/newsletter', element: <Newsletter /> },
-                { path: '/login', element: <Login />},
+                { path: '/login', element: <Login /> },
                 { path: '/register', element: <Register /> },
                 { path: '/login', element: <Login /> },
                 { path: '/seller/login', element: <SellerLogin /> },
@@ -137,9 +146,12 @@ function App() {
         <>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-                <div>
-                    <RouterProvider router={routers} />
-                </div>
+                {
+                    loading ? <img src='./images/iti.png' /> : <div>
+                        <RouterProvider router={routers} />
+                    </div>
+                }
+
             </ThemeProvider>
 
         </>
