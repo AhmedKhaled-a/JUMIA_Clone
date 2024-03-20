@@ -104,6 +104,9 @@ class UserController extends Controller
         return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
 
     }
+
+
+
     public function resetPasswordLink(Request $request)
     {
         $data = json_decode($request->getContent(), true);
@@ -125,9 +128,12 @@ class UserController extends Controller
             ]);
         }
     }
+
+
+
     public function reset($remember_token){
          $user = User::where('remember_token', '=', $remember_token)->first();
-        //  dd($user);
+         dd($user);
         
          if (!empty($user)){
             $data['user']=$user;
@@ -137,6 +143,8 @@ class UserController extends Controller
         abort(404);
     }
 }
+
+
 public function postResetPasswordLink(Request $request,$remember_token) {
    
     $user=User::where('remember_token', '=', $remember_token)->first();

@@ -18,12 +18,7 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
-
-
-
-
-
-
+use App\Models\Seller;
 
 // >>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
@@ -174,7 +169,7 @@ Route::post('users/register', [UserController::class , 'register'])
 /**************************************** Sellers ************************************************/
 
 Route::post('sellers/register', [SellerController::class , 'register'])
-->name('user.register');
+->name('seller.register');
 
 /*
 |--------------------------------------------------------------------------
@@ -248,7 +243,7 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
-/**************************************** verification  routes  ************************************************/
+/**************************************** verification  routes user ************************************************/
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
 
@@ -270,3 +265,5 @@ Route::post('/webhook', [StripeController::class, 'webhook'])->middleware('cors'
 Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
 Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
 Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);
+/**************************************** email varification for sellers  ************************************************/
+Route::get('seller/verify/{verification_code}',[SellerController::class,'verifySeller' ]);
