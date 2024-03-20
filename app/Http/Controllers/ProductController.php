@@ -26,11 +26,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        // arguments
         $offset = $request->input('offset');
         $limit = $request->input('limit');
         $cat = $request->input('category');
         $priceLow = $request->input('pricelow');
         $priceHigh = $request->input('pricehigh');
+        $brand = $request->input('brand');
         // dd($limit);
 
         // handling arguments
@@ -51,16 +53,30 @@ class ProductController extends Controller
             // dd($priceHigh);
         }
 
-        if (!$cat) {
-            $products = Product::where('price', '>=' ,$priceLow)->where('price', '<=' ,$priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
-        } else {
-            $category = Category::where('name', '=', $cat)->first();
-            // dd($category, $cat);
-            if (!$category) {
-                return response()->json(['message' => 'Not a category products found'], 404);
+        if (!$brand) {
+            if (!$cat) {
+                $products = Product::where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
+            } else {
+                $category = Category::where('name', '=', $cat)->first();
+                // dd($category, $cat);
+                if (!$category) {
+                    return response()->json(['message' => 'Not a category products found'], 404);
+                }
+                // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
+                $products = $category->products()->with('images')->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
             }
-            // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
-            $products = $category->products()->with('images')->where('price', '>=' ,$priceLow)->where('price', '<=' ,$priceHigh)->offset($offset)->take($limit)->get();
+        } else {
+            if (!$cat) {
+                $products = Product::where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
+            } else {
+                $category = Category::where('name', '=', $cat)->first();
+                // dd($category, $cat);
+                if (!$category) {
+                    return response()->json(['message' => 'Not a category products found'], 404);
+                }
+
+                $products = $category->products()->with('images')->where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
+            }
         }
 
 
@@ -307,17 +323,6 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse JSON response indicating the success or failure of the deletion operation.
      */
-    // public function destroy(string $id)
-    // {
-    //     $product = Product::find($id);
-    //     if ($product) {
-    //         $product->images()->delete();
-    //         $product->delete();
-    //         return response()->json('Product deleted successfully', 200);
-    //     } else {
-    //         return response()->json('Product not found', 404);
-    //     }
-    // }
 
     public function destroy(string $id)
     {
@@ -349,27 +354,25 @@ class ProductController extends Controller
 
     public function getProductBrands()
     {
-        $brands = Product::distinct()->get();
-        if(!$brands) {
+        $brands = Product::distinct()->get('brand');
+        if (!$brands) {
             return response()->json('No brands', 404);
         }
 
         return response()->json($brands);
-
-
     }
     public function getSellerProducts(string $sellerId)
     {
         $seller = Seller::find($sellerId);
 
-        if(!$seller) {
+        if (!$seller) {
             return response()->json(['message' => 'Seller not found'], 404);
         }
         // check if user trying to 
-        if( auth()->user()->id != $sellerId ) {
-            return response()->json(['message' =>'Not authenticated seller'], 404);
+        if (auth()->user()->id != $sellerId) {
+            return response()->json(['message' => 'Not authenticated seller'], 404);
         }
-        
+
         return response()->json($seller->products);
     }
 }

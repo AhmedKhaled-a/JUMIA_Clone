@@ -17,6 +17,7 @@ namespace App\Http\Controllers;
 
 use App\Errors;
 use App\Mail\jumiaVerifcation;
+use App\Mail\resetPasswordMail;
 use App\Mail\Varification;
 // use Mail;
 use App\Models\User;
@@ -70,6 +71,13 @@ class UserController extends Controller
             
         return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'user registered successfully']); 
     }
+    
+    
+    
+    
+    
+    
+    
     public function verifyUser($verification_code)
     {
         $check = DB::table('user_verifications')->where('token',$verification_code)->first();
@@ -96,5 +104,55 @@ class UserController extends Controller
         return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
 
     }
+    public function resetPasswordLink(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        // dd($data);
+        $user = User::where('email', '=', $data['email'])->first();
+        if (!empty($user)){
+            $remember_token =str::random(20);
+            // DB::table('users')->insert(['user_id'=>$user->id,'remember_token'=>$remember_token]);
+            $user->remember_token=$remember_token;
+            $user->save();
+            Mail::to($data['email'])->send(new resetPasswordMail($remember_token));
+            return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'please check your email for reset password link  ']); 
+
+        }else{
+            
+            return response()->json([
+                'status'=> false,
+                'message'=> 'please enter a valied email.'
+            ]);
+        }
+    }
+    public function reset($remember_token){
+         $user = User::where('remember_token', '=', $remember_token)->first();
+        
+         if (!empty($user)){
+            $data['user']=$user;
+            return view('passwordReset',$data);
+    }
+    else{
+        abort(404);
+    }
 }
-     
+public function postResetPasswordLink(Request $request,$remember_token) {
+    $user = User::where('remember_token', '=', $remember_token)->first();
+    if (!empty($user)){
+       
+        $user->password=Hash::make($request->password);
+        $remember_token =str::random(20);
+        $user->remember_token=$remember_token;
+        $user->save();
+        
+        return response()->json([
+            'status'=> true,
+            'message'=> 'your password has been changed and you can login now.'
+        ]);
+        
+}
+else{
+    abort(404);
+}
+}     
+}

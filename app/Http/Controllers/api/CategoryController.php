@@ -12,24 +12,36 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
-{
-    public function index()
-    {
-        $categories = category::all();
-        if ($categories->count() > 0) {
-            foreach ($categories as $category) {
-                // Retrieve and encode thumbnail
-                if ($category->category_thumb && file_exists(public_path($category->category_thumb))) {
-                    $thumbnailPath = $category->category_thumb;
-                    $category->category_thumb = $thumbnailPath;
 
-                    return response()->json($categories, 200);
-                } else {
-                    return response()->json(['message' => 'No categories found'], 404);
-                };
-            }
-        }
+{
+public function index(Request $request)
+{
+    // Retrieve super category ID from the query string
+    $superCategoryId = $request->input('super_category_id');
+
+    // Fetch categories based on super category ID if provided
+    if ($superCategoryId !== null) {
+        $categories = Category::where('super_category_id', $superCategoryId)->get();
+    } else {
+        // Fetch all categories if no super category ID provided
+        $categories = Category::all();
     }
+
+    // Modify category_thumb paths to start with 'storage'
+    $categories->transform(function ($category) {
+        $category->category_thumb = 'storage/' . $category->category_thumb;
+        return $category;
+    });
+
+    return response()->json($categories, 200);
+}
+
+    
+    
+    
+    
+    
+    
     public function show(string $id)
     {
         $category = category::find($id);
@@ -50,8 +62,6 @@ class CategoryController extends Controller
     
     public function store(Request $request)
     {
-        // dd($request['category']['id']);
-
         // $data = json_decode($request->getContent(), true);
         // dd($data['category']['id']);
         $validator = Validator::make($request['category'], [
