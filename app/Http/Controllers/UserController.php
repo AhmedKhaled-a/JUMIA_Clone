@@ -74,11 +74,7 @@ class UserController extends Controller
     
     
     
-    
-    
-    
-    
-    public function verifyUser($verification_code)
+     public function verifyUser($verification_code)
     {
         $check = DB::table('user_verifications')->where('token',$verification_code)->first();
 

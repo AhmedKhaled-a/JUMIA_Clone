@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Errors;
-use App\Mail\jumiaVerificationEmailForSellers;
 use App\Models\Seller;
+use Hamcrest\Core\Set;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\resetPasswordMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\jumiaVerificationEmailForSellers;
+use App\Mail\resetPasswordLinkForSellers;
 
 /*
 {
@@ -48,7 +51,7 @@ class SellerController extends Controller
         $verification_code = Str::random(20);
         DB::table('seller_verification')->insert(['seller_id'=>$seller->id,'token'=>$verification_code]);
         Mail::to($data['email'])->send(new jumiaVerificationEmailForSellers($verification_code));
-        return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'seller registered successfully']); 
+        return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'please check your email for verification link']); 
     }
     
     
@@ -57,7 +60,7 @@ class SellerController extends Controller
     public function verifySeller($verification_code)
     {
         $check = DB::table('seller_verification')->where('token',$verification_code)->first();
-        
+
         if(!is_null($check)){
             $seller = Seller::find($check->seller_id);
 
@@ -80,4 +83,61 @@ class SellerController extends Controller
         return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
 
     }
+
+    public function resetPasswordLink(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        // dd($data['email']);
+        $seller = Seller::where('email', '=', $data['email'])->first();
+        // dd($seller);
+        if (!empty($seller)){
+            $remember_token =str::random(20);
+            // DB::table('users')->insert(['user_id'=>$user->id,'remember_token'=>$remember_token]);
+            $seller->remember_token=$remember_token;
+            $seller->save();
+            Mail::to($data['email'])->send(new resetPasswordLinkForSellers($remember_token));
+            return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'please check your email for reset password link  ']); 
+
+        }else{
+            
+            return response()->json([
+                'status'=> false,
+                'message'=> 'please enter a valied email.'
+            ]);
+        }
+    }
+    public function reset($remember_token){
+        $seller = Seller::where('remember_token', '=', $remember_token)->first();
+        
+       
+        if (!empty($seller)){
+           $data['user']=$seller;
+           return ($data);
+   }
+   else{
+       abort(404);
+   }
+}
+
+public function postResetPasswordLink(Request $request,$remember_token) {
+   
+    $seller=Seller::where('remember_token', '=', $remember_token)->first();
+    // dd($seller);
+    if (!empty($seller)){
+       
+        $seller->password=Hash::make($request->password);
+        $remember_token =str::random(20);
+        $seller->remember_token=$remember_token;
+        $seller->save();
+        
+        return response()->json([
+            'status'=> true,
+            'message'=> 'your password has been changed and you can login now.'
+        ]);
+        
+}
+else{
+    abort(404);}
+    }     
+
 }

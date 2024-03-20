@@ -247,6 +247,17 @@ Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
 
+/**************************************** reset password routes for users  ************************************************/
+Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
+Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
+Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);
+/**************************************** email varification for sellers  ************************************************/
+Route::get('seller/verify/{verification_code}',[SellerController::class,'verifySeller' ]);
+/**************************************** reset password routes for sellers  ************************************************/
+Route::post('seller/foreget',[SellerController::class,'resetPasswordLink']);
+Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ]);
+Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink']);
+
 
 
 /*
@@ -261,9 +272,3 @@ Route::get('/success', [StripeController::class, 'success'])->middleware('cors')
 Route::get('/cancel', [StripeController::class, 'cancel'])->middleware('cors');
 Route::post('/webhook', [StripeController::class, 'webhook'])->middleware('cors');
 
-/**************************************** reset password routes  ************************************************/
-Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
-Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
-Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);
-/**************************************** email varification for sellers  ************************************************/
-Route::get('seller/verify/{verification_code}',[SellerController::class,'verifySeller' ]);
