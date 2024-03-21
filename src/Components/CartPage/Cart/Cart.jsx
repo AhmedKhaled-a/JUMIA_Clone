@@ -7,6 +7,7 @@ import { baseURL } from '../../../config/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems } from '../cartSlice';
 import { userDataSelector } from '../../../userSlice';
+import { authenticatedClient } from '../../../config/axiosConfig';
 
 const Cart = () => {
     const cart = useSelector(cartDataSelector);
@@ -24,12 +25,14 @@ const Cart = () => {
     let clearCart = (userId) => {
         dispatch(clearCartAction())
         axios.delete(`${baseURL}/api/cart/usercart/${userId}`);
+        window.scrollTo(0, 0);
+
     }
 
     let changeCount = (cartId, n) => {
         let count = cartProducts.find((c) => c.id == cartId).count;
-        dispatch(changeCountByValueAction([cartId, n]))
-        axios.put(`${baseURL}/api/cart/${cartId}/update-count`, JSON.stringify({ count: ++count }));
+        dispatch(changeCountByValueAction([cartId, n]));
+        authenticatedClient.put(`/cart/${cartId}/update-count`, JSON.stringify({ count: ++count }));
     }
 
     let deleteProduct = (cartId) => {
@@ -67,7 +70,7 @@ const Cart = () => {
         </Grid>
         <Divider sx={{ width: '100%' }} />
         {
-            cartProducts?.map((cart) => {
+            cartProducts?.map( (cart) => {
                 if (cart)
                     return <Grid item xs={12}>
                         <CartCard count={cart.count} cartId={cart.id} product={cart.product} key={cart.id} changeCount={changeCount} deleteProduct={deleteProduct} />

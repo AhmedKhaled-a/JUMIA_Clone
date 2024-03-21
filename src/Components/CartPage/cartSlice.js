@@ -21,13 +21,19 @@ export const addProductToCart = createAsyncThunk('carts/addProductToCart', ([pId
         });
 });
 
+
 export const fetchCartItems = createAsyncThunk('carts/fetchCartItems', (user_id) => {
     let token = localStorage.getItem('userToken');
-    return axios.get(`${baseURL}/api/cart/usercart/${user_id}`, {} , { Authorization: `Bearer ${token}` })
+
+    return axios.get(`${baseURL}/api/cart/usercart/${user_id}`, {}, { 
+        Authorization: `Bearer ${token}` , 
+        crossDomain: true 
+    })
         .then((res) => {
             return res.data;
         }).catch(err => console.log(err));
 });
+
 
 export const cartSlice = createSlice({
     name: 'carts',
@@ -50,8 +56,15 @@ export const cartSlice = createSlice({
 
             cartItem.count += action.payload[1];
 
-            state.productsCount[ cartItem.product.id ] += action.payload[1];
+            state.productsCount[cartItem.product.id] += action.payload[1];
             state.totalItems += action.payload[1];
+
+            // if (cartItem.count <= 0) {
+            //     state.totalItems -= state.productsCount[cartItem.product.id];
+
+            //     delete state.productsCount[cartItem.product.id];
+            //     delete state.cartItem;
+            // }
         },
 
         addOneExistingProductAction: (state, action) => { // takes product_id
@@ -61,12 +74,22 @@ export const cartSlice = createSlice({
         },
 
         deleteCartItemAction: (state, action) => { // takes cartId
-            let cartItemIndex = state.cart.findIndex((c) => c.id == action.payload);
+            let cartItemIndex = state.cart.findIndex( (c) => c?.id == action.payload);
             let product_id = state.cart[cartItemIndex].product.id;
 
             state.totalItems -= state.productsCount[product_id];
 
-            delete state.productsCount[product_id];
+            delete state.productsCount.product_id;
+            delete state.cart[cartItemIndex];
+        },
+
+        deleteCartItemByProductAction: (state, action) => { // takes productId
+            let cartItemIndex = state.cart.findIndex( (c) => c.product.id == action.payload);
+            let product_id = action.payload;
+
+            state.totalItems -= state.productsCount.product_id;
+
+            delete state.productsCount.product_id;
             delete state.cart[cartItemIndex];
         },
 
@@ -85,24 +108,28 @@ export const cartSlice = createSlice({
             state.loading = true;
         })
 
-        builder.addCase(fetchCartItems.fulfilled , (state,action) => {
+        builder.addCase(fetchCartItems.fulfilled, (state, action) => {
             state.loading = false;
             state.cart = action.payload.cart_items;
             state.totalItems = action.payload.total_items;
             state.productsCount = action.payload.productsCount;
-            
+
         })
 
-        builder.addCase(addProductToCart.fulfilled , (state,action) => {
+        builder.addCase(addProductToCart.pending, (state) => {
+            //
+        })
+
+        builder.addCase(addProductToCart.fulfilled, (state, action) => {
             state.loading = false;
-            state.cart.push( {...action.payload.cart, count : 1, product: action.payload.product} );
+            state.cart.push({ ...action.payload.cart, count: 1, product: action.payload.product });
             state.totalItems += 1;
-            state.productsCount[action.payload.cart.product.id] = 1 ;
-            
+            state.productsCount[action.payload.cart.product.id] = 1;
+
         })
     }
 });
 
-export const { addItemToCartAction, changeCountByValueAction, addOneExistingProductAction, deleteCartItemAction, clearCartAction, initCartAction } = cartSlice.actions;
+export const { addItemToCartAction, changeCountByValueAction, addOneExistingProductAction, deleteCartItemAction, clearCartAction, initCartAction, deleteCartItemByProductAction } = cartSlice.actions;
 export const cartDataSelector = (state) => state.carts;
 export default cartSlice.reducer;

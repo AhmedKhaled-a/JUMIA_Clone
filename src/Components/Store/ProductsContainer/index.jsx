@@ -7,7 +7,7 @@ import { baseURL, storageURL } from '../../../config/config';
 import Product from './Product/Product';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, fetchCartItems } from '../../CartPage/cartSlice';
+import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, deleteCartItemAction, deleteCartItemByProductAction, fetchCartItems } from '../../CartPage/cartSlice';
 import { userDataSelector } from '../../../userSlice';
 import { CircularProgress } from '@mui/material';
 import { productsDataSelector } from '../ProductsSlice';
@@ -28,17 +28,25 @@ export default function ProductsContainer(props) {
         dispatch(addProductToCart([pId, userData.user.id]))
     }
 
+    // let deleteProductFromCart = (pId) => {
+    //     let cartItem = cartProducts.find( (c) => { return c.product.id == pId}); 
+        
+    //     console.log(cartItem);
+    //     let cartId = cartItem.id;
+    //     dispatch(deleteCartItemByProductAction(pId));
+
+    //     axios.delete(`${baseURL}/api/cart/${cartId}`);
+    // }
 
     // 
     const isInCart = (pId) => {
         // console.log(cartProducts);
         if (cartProducts?.length > 0) {
-            if (cartProducts.find((c) => c.product.id == pId)) {
+            if (cartProducts.find( (c) => c.product.id == pId)) {
                 return true
             }
             return false
         }
-
     }
 
     // change count in cart

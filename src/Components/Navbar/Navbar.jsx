@@ -12,7 +12,7 @@ import { cartDataSelector } from '../CartPage/cartSlice';
 function Navbar({ logout }) {
   const cartCount = useSelector(cartDataSelector).totalItems;
   const userData = useSelector(userDataSelector);
-  console.log(userData);
+  // console.log(userData);
   return (
     
     <header className="navbar m-0 mb-5">

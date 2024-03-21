@@ -39,11 +39,11 @@ export default function RecentlyViewed() {
     }
 
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products/category/electronics")
-      .then((res) => {
-        console.log(res.data);
-        setRecentProducts(res.data);
-      }).catch(err => console.log(err));
+    // axios.get("https://fakestoreapi.com/products/category/electronics")
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     setRecentProducts(res.data);
+    //   }).catch(err => console.log(err));
   }, []);
   return (
     <>
@@ -79,7 +79,7 @@ export default function RecentlyViewed() {
         swipeable
       >
 
-        {RecentProducts.map((prod) => {
+        {RecentProducts?.map((prod) => {
           return <RecentProduct product={prod} key={prod.id} />
         })}
 
