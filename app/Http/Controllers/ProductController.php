@@ -57,6 +57,7 @@ class ProductController extends Controller
             if (!$cat) {
                 $products = Product::where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
             } else {
+                // get by category
                 $category = Category::where('name', '=', $cat)->first();
                 // dd($category, $cat);
                 if (!$category) {
@@ -72,7 +73,7 @@ class ProductController extends Controller
                 $category = Category::where('name', '=', $cat)->first();
                 // dd($category, $cat);
                 if (!$category) {
-                    return response()->json(['message' => 'Not a category products found'], 404);
+                    return response()->json(['message' => 'Not a category'], 404);
                 }
 
                 $products = $category->products()->with('images')->where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
@@ -83,7 +84,7 @@ class ProductController extends Controller
         if ($products->count() > 0) {
             return response()->json($products, 200);
         } else {
-            return response()->json(['message' => 'No products found'], 404);
+            return response()->json([]);
         }
     }
 

@@ -40,6 +40,9 @@ use App\Models\Seller;
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
+
+    Route::get('/total/{user_id}', [CartController::class, 'getCartTotal']);
+
     Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
     Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
     Route::delete('/{cart_id}', [CartController::class, 'deleteCartItem']);
