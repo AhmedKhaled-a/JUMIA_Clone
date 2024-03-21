@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Errors;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Http\Resources\CartResource;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -13,7 +15,7 @@ class CartController extends Controller
     {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {
-            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'] , 404);
+            return response()->json(["code" => Errors::ERR_EMPTY_REQ, 'message' => 'Empty request'], 404);
         }
 
         $validator = Validator::make($data, [
@@ -21,17 +23,23 @@ class CartController extends Controller
             'count' => 'required|integer|min:1',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $cart = new Cart();
         $cart->user_id = $user_id;
-        $cart->product_id = $data['product_id'];
-        $cart->count = $data['count'];
+        $product = Product::find($data['product_id']);
+
+        $cart->product()->associate($product);
+        $cart->count = 1;
         $cart->save();
 
-        return response()->json([ 'cart_id' => $cart->id, 'message' => 'Item added to cart successfully']);
+        return response()->json([
+            'cart' => $cart,
+            'product' => $product,
+            'message' => 'Item added to cart successfully'
+        ]);
     }
 
     public function getCart($userId)
@@ -42,7 +50,7 @@ class CartController extends Controller
         $productCounts = $cartItems->groupBy('product_id')->map->sum('count');
 
         // return response()->json($cartItems);
-         
+
         return [
             'total_items' => $totalItems,
             'productsCount' => $productCounts,
@@ -61,13 +69,12 @@ class CartController extends Controller
     {
         $cartItem = Cart::find($cartId);
 
-        if($cartItem) {
+        if ($cartItem) {
             $cartItem->delete();
+        } else {
+            return response()->json(['message' => 'Cart Item not found'], 404);
         }
-        else {
-            return response()->json(['message' => 'Cart Item not found'] , 404);
-        }
-        return response()->json(['message' => 'Cart Item deleted'] , 200);
+        return response()->json(['message' => 'Cart Item deleted'], 200);
     }
 
     /*
@@ -85,20 +92,17 @@ class CartController extends Controller
             'count' => 'required|integer|min:0',
         ]);
 
-        if($validator->fails()) {
-            return response()->json(["message" => "bad request"] , 404);
+        if ($validator->fails()) {
+            return response()->json(["message" => "bad request"], 404);
         }
 
         $cart = Cart::find($cartId);
-        if(!$cart) {
-            return response()->json(["message" => "no cart with this id"] , 404);
-        
+        if (!$cart) {
+            return response()->json(["message" => "no cart with this id"], 404);
         }
         $cart->count = $data['count'];
         $cart->save();
 
-        return response()->json(["message" => "cart updated successfully"] , 200);
+        return response()->json(["message" => "cart updated successfully"], 200);
     }
-    
 }
-
