@@ -376,4 +376,13 @@ class ProductController extends Controller
 
         return response()->json($seller->products);
     }
+
+    public function searchProduct(Request $request)
+{
+    $search = $request->input('search');
+    $results = Product::where('title', 'like', "%$search%")->get();
+    return($results);
+
+    // return view('products.index', ['results' => $results]);
+}
 }
