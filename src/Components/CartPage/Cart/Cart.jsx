@@ -47,7 +47,6 @@ const Cart = () => {
             console.log("done");
         }
         console.log(userData.user);
-
     }, [])
 
 

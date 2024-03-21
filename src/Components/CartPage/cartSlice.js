@@ -6,6 +6,7 @@ import { baseURL } from "../../config/config";
 
 
 let initialState = {
+    totalItemsLoading : false,
     loading: false,
     cart: [],
     totalItems: 0,
@@ -15,6 +16,15 @@ let initialState = {
 export const addProductToCart = createAsyncThunk('carts/addProductToCart', ([pId, user_id]) => {
     let token = localStorage.getItem('userToken');
     return axios.post(`${baseURL}/api/cart/add/${user_id}`, JSON.stringify({ product_id: pId, count: 1 }),
+        { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+            return res.data;
+        });
+});
+
+export const getCartTotal = createAsyncThunk('carts/getCartTotal', (user_id) => {
+    let token = localStorage.getItem('userToken');
+    return axios.get(`${baseURL}/api/cart/total/${user_id}`, null,
         { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
             return res.data;
@@ -126,7 +136,16 @@ export const cartSlice = createSlice({
             state.totalItems += 1;
             state.productsCount[action.payload.cart.product.id] = 1;
 
+        });
+
+        builder.addCase(getCartTotal.pending, (state) => {
+            state.totalItemsLoading = true;
         })
+
+        builder.addCase(getCartTotal.fulfilled, (state, action) => {
+            state.totalItemsLoading = false;
+            state.totalItems = action.payload.totalItems;
+        });
     }
 });
 

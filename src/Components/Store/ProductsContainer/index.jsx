@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './index.css'
-import Rating from '@mui/material/Rating';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { baseURL, storageURL } from '../../../config/config';
 import Product from './Product/Product';
 import axios from 'axios';

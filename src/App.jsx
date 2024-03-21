@@ -42,10 +42,10 @@ import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashb
 
 import Updates from './Components/Dashboards/SellerDashboard/Updates/Updates';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser, setTokenAction, setTypeAction, setUserAction, userDataSelector } from './userSlice';
+import { fetchUser, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoute';
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
-import { cartDataSelector, fetchCartItems, initCartAction } from './Components/CartPage/cartSlice';
+import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
 
 
@@ -64,18 +64,23 @@ export const access = async () => {
 
 
 function App() {
-    const userData = useSelector(userDataSelector)
+    const userData = useSelector(userDataSelector);
+    let cart = useSelector(cartDataSelector);
     const dispatch = useDispatch();
     // get userData
     useEffect(() => {
-
         dispatch(fetchUser());
-        console.log(userData);
-        
 
-
+        console.log(userData); 
     }, []);
-    // const classes = globalStyles();
+
+    useEffect(() => {
+        if(userData.user) {
+            dispatch(getCartTotal(userData.user.id));
+            
+        }
+    }, [userData]);
+
     let routers = createBrowserRouter([
         {
             path: '/', element: <Layout />, children: [
@@ -116,7 +121,7 @@ function App() {
             <CssBaseline />
             <ThemeProvider theme={theme}>
                 {
-                    userData.loading ? <CircularProgress sx={{marginLeft:'50%'}} /> : <div>
+                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{marginLeft:'50%'}} /> : <div>
                         <RouterProvider router={routers} />
                     </div>
                 }
