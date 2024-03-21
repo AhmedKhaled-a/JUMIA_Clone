@@ -29,7 +29,7 @@ class SavedProductsController extends Controller
             // dd($user->saved_products[1]->id);
             return response()->json($data);
         } else {
-            return response()->json(['message' => 'an error']);
+            return response()->json(['message' => 'an error'] , 404);
         }
     }
 
@@ -65,7 +65,9 @@ class SavedProductsController extends Controller
             return response()->json(['message' => 'already saved']);
         }
     }
-
+    /**
+     * { product_id : 1 }
+     */
     public function isSavedProduct(Request $request, string $userId)
     {
         $data = json_decode($request->getContent(), true);
@@ -80,10 +82,13 @@ class SavedProductsController extends Controller
         }
         return response()->json(['is_saved' => false]);
     }
-
+    /**
+     * { product_id : 1 }
+     */
     public function unsaveProduct(Request $request, string $userId)
     {
         $isSaved = json_decode($this->isSavedProduct($request, $userId)->getContent(), true)['is_saved'];
+
         if ($isSaved) {
             $data = json_decode($request->getContent(), true);
             // remove
@@ -92,7 +97,7 @@ class SavedProductsController extends Controller
             return response()->json(['message' => 'product removed successfully']);
 
         } else {
-            return response()->json(['message' => 'product not saved']);
+            return response()->json(['message' => 'not a saved product'] , 404);
         }
     }
 }

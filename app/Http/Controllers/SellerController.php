@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\jumiaVerificationEmailForSellers;
 use App\Mail\resetPasswordLinkForSellers;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 {
@@ -37,7 +38,7 @@ class SellerController extends Controller
         $validator = Validator::make($data, [
             'fullname' => 'required',
             'shop_name' => "required|unique:sellers,shop_name",
-            'email' => 'required|unique:users,email',
+            'email' => 'required|unique:sellers,email',
             'password' => "required",
             'phone_number' => "required",
         ]);
@@ -74,10 +75,12 @@ class SellerController extends Controller
             $seller->update(['is_verified' => 1]);
             DB::table('seller_verification')->where('token',$verification_code)->delete();
 
-            return response()->json([
-                'success'=> true,
-                'message'=> 'You have successfully verified your email address.'
-            ]);
+            // return response()->json([
+            //     'success'=> true,
+            //     'message'=> 'You have successfully verified your email address.'
+            // ]);
+
+            return Redirect::away(env('REACT_APP_URL' , 'http://127.0.0.1:3000') . '/verification/success');
         }
 
         return response()->json(['success'=> false, 'error'=> "Verification code is invalid."]);
