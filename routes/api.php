@@ -263,8 +263,9 @@ Route::get('seller/verify/{verification_code}',[SellerController::class,'verifyS
 Route::post('seller/foreget',[SellerController::class,'resetPasswordLink']);
 Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ]);
 Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink']);
-
-
+/**************************************** search Routes  ************************************************/
+// Route::post('search/product',[ProductController::class,'searchProduct']);
+Route::get('search/product', [ProductController::class,'searchProduct'])->name('products.search');
 
 /*
 |--------------------------------------------------------------------------
