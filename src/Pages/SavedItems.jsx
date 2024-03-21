@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Account from "../Components/Account/Account";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Container } from '@mui/material';
 import TopSelling from "../Components/Account/TopSelling";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSavedProducts, savedProductsDataSelector } from "../Components/Store/savedProductsSlice";
+import { userDataSelector } from "../userSlice";
+import BasicGrid from "./BasicGrid";
 
 const drawerWidth = 240;
 
 export default function SavedItems() {
+    const saved = useSelector(savedProductsDataSelector);
+    const savedProducts = saved.savedProducts;
+    const dispatch = useDispatch();
+    const userData = useSelector(userDataSelector);
+
+    useEffect(() => {
+        if(!savedProducts) {
+            dispatch(fetchSavedProducts(userData.user.id));
+        }
+    }, []);
     return (
         <>
-        <Container style={{display: 'flex', marginBottom: '50px'}}>
+        {saved.loading || userData.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> :<Container style={{display: 'flex', marginBottom: '50px'}}>
         <Box sx={{ display: "flex" }}>
             <Account />
             <Box
@@ -26,8 +40,9 @@ export default function SavedItems() {
             {/* <Toolbar /> */}
 
             <div>
-                <div className="d-flex justify-content-center align-items-center flex-column h-100">
-                <svg
+                <div className="d-flex justify-content-center w-100 align-items-center flex-column h-100">
+                    <BasicGrid arr={savedProducts} />
+                {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
                     width="100"
@@ -71,12 +86,12 @@ export default function SavedItems() {
                     >
                     CONTINUE SHOPPING
                     </Button>
-                </a>
+                </a> */}
                 </div>
             </div>
             </Box>
         </Box>
-        </Container>
+        </Container>}
         <TopSelling />
         </>
     );

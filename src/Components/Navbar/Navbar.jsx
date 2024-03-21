@@ -18,7 +18,7 @@ function Navbar({ logout }) {
     <header className="navbar m-0 mb-5">
       <div className="container  d-flex justify-content-around">
         <div className='img-container'>
-          <a href="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></a>
+          <Link to="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></Link>
         </div>
         <div className="search-bar">
           <input type="text" placeholder="&#xF002; Search products, brands, and categories" className="search-input" />
@@ -32,7 +32,7 @@ function Navbar({ logout }) {
             {!userData.user ? <Link to="/login" className='dropdown-item'><i className="fa-regular me-2 fa-user"></i> Sign in</Link> : <></>}
             {userData.user ?
               <>
-                <li><a className="dropdown-item" href="#"><i className="fa-regular me-2 fa-user"></i> My Account</a></li>
+                <li><Link className="dropdown-item" to="/account"><i className="fa-regular me-2 fa-user"></i> My Account</Link></li>
                 <li><a className="dropdown-item" href="#"><i className="fa-regular fa-heart me-2"></i> Orders</a></li>
                 <li><a className="dropdown-item" href="#"><i className="fa-regular fa-heart me-2"></i> Saved Items</a></li>
                 <li onClick={logout}><span>Logout</span></li>

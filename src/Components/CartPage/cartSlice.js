@@ -11,6 +11,7 @@ let initialState = {
     cart: [],
     totalItems: 0,
     productsCount: null,
+    error: false,
 }
 
 export const addProductToCart = createAsyncThunk('carts/addProductToCart', ([pId, user_id]) => {
@@ -124,6 +125,11 @@ export const cartSlice = createSlice({
             state.totalItems = action.payload.total_items;
             state.productsCount = action.payload.productsCount;
 
+        })
+
+        builder.addCase(fetchCartItems.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
         })
 
         builder.addCase(addProductToCart.pending, (state) => {

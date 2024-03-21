@@ -39,17 +39,29 @@ function Login() {
 
     async function sendLoginDataToApi() {
         // console.log(user);
-        let { data } = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => console.log(err))
-        console.log(data);
-        if (data.token) {
-            localStorage.setItem('userToken', data.token);
-            localStorage.setItem('userType', 'user');
-            dispatch(setUserAction(data.user));
-            dispatch(setTypeAction('user'));
-            dispatch(setTokenAction(data.token));
-            navigate('/')
-        } else {
-            setLoading(false)
+        let res = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => {
+            console.log(err);
+            setApiError(err.response.data.error);
+            setLoading(false);
+
+        })
+
+        if (res) {
+            console.log(res.data);
+            let data = res.data;
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userType', 'user');
+                dispatch(setUserAction(data.user));
+                dispatch(setTypeAction('user'));
+                dispatch(setTokenAction(data.token));
+                navigate('/')
+            } else {
+                setLoading(false)
+            }
+        }
+        else {
+            setLoading(false);
         }
     }
 
@@ -98,6 +110,12 @@ function Login() {
                     {errorList.filter((error) => error.context.label == 'password')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'password')[0].message !== '"password" is not allowed to be empty' ? 'password is invalid please try again!' : '"password" is not allowed to be empty'}
+                        </div>
+                        : ''
+                    }
+
+                    {apiError ? <div className='form-alert-msg my-2 p-1'>
+                            {apiError}
                         </div>
                         : ''
                     }

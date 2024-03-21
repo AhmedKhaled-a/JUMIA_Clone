@@ -8,6 +8,7 @@ import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByV
 import { userDataSelector } from '../../../userSlice';
 import { CircularProgress } from '@mui/material';
 import { productsDataSelector } from '../ProductsSlice';
+import { addToSavedProducts, fetchSavedProducts, removeFromSavedProducts, savedProductsDataSelector } from '../savedProductsSlice';
 
 
 export default function ProductsContainer(props) {
@@ -16,30 +17,21 @@ export default function ProductsContainer(props) {
     const cartProducts = cart.cart;
     const userData = useSelector(userDataSelector);
     const products = useSelector(productsDataSelector);
-    const productsCartCounts = cart.productsCount;
+    const saved = useSelector(savedProductsDataSelector);
+    const savedProducts = saved.savedProducts;
 
     // const products = useSelector(productsDataSelector);
     const dispatch = useDispatch();
 
+    /******************************************* Cart ***************************************************************************** */
     const addCart = (pId) => {
         dispatch(addProductToCart([pId, userData.user.id]))
     }
 
-    // let deleteProductFromCart = (pId) => {
-    //     let cartItem = cartProducts.find( (c) => { return c.product.id == pId}); 
-        
-    //     console.log(cartItem);
-    //     let cartId = cartItem.id;
-    //     dispatch(deleteCartItemByProductAction(pId));
-
-    //     axios.delete(`${baseURL}/api/cart/${cartId}`);
-    // }
-
-    // 
     const isInCart = (pId) => {
         // console.log(cartProducts);
         if (cartProducts?.length > 0) {
-            if (cartProducts.find( (c) => c.product.id == pId)) {
+            if (cartProducts.find((c) => c.product.id == pId)) {
                 return true
             }
             return false
@@ -52,16 +44,65 @@ export default function ProductsContainer(props) {
 
         let count = cartItem.count;
         let newCount = count + n;
-        dispatch(changeCountByValueAction( [cartItem.id, n] ))
+        dispatch(changeCountByValueAction([cartItem.id, n]))
 
         axios.put(`${baseURL}/api/cart/${cartItem.id}/update-count`, JSON.stringify({
             count: newCount
         }, { Authorization: `Bearer ${userData.token}` })).then(res => console.log(res));
     }
 
+    /******************************************* Saved Products ***************************************************************************** */
+
+    const isProductSaved = (productId) => {
+        if (!saved.error) {
+            let saved = savedProducts?.find((sProduct) => { return sProduct.id == productId });
+
+            if (saved) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    const saveProduct = (productId) => {
+            let product = products.find((p) => p.id == productId);
+            dispatch(addToSavedProducts(product));
+
+
+            // add to saved
+            axios.post(`${baseURL}/api/products/save/${userData.user.id}`, JSON.stringify({ product_id: productId },
+                {
+                    haeders: {
+                        Authorization: `Bearer ${userData.user.token}`,
+                        crossDomain: true
+                    }
+                }
+            )).catch(err => console.log(err));
+    }
+
+    const unsaveProduct = (productId) => {
+        dispatch(removeFromSavedProducts(productId));
+
+
+        // add to saved
+        axios.post(`${baseURL}/api/products/unsave/${userData.user.id}`, JSON.stringify({ 
+            "product_id": productId 
+        },
+            {
+                haeders: {
+                    Authorization: `Bearer ${userData.user.token}`,
+                    crossDomain: true
+                }
+            }
+        )).catch(err => console.log(err));
+    }
+
+
     useEffect(() => {
         if (userData.user) {
             dispatch(fetchCartItems(userData.user.id));
+            dispatch(fetchSavedProducts(userData.user.id));
+
             console.log("done");
         }
         console.log(userData.user);
@@ -70,12 +111,22 @@ export default function ProductsContainer(props) {
 
     return (
         <>
-            {userData.loading || cart.loading || products.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
+            {userData.loading || cart.loading || products.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
                 <h4 className='pb-2  border-bottom'>Android Phones</h4>
                 <div className="product-cards row flex-wrap g-3">
                     {
                         products?.map((prod) => {
-                            return <Product changeInCart={changeInCart} addCart={addCart} isInCart={isInCart} key={prod.id} product={prod} />
+                            return <Product
+                                changeInCart={changeInCart}
+                                addCart={addCart}
+                                isInCart={isInCart}
+                                key={prod.id}
+                                product={prod}
+                                isProductSaved={isProductSaved}
+                                saveProduct={saveProduct}
+                                unsaveProduct={unsaveProduct}
+
+                            />
                         })
                     }
                 </div>
