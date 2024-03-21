@@ -25,7 +25,7 @@ import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
 import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
-import SellerLogin from './Components/Seller/SellerLogin';
+import SellerLogin from './Components/SellerLogin/Login';
 import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
 
 import axios from 'axios';
@@ -99,9 +99,9 @@ function App() {
                 { path: '/account/address', element: <AddressBook /> },
                 { path: '/account/newsletter', element: <Newsletter /> },
                 { path: '/login', element: <Login /> },
+                {path: '/seller/login' , element: <SellerLogin />},
                 { path: '/register', element: <Register /> },
                 { path: '/login', element: <Login /> },
-                { path: '/seller/login', element: <SellerLogin /> },
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
                 {
