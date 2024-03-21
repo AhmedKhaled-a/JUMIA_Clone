@@ -42,6 +42,13 @@ class CartController extends Controller
         ]);
     }
 
+    public function getCartTotal(string $userId) {
+        $cartItems = Cart::where('user_id', $userId)->with(['product'])->get();
+        $totalItems = $cartItems->sum('count');
+
+        return response()->json(['totalItems' =>  $totalItems]);
+    }
+
     public function getCart($userId)
     {
         $cartItems = Cart::where('user_id', $userId)->with(['product'])->get();
@@ -51,11 +58,11 @@ class CartController extends Controller
 
         // return response()->json($cartItems);
 
-        return [
+        return response()->json( [
             'total_items' => $totalItems,
             'productsCount' => $productCounts,
             'cart_items' => CartResource::collection($cartItems),
-        ];
+        ]);
     }
 
     public function clearCart($userId)
