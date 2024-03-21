@@ -243,6 +243,7 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
+Route::get('product/user-viewed/{userId}',[ViewedProductsController::class, 'getViewedProducts']);
 /**************************************** verification  routes user ************************************************/
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
