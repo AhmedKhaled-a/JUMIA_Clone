@@ -258,14 +258,17 @@ Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser'
 Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
 Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
 Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);
+
 /**************************************** email varification for sellers  ************************************************/
 Route::get('seller/verify/{verification_code}',[SellerController::class,'verifySeller' ]);
+
 /**************************************** reset password routes for sellers  ************************************************/
 Route::post('seller/foreget',[SellerController::class,'resetPasswordLink']);
 Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ]);
 Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink']);
-
-
+/**************************************** search Routes  ************************************************/
+// Route::post('search/product',[ProductController::class,'searchProduct']);
+Route::get('search/product', [ProductController::class,'searchProduct'])->name('products.search');
 
 /*
 |--------------------------------------------------------------------------

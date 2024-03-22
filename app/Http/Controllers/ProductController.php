@@ -33,6 +33,7 @@ class ProductController extends Controller
         $priceLow = $request->input('pricelow');
         $priceHigh = $request->input('pricehigh');
         $brand = $request->input('brand');
+        $search = $request->input('search');
         // dd($limit);
 
         // handling arguments
@@ -86,6 +87,14 @@ class ProductController extends Controller
         } else {
             return response()->json([]);
         }
+        if(!$search){
+            return response()->json([]);
+        }else{
+            $results = Product::where('title', 'like', "%$search%")->get();
+            return($results);
+        }
+        $results = Product::where('title', 'like', "%$search%")->get();
+        return($results);
     }
 
 
@@ -377,4 +386,13 @@ class ProductController extends Controller
 
         return response()->json($seller->products);
     }
+
+//     public function searchProduct(Request $request)
+// {
+//     $search = $request->input('search');
+//     $results = Product::where('title', 'like', "%$search%")->get();
+//     return($results);
+
+//     // return view('products.index', ['results' => $results]);
+// }
 }

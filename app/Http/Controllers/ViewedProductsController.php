@@ -53,17 +53,14 @@ class ViewedProductsController extends Controller
             {
                 // $savedProducts = Product::join('products', 'products.id', '=', 'saved_products.product_id')
                 // ->join('users', 'saved_posts.user_id', '=', 'users.id')->where('users.id', '=', $id)->get();
-                $user = User::find($userId);
-                if ($user) {
+                // $user = User::find($userId);
+                // dd($user->viewed_products);
                     $data = [
-                        'Viewed_Product' => $user->viewed_products,
+                        'viewed_products' => Viewed_Product::where('user_id', $userId)->with('product')->get(),
                     ];
                     // return SavedProductsResource::collection($user->saved_products);
                     // dd($user->saved_products[1]->id);
                     return response()->json($data);
-                } else {
-                    return response()->json(['message' => 'an error']);
-                }
             }       
             
 }

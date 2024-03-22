@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Viewed_Product extends Model
 {
     use HasFactory;
+    protected $table='viewed_products';
+
     public function user(): BelongsTo
     {
         return $this->BelongsTo(User::class);
@@ -18,13 +20,12 @@ class Viewed_Product extends Model
     {
         return $this->BelongsTo(Product::class);
     }
-    protected $table='viewed_products';
     
     protected $fillable = [
         
         'product_id',
         'user_id',
-        'viewed_it'
+        'viewed_at'
         
     ];
 }

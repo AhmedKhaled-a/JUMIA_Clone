@@ -55,14 +55,10 @@ class Product extends Model
     {
         return $this->BelongsToMany(
             User::class,
-            'viewed_products'
-        ); 
-    }
-
-
-    public function viewd_product(): BelongsTo
-    {
-        return $this->belongsTo(Viewed_Product::class);
+            'viewed_products', 
+            'product_id',
+            'user_id',    
+        );
     }
 
     protected $fillable = [
