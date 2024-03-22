@@ -27,6 +27,7 @@ import Newsletter from './Pages/Newsletter';
 import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/SellerLogin/Login';
+
 import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
 
 import axios from 'axios';
@@ -41,7 +42,7 @@ import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
 
-import { useDispatch, useSelector } from 'react-redux';
+import {connect, useDispatch, useSelector } from 'react-redux';
 import { fetchUser, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoutes/ProtectedRoute';
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
@@ -53,7 +54,19 @@ import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 import AddProductForm from './Components/addProductForm';
+import { jwtDecode } from 'jwt-decode';
+import Product from './Components/Product/Detail';
+import Detail from './Components/Product/Detail';
+import ProductListView from './Components/Product/List';
+import ProductDetailView from './Components/Product/Detail';
 
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      setUserName: (data) => {
+        dispatch({ type: "USER", value: data });
+      },
+    };}
 
 // function to access base auth route used in protected route
 // TODO: create a function that returns yes or no , authenticated or not instead of using me
@@ -126,6 +139,8 @@ function App() {
                 {path: '/payment/success' , element:<Success />},
                 {path: '/verification/success' , element:<VerificationSuccess />},
                 {path: '/addProduct' , element:<AddProductForm />},
+                { path: '/product', element: <Product /> }
+
             ]
         }
     ]);
@@ -134,13 +149,12 @@ function App() {
         <>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-                {
-                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div>
-                        <RouterProvider router={routers} />
-                    </div>
-                }
-
-            </ThemeProvider>
+      <div>
+          
+            <RouterProvider router={routers}  />
+          
+        </div>   
+       </ThemeProvider>
 
         </>
     );
