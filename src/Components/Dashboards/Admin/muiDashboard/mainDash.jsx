@@ -1,6 +1,7 @@
 import { Grid ,Paper} from '@mui/material'
 import React from 'react'
 import DashboardOrders from '../Orders/Orders'
+import DashboardMessages from '../Messages/DashboardMessages'
 
 export default function MainDash() {
   return (
@@ -15,8 +16,8 @@ export default function MainDash() {
                     height: 240,
                   }}
                 >
-                    {/* components go here */}
-                    <DashboardOrders />
+                    {/* top most component */}
+                    {/* <DashboardOrders />  */}
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -29,7 +30,8 @@ export default function MainDash() {
                     height: 240,
                   }}
                 >
-                  <DashboardOrders />
+                    {/* right most component */}
+                  <DashboardMessages />
 
                 </Paper>
               </Grid>

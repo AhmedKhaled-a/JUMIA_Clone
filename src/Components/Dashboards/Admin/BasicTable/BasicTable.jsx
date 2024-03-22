@@ -22,8 +22,8 @@ export default function BasicTable(props) {
                         <TableHead>
                             <TableRow>
                                 {
-                                    headings.map((h) => {
-                                        return <TableCell>{h}</TableCell>
+                                    headings.map((h, index) => {
+                                        return <TableCell key={index}>{h}</TableCell>
                                     })
                                 }
                             </TableRow>

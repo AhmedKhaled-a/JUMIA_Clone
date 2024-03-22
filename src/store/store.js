@@ -4,6 +4,7 @@ import cartReducer from '../Components/CartPage/cartSlice';
 import productsReducer from '../Components/Store/ProductsSlice';
 import savedProductsReducer from '../Components/Store/savedProductsSlice';
 import ordersReducer from '../Components/Dashboards/ordersSlice';
+import adminsReducer from '../Components/Dashboards/Admin/adminSlice';
 
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         carts: cartReducer, // just to put reducers in
         products: productsReducer, // just to put reducers in
         savedProducts: savedProductsReducer,
-        orders: ordersReducer
+        orders: ordersReducer,
+        admins: adminsReducer,
     }
 })

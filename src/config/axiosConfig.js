@@ -16,7 +16,8 @@ export const authenticatedClient = axios.create({
 export const authHeaders = {
     Authorization: `Bearer ${token}`,
     crossDomain: true,
-    contentType: 'application/json'
+    contentType: 'application/json',
+    Connection: 'keep-alive',
 }
 
 export const notAuthHeaders = {

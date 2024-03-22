@@ -17,9 +17,10 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { secondaryListItems } from './listItems';
 import DashboardOrders from '../Orders/Orders';
 import { Outlet } from 'react-router-dom';
+import MainListItems from './MainListItems';
 
 function Copyright(props) {
   return (
@@ -130,7 +131,7 @@ export default function Dashboard() {
           <Divider />
 
           <List component="nav">
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1, width:'100%' }} />
             {secondaryListItems}
           </List>

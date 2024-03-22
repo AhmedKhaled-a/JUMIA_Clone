@@ -11,8 +11,10 @@ export const ProtectedRoute = (props) => {
   const getAuth = () => {
     if (props.role == 'superAdmin' && userData.isSuperAdmin == true && userData.type == 'admin') {
       return true;
+    } else if(props.role == 'superAdmin') {
+      return false;
     }
-    return userData.type === props.role
+    return userData.type === props.role;
   }
   while (!userData.user || userData.loading) {
     console.log("frek");

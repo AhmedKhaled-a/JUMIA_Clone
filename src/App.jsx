@@ -53,6 +53,7 @@ import AddProductForm from './Components/addProductForm';
 import Dashboard from './Components/Dashboards/Admin/muiDashboard/Dashboard';
 import GLayout from './Components/GLayout';
 import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
+import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmins';
 
 
 // function to access base auth route used in protected route
@@ -113,25 +114,33 @@ function App() {
                 // admin routes
                 {
                     path: '/admin', children: [
-                        { path: 'login' , element: <AdminLogin />}
+                        { path: 'login', element: <AdminLogin /> }
                     ]
                 },
 
                 // dashboard routes
-                {path:"/dashboard", element:<ProtectedRoute role={'admin'} ></ProtectedRoute> , children : [
-                    {
-                        path: '/dashboard', element: <Dashboard />, children: [
-                            {index: true, element: <MainDash /> },
-                            { path: 'orders', element: <DashboardOrders /> },
-                            { path: 'products', element: <DashboardProducts /> }
-                        ]
-                    },
-                ]},
-                
+                {
+                    path: "/dashboard", element: <ProtectedRoute role={'admin'} ></ProtectedRoute>, children: [
+                        {
+                            path: '/dashboard', element: <Dashboard />, children: [
+                                { index: true, element: <MainDash /> },
+                                { path: 'orders', element: <DashboardOrders /> },
+                                { path: 'products', element: <DashboardProducts /> },
+                                {
+                                    path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
+                                        { index:true, element: <DashboardAdmins /> }
+                                    ]
+                                }
+
+                            ]
+                        },
+                    ]
+                },
+
                 { path: '/store', element: <Store /> },
-                {path: '/payment/success' , element:<Success />},
-                {path: '/verification/success' , element:<VerificationSuccess />},
-                {path: '/addProduct' , element:<AddProductForm />},
+                { path: '/payment/success', element: <Success /> },
+                { path: '/verification/success', element: <VerificationSuccess /> },
+                { path: '/addProduct', element: <AddProductForm /> },
             ]
         }
     ]);
