@@ -41,15 +41,17 @@ import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
 
-import Updates from './Components/Dashboards/SellerDashboard/Updates/Updates';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, userDataSelector } from './userSlice';
-import { ProtectedRoute } from './ProtectedRoute';
+import { ProtectedRoute } from './ProtectedRoutes/ProtectedRoute';
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
 import VerificationSuccess from './Components/Verification Success/VerificationSuccess';
 import DashboardOrders from './Components/Dashboards/Admin/Orders/Orders';
+import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
+import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
+import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 
 
 // function to access base auth route used in protected route
@@ -74,19 +76,19 @@ function App() {
     useEffect(() => {
         dispatch(fetchUser());
 
-        console.log(userData); 
+        console.log(userData);
     }, []);
 
     useEffect(() => {
-        if(userData.user) {
+        if (userData.user) {
             dispatch(getCartTotal(userData.user.id));
-            
+
         }
     }, [userData]);
 
     let routers = createBrowserRouter([
         {
-            path: '/', element: <Layout />, children: [
+            path: '/', errorElement: <ErrorPage />, element: <Layout />, children: [
                 { index: true, element: <Home /> },
                 // {path:'/category', element:<CategoryPage /> },
                 { path: '/cart', element: <CartPage /> },
@@ -101,21 +103,27 @@ function App() {
                 { path: '/account/address', element: <AddressBook /> },
                 { path: '/account/newsletter', element: <Newsletter /> },
                 { path: '/login', element: <Login /> },
-                {path: '/seller/login' , element: <SellerLogin />},
+                { path: '/seller/login', element: <SellerLogin /> },
                 { path: '/register', element: <Register /> },
                 { path: '/login', element: <Login /> },
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
                 {
+                    path: '/admin', children: [
+                        { path: 'login' , element: <AdminLogin />}
+                    ]
+                },
+
+                {
                     path: '/dashboard', element: <SellerDashboard />, children: [
-                        { index: true, element: <MainDash /> },
+                        { index: true, element: <ProtectedRoute access={access} role={'admin'}><MainDash /></ProtectedRoute> },
                         { path: 'orders', element: <DashboardOrders /> },
-                        { path: 'products', element: <BasicTable /> }
+                        { path: 'products', element: <DashboardProducts /> }
                     ]
                 },
                 { path: '/store', element: <Store /> },
-                {path: '/payment/success' , element:<Success />},
-                {path: '/verification/success' , element:<VerificationSuccess />},
+                { path: '/payment/success', element: <Success /> },
+                { path: '/verification/success', element: <VerificationSuccess /> },
             ]
         }
     ]);
@@ -125,7 +133,7 @@ function App() {
             <CssBaseline />
             <ThemeProvider theme={theme}>
                 {
-                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{marginLeft:'50%'}} /> : <div>
+                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div>
                         <RouterProvider router={routers} />
                     </div>
                 }
