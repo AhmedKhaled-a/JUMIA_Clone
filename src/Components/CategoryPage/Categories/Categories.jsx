@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Categories = () => {
+const Categories = (props) => {
     const classes = useStyles();
     const [categories, setCategories] = useState([]);
 
@@ -23,10 +23,10 @@ const Categories = () => {
             try {
                 // Retrieve the query parameter from the URL
                 const params = new URLSearchParams(window.location.search);
-                const superCategories = params.get('super_categories');
+                const superCategories = props.id;
 
                 // Fetch categories with the query parameter
-                const response = await axios.get(`http://localhost:8000/api/categories?super_categories=${superCategories}`);
+                const response = await axios.get(`http://localhost:8000/api/categories?id=${superCategories}`);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);

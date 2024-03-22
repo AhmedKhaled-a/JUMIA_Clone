@@ -131,7 +131,7 @@ function App() {
         {path: '/seller/login' , element:<SellerLogin />},
         {path: '/seller/signup' , element:<SellerSignup />},
         {path: '/store' , element:<ProductsContainer />},
-        {path: '/categories' , element:<Categories />},
+        {path: '/categories' , element:<Categories id='7' />},
 
     ])
 
