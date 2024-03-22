@@ -143,6 +143,9 @@ Route::post('/orders', [OrderController::class , 'store'])
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.get-for-user');
 
+Route::get('/orders/user/{userId}/status/{status}', [OrderController::class , 'getOrdersForUserByStatus'])
+->name('orders.get-orders-for-user-by-status');
+
 Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
 ->name('orders.get-for-seller');
 
