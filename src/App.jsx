@@ -27,7 +27,6 @@ import Newsletter from './Pages/Newsletter';
 import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/SellerLogin/Login';
-import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
 
 import axios from 'axios';
 import './App.css'
@@ -39,12 +38,10 @@ import { useEffect, useState } from 'react';
 import SellerSignup from './Components/Seller/SellerSignup';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
-import SellerDashboard from './Components/Dashboards/SellerDashboard/SellerDashboard';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoutes/ProtectedRoute';
-import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
 import VerificationSuccess from './Components/Verification Success/VerificationSuccess';
@@ -53,6 +50,9 @@ import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 import AddProductForm from './Components/addProductForm';
+import Dashboard from './Components/Dashboards/Admin/muiDashboard/Dashboard';
+import GLayout from './Components/GLayout';
+import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
 
 
 // function to access base auth route used in protected route
@@ -89,8 +89,8 @@ function App() {
 
     let routers = createBrowserRouter([
         {
-            path: '/', errorElement: <ErrorPage />, element: <Layout />, children: [
-                { index: true, element: <Home /> },
+            path: '/', errorElement: <ErrorPage />, element: <GLayout />, children: [
+                { index: true, element: <Layout><Home /></Layout> },
                 // {path:'/category', element:<CategoryPage /> },
                 { path: '/cart', element: <CartPage /> },
                 { path: '/account', element: <MyAccount /> },
@@ -109,19 +109,25 @@ function App() {
                 { path: '/login', element: <Login /> },
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
+
+                // admin routes
                 {
                     path: '/admin', children: [
                         { path: 'login' , element: <AdminLogin />}
                     ]
                 },
 
-                {
-                    path: '/dashboard', element: <SellerDashboard />, children: [
-                        { index: true, element: <ProtectedRoute access={access} role={'admin'}><MainDash /></ProtectedRoute> },
-                        { path: 'orders', element: <DashboardOrders /> },
-                        { path: 'products', element: <DashboardProducts /> }
-                    ]
-                },
+                // dashboard routes
+                {path:"/dashboard", element:<ProtectedRoute role={'admin'} ></ProtectedRoute> , children : [
+                    {
+                        path: '/dashboard', element: <Dashboard />, children: [
+                            {index: true, element: <MainDash /> },
+                            { path: 'orders', element: <DashboardOrders /> },
+                            { path: 'products', element: <DashboardProducts /> }
+                        ]
+                    },
+                ]},
+                
                 { path: '/store', element: <Store /> },
                 {path: '/payment/success' , element:<Success />},
                 {path: '/verification/success' , element:<VerificationSuccess />},

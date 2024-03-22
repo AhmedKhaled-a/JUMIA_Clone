@@ -7,6 +7,7 @@ let initialState = {
     loading : false,
     user : null, // init state inside slice
     type : null,
+    isSuperAdmin : false,
     token: null,
     error: false
 }
@@ -32,6 +33,7 @@ export const userSlice = createSlice({
         setUserAction : (state, action) => {state.user = action.payload},
         setTypeAction : (state, action) => {state.type = action.payload},
         setTokenAction : (state, action) => {state.token = action.payload},
+        setSuperAdminAction: (state, action) => {state.isSuperAdmin = action.payload},
     },
     // for async fetchUser call
     extraReducers: builder => {
@@ -42,6 +44,7 @@ export const userSlice = createSlice({
             state.loading = false;
             state.user = action.payload.user;
             state.type = action.payload.role;
+            state.isSuperAdmin = action.payload.isSuperAdmin;
             state.token = localStorage.getItem('userToken');
         })
 
@@ -55,6 +58,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const { setUserAction, setTypeAction, setTokenAction } = userSlice.actions;
+export const { setUserAction, setTypeAction, setTokenAction, setSuperAdminAction } = userSlice.actions;
 export const userDataSelector = (state) => state.users;
 export default userSlice.reducer;

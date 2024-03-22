@@ -28,7 +28,11 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', () => {
 export const ordersSlice = createSlice({
     name: 'orders',
     initialState,
-    reducers: {},
+    reducers: {
+        setOrdersAction:  (state, action) => {
+            state.orders = action.payload;
+        }
+    },
 
     // for async fetchUser call
     extraReducers: builder => {
@@ -51,6 +55,6 @@ export const ordersSlice = createSlice({
 
 });
 
-export const { } = ordersSlice.actions;
+export const { setOrdersAction } = ordersSlice.actions;
 export const ordersDataSelector = (state) => state.orders;
 export default ordersSlice.reducer;

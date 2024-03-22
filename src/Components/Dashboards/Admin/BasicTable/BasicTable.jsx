@@ -6,13 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
+import UpdateIcon from '@mui/icons-material/Update';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function BasicTable(props) {
-    // props => headings, data (following the headings)
 
-    // const data = [...props.data]; // {id, title ,.....}
-    const headings = [...props.headings]; // {id, title ,.....}
+    const headings = [...props.headings];
 
     return (
         <>
@@ -44,7 +44,10 @@ export default function BasicTable(props) {
                                             </TableCell>
                                         })
                                     }
-
+                                    <TableCell component="th" scope="row" >
+                                        <IconButton color='error' onClick={ () => { props.delete(row.id) }}><DeleteIcon /></IconButton>
+                                        <IconButton color='primary'><UpdateIcon /></IconButton>
+                                    </TableCell>
                                 </TableRow>
                             })}
                         </TableBody>
