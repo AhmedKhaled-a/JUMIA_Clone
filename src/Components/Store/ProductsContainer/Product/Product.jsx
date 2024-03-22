@@ -22,17 +22,17 @@ export default function Product(props) {
     let { id, title, price, rating, thumbnail, stock, desc } = props.product;
 
     return (
-        <div className="product-card col-4 p-0" id={id}>
+        <div className="product-card col-lg-3 col-md-4 col-sm-6 p-0" id={id}>
             <div class="product-image-container overflow-hidden">
                 <a href="">
-                    <img className='w-100 product-image' height="240" src={`${storageURL}${thumbnail}`} alt={desc} />
-                </a>
+                    <img className='w-100 product-image rounded-1' height="260" src={`${storageURL}${thumbnail}`} alt={desc} />
+                    </a>
             </div>
             <div className="product-details p-2">
                 <p className="product-title text-muted mb-1">{title}</p>
                 <p className="product-price mb-1 fw-semibold">{price}$</p>
                 <div className="d-flex align-items-center">
-                    <Rating name="half-rating-read" value={Math.round(rating * 2) / 2} precision={0.5} />
+                    <Rating name="half-rating-read" readonly value={Math.round(rating * 2) / 2} precision={0.5} />
                     <p className='m-0 ms-1 text-muted'>({Math.round(rating * 2) / 2})</p>
                 </div>
             </div>
@@ -53,12 +53,12 @@ export default function Product(props) {
                         </div>
 
                     </div>
-
+{/* 
                     <div className="row">
                         <Link to="/cart">
                             <button className='bg-primary'>Go to Cart</button>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
                 :
                 <button onClick={() => { props.addCart(id) }}>Add to Cart</button>}

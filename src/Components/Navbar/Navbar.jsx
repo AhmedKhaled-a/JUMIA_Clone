@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../userSlice';
 import { cartDataSelector } from '../CartPage/cartSlice';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 
 function Navbar({ logout }) {
@@ -21,7 +22,7 @@ function Navbar({ logout }) {
           <Link to="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></Link>
         </div>
         <div className="search-bar">
-          <input type="text" placeholder="&#xF002; Search products, brands, and categories" className="search-input" />
+          <input type="text" placeholder="Search products, brands, and categories" className="search-input" />
           <button className='search-button'> SEARCH</button>
         </div>
 
@@ -56,7 +57,7 @@ function Navbar({ logout }) {
           </ul>
         </div>
         <div className="user-links">
-          <Link to="cart"><i className="fa fa-shopping-cart"></i> Cart ({cartCount})</Link>
+          <Link  className='cart-icon' to="cart"><FontAwesomeIcon icon={faCartShopping}/> <span className='cart-count'>{cartCount}</span></Link>
           {/* <Link to="/dashboard">dashboard</Link> */}
         </div>
       </div>

@@ -90,8 +90,8 @@ function App() {
 
     let routers = createBrowserRouter([
         {
-            path: '/', errorElement: <ErrorPage />, element: <GLayout />, children: [
-                { index: true, element: <Layout><Home /></Layout> },
+            path: '/', errorElement: <ErrorPage />, element: <Layout />, children: [
+                { index: true, element: <Home /> },
                 // {path:'/category', element:<CategoryPage /> },
                 { path: '/cart', element: <CartPage /> },
                 { path: '/account', element: <MyAccount /> },

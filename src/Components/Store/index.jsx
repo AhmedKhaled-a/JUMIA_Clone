@@ -15,17 +15,17 @@ export default function Store() {
     const products = useSelector(productsDataSelector);
     const dispatch = useDispatch();
 
-    let [ params, setParams ] = useState({
+    let [params, setParams] = useState({
         pricelow: 20,
         pricehigh: 10000
     });
 
     let handleBrand = (brand) => {
-        setParams({...params, brand: brand})
+        setParams({ ...params, brand: brand })
     }
 
     let handlePrice = (priceLow, priceHigh) => {
-        setParams({...params, pricelow: priceLow, pricehigh: priceHigh})
+        setParams({ ...params, pricelow: priceLow, pricehigh: priceHigh })
     }
 
     let makeArgumentStr = () => {
@@ -41,7 +41,7 @@ export default function Store() {
         let argString = makeArgumentStr();
 
         // remove trailing &
-        if(argString[argString.length - 1] == '&' ) {
+        if (argString[argString.length - 1] == '&') {
             argString.substring(argString.length - 2, argString.length - 1);
         }
         dispatch(fetchProducts(`products?${argString}`));
@@ -52,13 +52,14 @@ export default function Store() {
         dispatch(fetchProducts("products"));
     }, []);
 
-    return ( products.loading ?  <CircularProgress sx={{marginLeft:'50%'}} /> : <div className="row">              
-                    <div className="col-3">
-                        <Filter handleBrand={handleBrand}  handlePrice={handlePrice} filter={filter} />
-                    </div>
-                    <div className="col-9">
-                        <ProductsContainer products={products} />
-                    </div>
+    return (products.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> :
+        <div className="row my-5">
+            <div className="col-lg-3 col-md-4 col-sm-8 my-5">
+                <Filter handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />
             </div>
+            <div className="col-lg-9 col-md-8 col-sm-12 my-5">
+                <ProductsContainer products={products} />
+            </div>
+        </div>
     )
 }

@@ -13,7 +13,7 @@ export default function Layout() {
 
   return <>
     <Navbar userData={ {} } logOut={logout} />
-    <div className="container">
+    <div className="" style={{width:'85%',margin:'auto'}}>
       <Outlet></Outlet>
     </div>
     <Footer />
