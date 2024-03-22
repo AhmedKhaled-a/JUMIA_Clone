@@ -48,6 +48,7 @@ import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash'
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
 import VerificationSuccess from './Components/Verification Success/VerificationSuccess';
+import AddProductForm from './Components/addProductForm';
 
 
 // function to access base auth route used in protected route
@@ -114,6 +115,7 @@ function App() {
                 { path: '/store', element: <Store /> },
                 {path: '/payment/success' , element:<Success />},
                 {path: '/verification/success' , element:<VerificationSuccess />},
+                {path: '/addProduct' , element:<AddProductForm />},
             ]
         }
     ]);
