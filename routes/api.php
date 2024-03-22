@@ -133,7 +133,10 @@ Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'
 
 
 /**************************************** Orders ************************************************/
-// TODO: Reduce Count in DB automatically when order is made
+
+Route::get('/orders', [OrderController::class , 'index'])
+->name('orders.index'); // takes a cart array and stores them
+
 Route::post('/orders', [OrderController::class , 'store'])
 ->name('orders.store'); // takes a cart array and stores them
 

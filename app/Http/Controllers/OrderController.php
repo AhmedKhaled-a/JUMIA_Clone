@@ -22,6 +22,12 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    public function index() {
+
+        $orders = Order::orderBy('created_at' , 'desc')->get();
+        return response()->json([ "orders" => $orders ]);
+
+    }
     public function store(Request $request)
     {
         $data = json_decode($request->getContent(), true);
