@@ -58,7 +58,10 @@ import { jwtDecode } from 'jwt-decode';
 import Product from './Components/Product/Detail';
 import Detail from './Components/Product/Detail';
 import ProductDetailView from './Components/Product/Detail';
-
+import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
+import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
+import { ResetPasswordForSeller } from './Components/ResetPassword/ResetPasswordForSeller';
+import { ResetPasswordFieldsForSeller } from './Components/ResetPassword/ResetPasswordFieldsForSeller';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -66,10 +69,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch({ type: "USER", value: data });
       },
     };}
-import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
-import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
-import { ResetPasswordForSeller } from './Components/ResetPassword/ResetPasswordForSeller';
-import { ResetPasswordFieldsForSeller } from './Components/ResetPassword/ResetPasswordFieldsForSeller';
+
 
 
 // function to access base auth route used in protected route
