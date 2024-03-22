@@ -53,6 +53,10 @@ import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 import AddProductForm from './Components/addProductForm';
+import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
+import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
+import { ResetPasswordForSeller } from './Components/ResetPassword/ResetPasswordForSeller';
+import { ResetPasswordFieldsForSeller } from './Components/ResetPassword/ResetPasswordFieldsForSeller';
 
 
 // function to access base auth route used in protected route
@@ -107,6 +111,10 @@ function App() {
                 { path: '/seller/login', element: <SellerLogin /> },
                 { path: '/register', element: <Register /> },
                 { path: '/login', element: <Login /> },
+                { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
+                { path: '/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForUser /> },
+                { path: '/seller/reset-password/request', element: <ResetPasswordForSeller /> },
+                { path: '/seller/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForSeller /> },
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
                 {
