@@ -17,21 +17,20 @@ class CategoryController extends Controller
 public function index(Request $request)
 {
     // Retrieve super category ID from the query string
-    $superCategoryId = $request->input('super_category_id');
+    $Id = $request->input('id');
 
     // Fetch categories based on super category ID if provided
-    if ($superCategoryId !== null) {
-        $categories = Category::where('super_category_id', $superCategoryId)->get();
-    } else {
-        // Fetch all categories if no super category ID provided
-        $categories = Category::all();
-    }
+
+        $categories = Category::find($Id)->subCategories;
+    //    dd($categories);
+        // $categories = Category::all();
+    
 
     // Modify category_thumb paths to start with 'storage'
-    $categories->transform(function ($category) {
-        $category->category_thumb = 'storage/' . $category->category_thumb;
-        return $category;
-    });
+    // $categories->transform(function ($category) {
+    //     $category->category_thumb = 'storage/' . $category->category_thumb;
+    //     return $category;
+    
 
     return response()->json($categories, 200);
 }

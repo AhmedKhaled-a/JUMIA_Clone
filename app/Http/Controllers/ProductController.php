@@ -299,7 +299,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id)->with(['images'])->first();
+        $product = Product::with(['images'])->find($id);
 
         if ($product) {
             return response()->json($product, 200);
@@ -307,6 +307,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
     }
+
 
     /**
      * Update a product in the database.
@@ -460,7 +461,7 @@ class ProductController extends Controller
         if (!$seller) {
             return response()->json(['message' => 'Seller not found'], 404);
         }
-        // check if user trying to 
+        // check if user trying to
         if (auth()->user()->id != $sellerId) {
             return response()->json(['message' => 'Not authenticated seller'], 404);
         }

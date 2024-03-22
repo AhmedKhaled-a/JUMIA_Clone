@@ -13,6 +13,11 @@ class Category extends Model
     public function super_category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+
+    }
+     public function subCategories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'super_category_id');
     }
 
     public function products(): HasMany
