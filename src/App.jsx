@@ -15,6 +15,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 // import globalStyles from './styles';
 import MyAccount from './Pages/MyAccount';
 import Orders from './Pages/Orders';
+
 import OrdersClosed from './Pages/OrdersClosed';
 import Inbox from './Pages/Inbox';
 import ReviewsIndex from './Pages/ReviewsIndex';
@@ -48,6 +49,7 @@ import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash'
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
 import VerificationSuccess from './Components/Verification Success/VerificationSuccess';
+import DashboardOrders from './Components/Dashboards/Admin/Orders/Orders';
 import AddProductForm from './Components/addProductForm';
 
 
@@ -108,7 +110,7 @@ function App() {
                 {
                     path: '/dashboard', element: <SellerDashboard />, children: [
                         { index: true, element: <MainDash /> },
-                        { path: 'orders', element: <BasicTable /> },
+                        { path: 'orders', element: <DashboardOrders /> },
                         { path: 'products', element: <BasicTable /> }
                     ]
                 },
