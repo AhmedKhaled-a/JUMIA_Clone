@@ -52,6 +52,7 @@ import DashboardOrders from './Components/Dashboards/Admin/Orders/Orders';
 import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
+import AddProductForm from './Components/addProductForm';
 
 
 // function to access base auth route used in protected route
@@ -122,8 +123,9 @@ function App() {
                     ]
                 },
                 { path: '/store', element: <Store /> },
-                { path: '/payment/success', element: <Success /> },
-                { path: '/verification/success', element: <VerificationSuccess /> },
+                {path: '/payment/success' , element:<Success />},
+                {path: '/verification/success' , element:<VerificationSuccess />},
+                {path: '/addProduct' , element:<AddProductForm />},
             ]
         }
     ]);
