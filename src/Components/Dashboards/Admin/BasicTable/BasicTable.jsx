@@ -36,8 +36,11 @@ export default function BasicTable(props) {
                                 >
                                     {
                                         headings.map((h, index) => {
+                                            var arr = h.split(".");
+                                            var obj = row;
+                                            while (arr.length && (obj = obj[arr.shift()]));
                                             return <TableCell component="th" scope="row" key={index}>
-                                                { row[h] }
+                                                {obj}
                                             </TableCell>
                                         })
                                     }

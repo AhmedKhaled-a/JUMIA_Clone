@@ -17,7 +17,7 @@ export default function DashboardOrders() {
         <>
             {
                 ordersSl.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> :
-                    <div>
+                    <div style={{marginTop:22}}>
                         <BasicTable data={orders}
                         headings={['id' , 'price' , 'count' , 'product.title' , 'user_id' , 'seller_id' , 'order_status', 'payment_status']} // things to show from data
                         />
