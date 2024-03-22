@@ -57,7 +57,6 @@ import AddProductForm from './Components/addProductForm';
 import { jwtDecode } from 'jwt-decode';
 import Product from './Components/Product/Detail';
 import Detail from './Components/Product/Detail';
-import ProductListView from './Components/Product/List';
 import ProductDetailView from './Components/Product/Detail';
 
 

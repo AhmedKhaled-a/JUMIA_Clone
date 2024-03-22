@@ -143,7 +143,6 @@ function ProductDetailView(props) {
           <CardServices />
         </div>
       </div>
-      
       <div className="productDetail mt-2 bg-white">
             <h4>Product Details:</h4>
             <hr className="mb-2" />
