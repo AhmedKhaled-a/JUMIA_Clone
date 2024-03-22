@@ -8,7 +8,7 @@ let initialState = {
     user : null, // init state inside slice
     type : null,
     token: null,
-    error: false,
+    error: false
 }
 
 export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
