@@ -11,20 +11,20 @@ export const ProtectedRoute = (props) => {
   const getAuth = () => {
     if (props.role == 'superAdmin' && userData.isSuperAdmin == true && userData.type == 'admin') {
       return true;
-    } else if(props.role == 'superAdmin') {
+    } else if (props.role == 'superAdmin') {
       return false;
     }
-    return userData.type === props.role;
+    return userData.type == props.role;
   }
-  while (!userData.user || userData.loading) {
-    console.log("frek");
+  while ( !userData.user || userData.loading ) {
+    // console.log("frek");
     return <CircularProgress sx={{ marginLeft: '50%' }} />; // or loading indicator/spinner/etc
   }
   return <>
     {
       getAuth() ? <Outlet />
         : <Navigate to="/unauth" replace state={{ from: location }} />
-  }
+    }
 
   </>
 }
