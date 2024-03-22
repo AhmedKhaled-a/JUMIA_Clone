@@ -1,15 +1,14 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,6 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import MailIcon from '@mui/icons-material/Mail';
 import ReviewsIcon from '@mui/icons-material/Reviews';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import UpdateIcon from '@mui/icons-material/Update';
 
@@ -88,12 +86,11 @@ function Account(props) {
                 <ListItemText primary='Reviews' />
                 </ListItemButton>
             </ListItem>
-
             {/* --------- Saved Items --------- */}
             <ListItem disablePadding onClick={() => navigate('/account/saved')}>
                 <ListItemButton>
                 <ListItemIcon>
-                    <FavoriteIcon sx={{ fontSize: 30}}/>
+                    <BookmarkIcon sx={{ fontSize: 30}}/>
                 </ListItemIcon>
                 <ListItemText primary='Saved Items' />
                 </ListItemButton>
@@ -151,33 +148,6 @@ function Account(props) {
 
     return (
         <Box sx={{ display: "flex" }}>
-        {/* <CssBaseline /> */}
-        {/* <AppBar
-            position="fixed"
-            elevation={0}
-            sx={{
-            zIndex: 'unset',
-            width: '100%',
-            ml: { sm: `${drawerWidth}px` },
-            }}
-        style={{ backgroundColor: '#FFFFFF', color: '#000000' }}
-        className="border border-bottom"
-        >
-            <Toolbar>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: "none" } }}
-            >
-                <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div">
-                Account Overview
-            </Typography>
-            </Toolbar>
-        </AppBar> */}
         <Box
             component="nav"
             sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

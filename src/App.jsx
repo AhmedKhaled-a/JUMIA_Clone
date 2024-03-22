@@ -15,6 +15,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 // import globalStyles from './styles';
 import MyAccount from './Pages/MyAccount';
 import Orders from './Pages/Orders';
+
 import OrdersClosed from './Pages/OrdersClosed';
 import Inbox from './Pages/Inbox';
 import ReviewsIndex from './Pages/ReviewsIndex';
@@ -25,7 +26,7 @@ import AddressBook from './Pages/AddressBook';
 import Newsletter from './Pages/Newsletter';
 import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
-import SellerLogin from './Components/Seller/SellerLogin';
+import SellerLogin from './Components/SellerLogin/Login';
 import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
 
 import axios from 'axios';
@@ -47,6 +48,8 @@ import { ProtectedRoute } from './ProtectedRoute';
 import MainDash from './Components/Dashboards/SellerDashboard/MainDash/MainDash';
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
 import Success from './Components/Payment/Success';
+import VerificationSuccess from './Components/Verification Success/VerificationSuccess';
+import DashboardOrders from './Components/Dashboards/Admin/Orders/Orders';
 
 
 // function to access base auth route used in protected route
@@ -98,20 +101,21 @@ function App() {
                 { path: '/account/address', element: <AddressBook /> },
                 { path: '/account/newsletter', element: <Newsletter /> },
                 { path: '/login', element: <Login /> },
+                {path: '/seller/login' , element: <SellerLogin />},
                 { path: '/register', element: <Register /> },
                 { path: '/login', element: <Login /> },
-                { path: '/seller/login', element: <SellerLogin /> },
                 { path: '/seller/signup', element: <SellerSignup /> },
                 { path: '/cat', element: <CategoryPage /> },
                 {
                     path: '/dashboard', element: <SellerDashboard />, children: [
                         { index: true, element: <MainDash /> },
-                        { path: 'orders', element: <BasicTable /> },
+                        { path: 'orders', element: <DashboardOrders /> },
                         { path: 'products', element: <BasicTable /> }
                     ]
                 },
                 { path: '/store', element: <Store /> },
                 {path: '/payment/success' , element:<Success />},
+                {path: '/verification/success' , element:<VerificationSuccess />},
             ]
         }
     ]);

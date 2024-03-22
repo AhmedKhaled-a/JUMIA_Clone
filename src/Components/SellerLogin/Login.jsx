@@ -13,21 +13,21 @@ import { useDispatch } from 'react-redux';
 // every user type will have a login page
 
 
-function Login() {
+function SellerLogin() {
     // let {userData,setUserData} = useContext(UserDataContext);
 
     // const userData = useSelector(userDataSelector);
     const dispatch = useDispatch();
-    const [user, setUser] = useState({
+    const [seller, setSeller] = useState({
         "email": "",
         "password": ""
     })
 
     function getUserData(event) {
-        let myUser = { ...user };
-        myUser[event.target.name] = event.target.value;
+        let mySeller = { ...seller };
+        mySeller[event.target.name] = event.target.value;
         // console.log(myUser);
-        setUser(myUser);
+        setSeller(mySeller);
     }
 
 
@@ -39,7 +39,7 @@ function Login() {
 
     async function sendLoginDataToApi() {
         // console.log(user);
-        let res = await axios.post(`${baseURL}/api/auth/user/login`, user).catch(err => {
+        let res = await axios.post(`${baseURL}/api/auth/seller/login`, seller).catch(err => {
             console.log(err);
             setApiError(err.response.data.error);
             setLoading(false);
@@ -49,10 +49,11 @@ function Login() {
         if (res) {
             console.log(res.data);
             let data = res.data;
+            console.log(data);
             if (data.token) {
                 localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userType', 'user');
-                dispatch(setUserAction(data.user));
+                localStorage.setItem('userType', 'seller');
+                dispatch(setUserAction(data.seller));
                 dispatch(setTypeAction('user'));
                 dispatch(setTokenAction(data.token));
                 navigate('/')
@@ -83,7 +84,7 @@ function Login() {
             email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }).required(),
             password: Joi.string().pattern(/^([A-Z]|[a-z]|[0-9]){5,15}/).required(),
         })
-        return scheme.validate(user, { abortEarly: false })
+        return scheme.validate(seller, { abortEarly: false })
     }
 
     return (
@@ -138,4 +139,4 @@ function Login() {
 
     )
 }
-export default Login
+export default SellerLogin

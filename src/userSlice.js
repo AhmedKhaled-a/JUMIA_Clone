@@ -8,6 +8,7 @@ let initialState = {
     user : null, // init state inside slice
     type : null,
     token: null,
+    error: false
 }
 
 export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
@@ -46,6 +47,7 @@ export const userSlice = createSlice({
 
         builder.addCase(fetchUser.rejected , state => {
             state.loading = false;
+            state.error = true;
             state.user = {};
             state.type = null;
             state.token = null;
