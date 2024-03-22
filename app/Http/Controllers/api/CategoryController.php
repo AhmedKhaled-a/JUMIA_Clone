@@ -61,8 +61,6 @@ public function index(Request $request)
     
     public function store(Request $request)
     {
-        // dd($request['category']['id']);
-
         // $data = json_decode($request->getContent(), true);
         // dd($data['category']['id']);
         $validator = Validator::make($request['category'], [

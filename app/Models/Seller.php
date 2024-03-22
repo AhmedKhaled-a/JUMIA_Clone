@@ -27,7 +27,8 @@ class Seller extends Authenticatable implements JWTSubject
         'shop_name',
         'phone_number',
         'confirmer_id',
-        'id'
+        'id',
+        'is_verified'
         
     ];
 

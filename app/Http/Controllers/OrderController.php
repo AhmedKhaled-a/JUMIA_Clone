@@ -1,9 +1,9 @@
 <?php
 /* Custom error codes */
-/* 
+/*
 {
     user_id : 1,
-    cart:[  
+    cart:[
         {product_id : 1, count:100, shipping_cost: 22 (calculated at front end), shipping_period: 2 (in days calculated in FE)},
         {product_id : 5, count:140},
     ]
@@ -18,10 +18,17 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Errors;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    public function index() {
+
+        $orders = Order::orderBy('created_at' , 'desc')->get();
+        return response()->json([ "orders" => $orders ]);
+
+    }
     public function store(Request $request)
     {
         $data = json_decode($request->getContent(), true);
@@ -81,13 +88,13 @@ class OrderController extends Controller
 
     public function getForSeller(string $sellerId)
     {
-        $orders = Order::where('seller_id' , $sellerId)->get();
+        $orders = Order::where('seller_id' , $sellerId)->with(['product'])->get();
         // dd($orders);
         return response()->json($orders);
     }
 
     /*
-        Accepts json : 
+        Accepts json :
             {
                 order_status: 'processing', 'shipped' or 'delivered'
             }
@@ -114,4 +121,19 @@ class OrderController extends Controller
         return response()->json(['code' => Errors::ERR_NO_ERR, 'message' => 'order deleted successfully']);
 
     }
+
+    public function getOrdersForUserByStatus(string $userId, string $status) {
+        $orders = Order::where('user_id', $userId)->where('order_status', $status)->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json(['code' => Errors::ERR_ORDER_NOT_FOUND ,'message' => 'No orders found with the provided status']);
+        }
+
+        $products = $orders->map(function ($order) {
+            return $order->product;
+        });
+
+        return response()->json($products, JsonResponse::HTTP_OK);
+    }
+
 }

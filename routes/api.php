@@ -18,8 +18,9 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ViewedProductsController;
+use App\Models\Seller;
 
-
+// >>>>>>> a6fb0b197325a193e5aa43410665e9f7e4e6c065
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,9 @@ use App\Http\Controllers\ViewedProductsController;
 //**************************************** Cart ********************************/
 Route::prefix('cart')->group(function () {
     Route::post('/add/{user_id}', [CartController::class, 'addItem']);
+
+    Route::get('/total/{user_id}', [CartController::class, 'getCartTotal']);
+
     Route::get('/usercart/{user_id}', [CartController::class, 'getCart']);
     Route::delete('/usercart/{user_id}', [CartController::class, 'clearCart']);
     Route::delete('/{cart_id}', [CartController::class, 'deleteCartItem']);
@@ -123,17 +127,24 @@ Route::group(['prefix' => 'products'], function () {
 Route::group(['prefix' => 'products', 'middleware' => ['auth:seller']], function () {
     Route::post('/add-product', [ProductController::class, 'store']);
     Route::put('/update-product/{id}', [ProductController::class, 'update'])->where('id', '[0-9]+');
-    Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
     Route::delete('/delete-product/{id}', [ProductController::class, 'destroy'])->where('id', '[0-9]+');
 });
+Route::get('/seller/{seller_id}', [ProductController::class, 'getSellerProducts'])->where('id', '[0-9]+');
+
 
 /**************************************** Orders ************************************************/
-// TODO: Reduce Count in DB automatically when order is made
+
+Route::get('/orders', [OrderController::class , 'index'])
+->name('orders.index'); // takes a cart array and stores them
+
 Route::post('/orders', [OrderController::class , 'store'])
 ->name('orders.store'); // takes a cart array and stores them
 
 Route::get('/orders/user/{userId}', [OrderController::class , 'getForUser'])
 ->name('orders.get-for-user');
+
+Route::get('/orders/user/{userId}/status/{status}', [OrderController::class , 'getOrdersForUserByStatus'])
+->name('orders.get-orders-for-user-by-status');
 
 Route::get('/orders/seller/{sellerId}', [OrderController::class , 'getForSeller'])
 ->name('orders.get-for-seller');
@@ -167,7 +178,7 @@ Route::post('users/register', [UserController::class , 'register'])
 /**************************************** Sellers ************************************************/
 
 Route::post('sellers/register', [SellerController::class , 'register'])
-->name('user.register');
+->name('seller.register');
 
 /*
 |--------------------------------------------------------------------------
@@ -241,11 +252,26 @@ Route::group([
 // Route::delete('/product/{id}', [ViewedProductsController::class, 'destroy'])->name('product.destroy');
 
 Route::post('products/view', [ViewedProductsController::class, 'storeviewProduct']);
-/**************************************** verification &reser routes  ************************************************/
+Route::get('product/user-viewed/{userId}',[ViewedProductsController::class, 'getViewedProducts']);
+/**************************************** verification  routes user ************************************************/
 
 Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser' ]);
 
+/**************************************** reset password routes for users  ************************************************/
+Route::post('user/foreget',[UserController::class,'resetPasswordLink']);
+Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ]);
+Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink']);
 
+/**************************************** email varification for sellers  ************************************************/
+Route::get('seller/verify/{verification_code}',[SellerController::class,'verifySeller' ]);
+
+/**************************************** reset password routes for sellers  ************************************************/
+Route::post('seller/foreget',[SellerController::class,'resetPasswordLink']);
+Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ]);
+Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink']);
+/**************************************** search Routes  ************************************************/
+// Route::post('search/product',[ProductController::class,'searchProduct']);
+Route::get('search/product', [ProductController::class,'searchProduct'])->name('products.search');
 
 /*
 |--------------------------------------------------------------------------
@@ -253,6 +279,9 @@ Route::get('user/verify/{verification_code}',[UserController::class,'verifyUser'
 |--------------------------------------------------------------------------
 */
 
-Route::post('/checkout', [StripeController::class, 'checkout'])->name('payment.checkout');
-Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
-Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
+
+Route::post('/checkout', [StripeController::class, 'checkout'])->middleware('cors');
+Route::get('/success', [StripeController::class, 'success'])->middleware('cors');
+Route::get('/cancel', [StripeController::class, 'cancel'])->middleware('cors');
+Route::post('/webhook', [StripeController::class, 'webhook'])->middleware('cors');
+

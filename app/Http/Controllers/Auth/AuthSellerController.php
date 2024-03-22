@@ -29,10 +29,11 @@ class AuthSellerController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->guard('seller')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email or password is incorrect'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json(['seller' => auth()->guard('seller')->user(), 'token' => $token, 'expires_in' => auth()->factory()->getTTL() * 60]);
+
     }
 
     /**
@@ -79,7 +80,7 @@ class AuthSellerController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'seller',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 3600
         ]);
     }
 }
