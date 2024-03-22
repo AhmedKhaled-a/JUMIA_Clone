@@ -37,19 +37,19 @@ export default function Product(props) {
                 </div>
             </div>
             {props.isInCart(id) ?
-                <div className='container'>
-                    <div className="row justify-content-between align-content-between">
-                        <div className='col-3'>
-                            <button style={{ width: 70, margin: 0 }} onClick={() => { stock <= productsCartCounts[id] ? void (0) : props.changeInCart(id, 1) }} class="bg-primary"><AddIcon /></button>
+                <div className=''>
+                    <div className="d-flex justify-content-between flex-row align-items-center">
+                        <div >
+                            <button style={{ width: 70, margin: 0,padding:'8px',backgroundColor:'orange' }} onClick={() => { stock <= productsCartCounts[id] ? void (0) : props.changeInCart(id, 1) }} ><AddIcon /></button>
                         </div>
-                        <div className='col-5'>
+                        <div className='px-5 fs-5'>
 
                             <p>{productsCartCounts[id]}</p>
                         </div>
 
-                        <div className='col-3'>
+                        <div >
 
-                            <button style={{ width: 70, margin: 0 }} onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} class="bg-primary"><RemoveIcon /></button>
+                            <button style={{ width: 70, margin: 0,padding:'8px',backgroundColor:'orange' }} onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} ><RemoveIcon /></button>
                         </div>
 
                     </div>
