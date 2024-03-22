@@ -148,10 +148,15 @@ export const cartSlice = createSlice({
             state.totalItemsLoading = true;
         })
 
+        
+
         builder.addCase(getCartTotal.fulfilled, (state, action) => {
             state.totalItemsLoading = false;
             state.totalItems = action.payload.totalItems;
-        });
+        })
+        builder.addCase(getCartTotal.rejected, (state) => {
+            state.totalItemsLoading = false;
+        })
     }
 });
 

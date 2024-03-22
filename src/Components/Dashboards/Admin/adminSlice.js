@@ -7,14 +7,22 @@ import { authHeaders } from "../../../config/axiosConfig";
 let initialState = {
     loading: false,
     admins: null,
-    error : false,
+    error: false,
 }
 
 export const fetchAdmins = createAsyncThunk('admins/fetchAdmins', () => {
+    const token = localStorage.getItem('userToken');
     return axios.get(
-        `${baseURL}/api/admins`,
+        `${baseURL}/api/admins/`,
         {},
-        { headers: authHeaders })
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                contentType: 'application/json',
+                Connection: 'keep-alive',
+            }
+        }
+    )
         .then((res) => {
             return res.data;
         });
@@ -24,7 +32,7 @@ export const adminsSlice = createSlice({
     name: 'admins',
     initialState,
     reducers: {
-        setAdminsAction:  (state, action) => {
+        setAdminsAction: (state, action) => {
             state.admins = action.payload;
         }
     },
@@ -45,7 +53,7 @@ export const adminsSlice = createSlice({
             state.loading = false;
             state.error = true;
             console.log(action.payload);
-        })          
+        })
     }
 
 });

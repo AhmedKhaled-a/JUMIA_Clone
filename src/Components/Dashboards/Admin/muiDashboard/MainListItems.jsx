@@ -46,15 +46,14 @@ export default function MainListItems ()  {
 
             </ListItemButton>
         </Link>
-        {userData.type == 'admin' && userData.isSuperAdmin ? <Link to="admins">
+        {/* <Link to="admins">
             <ListItemButton>
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>
                 <ListItemText primary="Admins" />
             </ListItemButton>
-        </Link> : ''
-        }
+        </Link> */}
 
     </React.Fragment>);
 

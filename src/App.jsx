@@ -91,25 +91,33 @@ function App() {
     let routers = createBrowserRouter([
         {
             path: '/', errorElement: <ErrorPage />, element: <GLayout />, children: [
-                { index: true, element: <Layout><Home /></Layout> },
+                {
+                    path:"", element: <Layout />, children: [
+                        { index: true, element: <Home /> },
+                        { path: '/cart', element: <CartPage /> },
+                        { path: '/account', element: <MyAccount /> },
+                        { path: '/orders/index', element: <Orders /> },
+                        { path: '/orders/closed', element: <OrdersClosed /> },
+                        { path: '/account/inbox', element: <Inbox /> },
+                        { path: '/account/reviews', element: <ReviewsIndex /> },
+                        { path: '/account/saved', element: <SavedItems /> },
+                        { path: '/account/followed-sellers', element: <FollowedSellers /> },
+                        { path: '/account/viewed', element: <RecentlyViewed /> },
+                        { path: '/account/address', element: <AddressBook /> },
+                        { path: '/account/newsletter', element: <Newsletter /> },
+                        { path: '/login', element: <Login /> },
+                        { path: '/seller/login', element: <SellerLogin /> },
+                        { path: '/register', element: <Register /> },
+                        { path: '/login', element: <Login /> },
+                        { path: '/seller/signup', element: <SellerSignup /> },
+                        { path: '/cat', element: <CategoryPage /> },
+                        { path: '/store', element: <Store /> },
+                        { path: '/payment/success', element: <Success /> },
+                        { path: '/verification/success', element: <VerificationSuccess /> },
+                    ]
+                },
                 // {path:'/category', element:<CategoryPage /> },
-                { path: '/cart', element: <CartPage /> },
-                { path: '/account', element: <MyAccount /> },
-                { path: '/orders/index', element: <Orders /> },
-                { path: '/orders/closed', element: <OrdersClosed /> },
-                { path: '/account/inbox', element: <Inbox /> },
-                { path: '/account/reviews', element: <ReviewsIndex /> },
-                { path: '/account/saved', element: <SavedItems /> },
-                { path: '/account/followed-sellers', element: <FollowedSellers /> },
-                { path: '/account/viewed', element: <RecentlyViewed /> },
-                { path: '/account/address', element: <AddressBook /> },
-                { path: '/account/newsletter', element: <Newsletter /> },
-                { path: '/login', element: <Login /> },
-                { path: '/seller/login', element: <SellerLogin /> },
-                { path: '/register', element: <Register /> },
-                { path: '/login', element: <Login /> },
-                { path: '/seller/signup', element: <SellerSignup /> },
-                { path: '/cat', element: <CategoryPage /> },
+
 
                 // admin routes
                 {
@@ -126,20 +134,18 @@ function App() {
                                 { index: true, element: <MainDash /> },
                                 { path: 'orders', element: <DashboardOrders /> },
                                 { path: 'products', element: <DashboardProducts /> },
-                                {
-                                    path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
-                                        { index:true, element: <DashboardAdmins /> }
-                                    ]
-                                }
+                                // {
+                                //     path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
+                                //         { index: true, element: <DashboardAdmins /> }
+                                //     ]
+                                // }
 
                             ]
                         },
                     ]
                 },
 
-                { path: '/store', element: <Store /> },
-                { path: '/payment/success', element: <Success /> },
-                { path: '/verification/success', element: <VerificationSuccess /> },
+ 
                 { path: '/addProduct', element: <AddProductForm /> },
             ]
         }
