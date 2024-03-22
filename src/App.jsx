@@ -28,6 +28,8 @@ import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/SellerLogin/Login';
 
+import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
+
 import axios from 'axios';
 import './App.css'
 
@@ -39,7 +41,7 @@ import SellerSignup from './Components/Seller/SellerSignup';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 
-import { useDispatch, useSelector } from 'react-redux';
+import {connect, useDispatch, useSelector } from 'react-redux';
 import { fetchUser, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoutes/ProtectedRoute';
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
@@ -50,10 +52,27 @@ import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 import AddProductForm from './Components/addProductForm';
+import { jwtDecode } from 'jwt-decode';
+import Product from './Components/Product/Detail';
+import Detail from './Components/Product/Detail';
+import ProductDetailView from './Components/Product/Detail';
+import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
+import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
+import { ResetPasswordForSeller } from './Components/ResetPassword/ResetPasswordForSeller';
+import { ResetPasswordFieldsForSeller } from './Components/ResetPassword/ResetPasswordFieldsForSeller';
 import Dashboard from './Components/Dashboards/Admin/muiDashboard/Dashboard';
 import GLayout from './Components/GLayout';
 import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
 import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmins';
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      setUserName: (data) => {
+        dispatch({ type: "USER", value: data });
+      },
+    };}
+
+
 
 
 // function to access base auth route used in protected route
@@ -111,6 +130,10 @@ function App() {
                                 { path: '/account/viewed', element: <RecentlyViewed /> },
                                 { path: '/account/address', element: <AddressBook /> },
                                 { path: '/account/newsletter', element: <Newsletter /> },
+                { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
+                { path: '/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForUser /> },
+                { path: '/seller/reset-password/request', element: <ResetPasswordForSeller /> },
+                { path: '/seller/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForSeller /> },
                                 { path: '/seller/signup', element: <SellerSignup /> },
                                 { path: '/cat', element: <CategoryPage /> },
                                 { path: '/payment/success', element: <Success /> },
@@ -157,13 +180,12 @@ function App() {
         <>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-                {
-                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div>
-                        <RouterProvider router={routers} />
-                    </div>
-                }
-
-            </ThemeProvider>
+      <div>
+          
+            <RouterProvider router={routers}  />
+          
+        </div>   
+       </ThemeProvider>
 
         </>
     );
