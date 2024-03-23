@@ -54,6 +54,7 @@ import Dashboard from './Components/Dashboards/Admin/muiDashboard/Dashboard';
 import GLayout from './Components/GLayout';
 import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
 import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmins';
+import DashboardSellers from './Components/Dashboards/Admin/Sellers/DashboardSellers';
 
 
 // function to access base auth route used in protected route
@@ -72,6 +73,7 @@ export const access = async () => {
 
 function App() {
     const userData = useSelector(userDataSelector);
+
     let cart = useSelector(cartDataSelector);
     const dispatch = useDispatch();
     // get userData
@@ -134,6 +136,7 @@ function App() {
                                 { index: true, element: <MainDash /> },
                                 { path: 'orders', element: <DashboardOrders /> },
                                 { path: 'products', element: <DashboardProducts /> },
+                                { path: 'sellers', element: <DashboardSellers /> },
                                 // {
                                 //     path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
                                 //         { index: true, element: <DashboardAdmins /> }

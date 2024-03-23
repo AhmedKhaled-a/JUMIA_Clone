@@ -14,10 +14,10 @@ export const authenticatedClient = axios.create({
 });
 
 export const authHeaders = {
-    Authorization: `Bearer ${token}`,
+    Authorization: "Bearer " + token,
     crossDomain: true,
     contentType: 'application/json',
-    Connection: 'keep-alive',
+    Connection: 'keep-alive'
 }
 
 export const notAuthHeaders = {

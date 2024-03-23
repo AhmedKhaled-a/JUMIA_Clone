@@ -15,8 +15,8 @@ const Cart = () => {
     const cartProducts = cart.cart;
     // console.log(cartProducts);
     const userData = useSelector(userDataSelector);
+
     const [total, setTotal] = useState(0);
-    console.log(userData.loading);
 
 
     const dispatch = useDispatch();

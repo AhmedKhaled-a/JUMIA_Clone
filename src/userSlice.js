@@ -28,6 +28,7 @@ export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
 export const userSlice = createSlice({
     name: 'users',
     initialState,
+
     reducers : {
         // you can mutate state here it is okay
         setUserAction : (state, action) => {state.user = action.payload},
@@ -35,6 +36,7 @@ export const userSlice = createSlice({
         setTokenAction : (state, action) => {state.token = action.payload},
         setSuperAdminAction: (state, action) => {state.isSuperAdmin = action.payload},
     },
+    
     // for async fetchUser call
     extraReducers: builder => {
         builder.addCase(fetchUser.pending, state => {

@@ -5,6 +5,7 @@ import productsReducer from '../Components/Store/ProductsSlice';
 import savedProductsReducer from '../Components/Store/savedProductsSlice';
 import ordersReducer from '../Components/Dashboards/ordersSlice';
 import adminsReducer from '../Components/Dashboards/Admin/adminSlice';
+import sellersReducer from '../Components/Dashboards/Admin/sellerSlice';
 
 
 export const store = configureStore({
@@ -15,5 +16,6 @@ export const store = configureStore({
         savedProducts: savedProductsReducer,
         orders: ordersReducer,
         admins: adminsReducer,
+        sellers: sellersReducer,
     }
 })

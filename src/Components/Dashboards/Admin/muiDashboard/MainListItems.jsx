@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../../../userSlice';
 
 
-export default function MainListItems ()  {
+export default function MainListItems() {
     const userData = useSelector(userDataSelector);
 
     return (<React.Fragment>
@@ -54,6 +54,17 @@ export default function MainListItems ()  {
                 <ListItemText primary="Admins" />
             </ListItemButton>
         </Link> */}
+
+        <Link to="sellers">
+            <ListItemButton>
+                <ListItemIcon>
+                    <PeopleIcon />
+                </ListItemIcon>
+
+                <ListItemText primary="Sellers" />
+
+            </ListItemButton>
+        </Link>
 
     </React.Fragment>);
 

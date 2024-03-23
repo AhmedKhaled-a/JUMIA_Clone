@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 import { baseURL } from "../../config/config";
+import { authHeaders } from "../../config/axiosConfig";
 
 
 let initialState = {
@@ -13,7 +14,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', (url) =>
     return axios.get(
         `${baseURL}/api/${url}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } })
+        { headers: authHeaders})
         .then((res) => {
             return res.data;
         });
@@ -43,6 +44,7 @@ export const productsSlice = createSlice({
     }
 
 });
+
 
 export const { setProductsAction } = productsSlice.actions;
 export const productsDataSelector = (state) => state.products.products;
