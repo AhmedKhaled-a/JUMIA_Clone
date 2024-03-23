@@ -41,7 +41,7 @@ import SellerSignup from './Components/Seller/SellerSignup';
 import { baseURL } from './config/config';
 import CategoryPage from './Components/CategoryPage/CategoryPage';
 
-import {connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { fetchUser, userDataSelector } from './userSlice';
 import { ProtectedRoute } from './ProtectedRoutes/ProtectedRoute';
 import { cartDataSelector, getCartTotal } from './Components/CartPage/cartSlice';
@@ -53,9 +53,6 @@ import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
 import AddProductForm from './Components/addProductForm';
 import { jwtDecode } from 'jwt-decode';
-import Product from './Components/Product/Detail';
-import Detail from './Components/Product/Detail';
-import ProductDetailView from './Components/Product/Detail';
 import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
 import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
 import { ResetPasswordForSeller } from './Components/ResetPassword/ResetPasswordForSeller';
@@ -65,13 +62,15 @@ import GLayout from './Components/GLayout';
 import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
 import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmins';
 import DashboardSellers from './Components/Dashboards/Admin/Sellers/DashboardSellers';
+import ProductDetailView from './Components/Store/Product/Detail';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-      setUserName: (data) => {
-        dispatch({ type: "USER", value: data });
-      },
-    };}
+        setUserName: (data) => {
+            dispatch({ type: "USER", value: data });
+        },
+    };
+}
 
 
 
@@ -103,7 +102,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (userData.user) {
+        if (userData.user && !cart.totalItems) {
             dispatch(getCartTotal(userData.user.id));
 
         }
@@ -120,6 +119,8 @@ function App() {
                         { path: '/register', element: <Register /> },
                         { path: '/login', element: <Login /> },
                         { path: '/store', element: <Store /> },
+                        { path: '/store/product/:id', element: <ProductDetailView /> },
+
                         { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
                         { path: '/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForUser /> },
                         { path: '/seller/reset-password/request', element: <ResetPasswordForSeller /> },
@@ -183,12 +184,13 @@ function App() {
         <>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-      <div>
-          
-            <RouterProvider router={routers}  />
-          
-        </div>   
-       </ThemeProvider>
+                {
+                    userData.loading || cart.totalItemsLoading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div>
+                        <RouterProvider router={routers} />
+                    </div>
+                }
+
+            </ThemeProvider>
 
         </>
     );

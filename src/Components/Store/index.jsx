@@ -12,7 +12,8 @@ import { CircularProgress } from '@mui/material'
 export default function Store() {
     // let [ products, setProducts] = useState(null);
 
-    const products = useSelector(productsDataSelector);
+    const productsSl = useSelector((state) => state.products);
+    const products = productsSl.products;
     const dispatch = useDispatch();
 
     let [params, setParams] = useState({
@@ -49,10 +50,12 @@ export default function Store() {
     }
 
     useEffect(() => {
-        dispatch(fetchProducts("products"));
+        if(!productsSl.loaded) {
+            dispatch(fetchProducts("products"));
+        }
     }, []);
 
-    return (products.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> :
+    return (
         <div className="row my-5">
             <div className="col-lg-3 col-md-4 col-sm-8 my-5">
                 <Filter handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />

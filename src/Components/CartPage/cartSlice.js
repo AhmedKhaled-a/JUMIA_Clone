@@ -9,7 +9,7 @@ let initialState = {
     totalItemsLoading : false,
     loading: false,
     cart: [],
-    totalItems: 0,
+    totalItems: null,
     productsCount: null,
     error: false,
 }

@@ -6,6 +6,7 @@ import { authHeaders } from "../../config/axiosConfig";
 
 let initialState = {
     loading: false,
+    loaded: false,
     products: []
 }
 
@@ -38,6 +39,7 @@ export const productsSlice = createSlice({
 
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.loading = false;
+            state.loaded = true;
             state.products = action.payload;
 
         })

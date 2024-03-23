@@ -7,11 +7,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import TabPanel from "./TabPanel";
+// import Box from "@mui/material/Box";
+// import Tabs from "@mui/material/Tabs";
+// import Tab from "@mui/material/Tab";
+// import Typography from "@mui/material/Typography";
+// import TabPanel from "./TabPanel";
 
 const CardServices = (props) => {
   const { t } = useTranslation();
@@ -148,18 +148,20 @@ const CardServices = (props) => {
         </div> */}
 
         {/* Tab Panels */}
-        <div className="tab-panels">
+
+        {/* <div className="tab-panels">
           <TabPanel value={value} index={0}>
             
-            {/* Product details content here */}
+             Product details content here 
           </TabPanel>
           <TabPanel value={value} index={1}>
-            {/* Specifications content here */}
+             Specifications content here 
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {/* Customer feedback content here */}
+             Customer feedback content here 
           </TabPanel>
-        </div>
+
+        </div> */}
       </div>
     </div>
   );

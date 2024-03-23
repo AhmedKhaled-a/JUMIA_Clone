@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, deleteCartItemAction, deleteCartItemByProductAction, fetchCartItems } from '../../CartPage/cartSlice';
 import { userDataSelector } from '../../../userSlice';
 import { CircularProgress } from '@mui/material';
-import { productsDataSelector } from '../ProductsSlice';
+import { fetchProducts, productsDataSelector } from '../ProductsSlice';
 import { addToSavedProducts, fetchSavedProducts, removeFromSavedProducts, savedProductsDataSelector } from '../savedProductsSlice';
 
 
@@ -16,7 +16,8 @@ export default function ProductsContainer(props) {
     const cart = useSelector(cartDataSelector);
     const cartProducts = cart.cart;
     const userData = useSelector(userDataSelector);
-    const products = useSelector(productsDataSelector);
+    const productsSl = useSelector((state) => state.products);
+    const products = productsSl.products;
     const saved = useSelector(savedProductsDataSelector);
     const savedProducts = saved.savedProducts;
 
@@ -65,7 +66,7 @@ export default function ProductsContainer(props) {
     }
 
     const saveProduct = (productId) => {
-            let product = products.find((p) => p.id == productId);
+            let product = products?.find((p) => p.id == productId);
             dispatch(addToSavedProducts(product));
 
 
@@ -99,11 +100,15 @@ export default function ProductsContainer(props) {
 
 
     useEffect(() => {
-        if (userData.user) {
+        if (userData.user && productsSl.loaded) {
             dispatch(fetchCartItems(userData.user.id));
             dispatch(fetchSavedProducts(userData.user.id));
 
             console.log("done");
+        }
+
+        if(!productsSl.loaded) {
+            dispatch(fetchProducts("products"));
         }
         console.log(userData.user);
 
@@ -111,7 +116,7 @@ export default function ProductsContainer(props) {
 
     return (
         <>
-            {userData.loading || cart.loading || products.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
+            {userData.loading || cart.loading || productsSl.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
                 <h4 className='pb-2  border-bottom'>Android Phones</h4>
                 <div className="product-cards row flex-wrap g-3">
                     {
