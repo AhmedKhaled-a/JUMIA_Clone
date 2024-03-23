@@ -28,7 +28,7 @@ import Login from './Components/UserLogin/Login';
 import Layout from './Components/Layout/Layout';
 import SellerLogin from './Components/SellerLogin/Login';
 
-import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
+// import BasicTable from "./Components/Dashboards/SellerDashboard/Table/Orders";
 
 import axios from 'axios';
 import './App.css'
@@ -118,6 +118,10 @@ function App() {
                         { path: '/register', element: <Register /> },
                         { path: '/login', element: <Login /> },
                         { path: '/store', element: <Store /> },
+                        { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
+                        { path: '/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForUser /> },
+                        { path: '/seller/reset-password/request', element: <ResetPasswordForSeller /> },
+                        { path: '/seller/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForSeller /> },
                         {
                             element: <ProtectedRoute role={'user'} ></ProtectedRoute>, children: [
                                 { path: '/account', element: <MyAccount /> },
@@ -130,10 +134,6 @@ function App() {
                                 { path: '/account/viewed', element: <RecentlyViewed /> },
                                 { path: '/account/address', element: <AddressBook /> },
                                 { path: '/account/newsletter', element: <Newsletter /> },
-                { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
-                { path: '/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForUser /> },
-                { path: '/seller/reset-password/request', element: <ResetPasswordForSeller /> },
-                { path: '/seller/reset-Password/request/:remember_token', element: <ResetPasswordFieldsForSeller /> },
                                 { path: '/seller/signup', element: <SellerSignup /> },
                                 { path: '/cat', element: <CategoryPage /> },
                                 { path: '/payment/success', element: <Success /> },
