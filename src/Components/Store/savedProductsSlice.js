@@ -30,7 +30,7 @@ export const savedProductsSlice = createSlice({
     initialState,
     reducers: {
         addToSavedProducts: (state, action) => { // takes a product as
-            state.savedProducts.push( action.payload );
+            state.savedProducts?.push( action.payload );
         },
 
         removeFromSavedProducts: (state, action) => { // takes a productId

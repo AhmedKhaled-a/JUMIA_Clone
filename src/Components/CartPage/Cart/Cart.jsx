@@ -32,7 +32,7 @@ const Cart = () => {
     let changeCount = (cartId, n) => {
         let count = cartProducts.find((c) => c.id == cartId).count;
         dispatch(changeCountByValueAction([cartId, n]));
-        authenticatedClient.put(`/cart/${cartId}/update-count`, JSON.stringify({ count: ++count }));
+        authenticatedClient.put(`/cart/${cartId}/update-count`, JSON.stringify({ count: count }));
     }
 
     let deleteProduct = (cartId) => {

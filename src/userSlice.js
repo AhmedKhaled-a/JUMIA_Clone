@@ -43,6 +43,8 @@ export const userSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchUser.pending, state => {
             state.loading = true;
+            state.error = false;
+
         })
         builder.addCase(fetchUser.fulfilled , (state,action) => {
             state.loading = false;
@@ -50,6 +52,7 @@ export const userSlice = createSlice({
             state.type = action.payload.role;
             state.isSuperAdmin = action.payload.isSuperAdmin;
             state.token = localStorage.getItem('userToken');
+            state.error = false;
         })
 
         builder.addCase(fetchUser.rejected , state => {

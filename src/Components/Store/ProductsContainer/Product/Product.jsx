@@ -13,6 +13,7 @@ import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import { theme } from '../../../../theme';
 import { savedProductsDataSelector } from '../../savedProductsSlice';
+import { userDataSelector } from '../../../../userSlice';
 
 
 export default function Product(props) {
@@ -22,11 +23,11 @@ export default function Product(props) {
     const navigate = useNavigate();
 
     let { id, title, price, rating, thumbnail, stock, desc } = props.product;
-
+    const userData = useSelector(userDataSelector);
     return (
         <div className="product-card col-lg-3 col-md-4 col-sm-6 p-0" id={id}>
             <div class="product-image-container overflow-hidden">
-                <Link to={ `product/${id}` } >
+                <Link to={`product/${id}`} >
                     <img className='w-100 product-image rounded-1' height="260" src={`${storageURL}${thumbnail}`} alt={desc} />
                 </Link>
             </div>
@@ -63,9 +64,10 @@ export default function Product(props) {
                     </div> */}
                 </div>
                 :
-                <button onClick={() => { props.addCart(id) }}>Add to Cart</button>}
+                saved.error || !userData.user ? '' : <button onClick={() => { props.addCart(id) }}>Add to Cart</button>
+            }
             {
-                saved.error ? '' : <span className='save-icon' style={{ backgroundColor: theme.palette.primary.main }}>
+                saved.error || !userData.user ? '' : <span className='save-icon' style={{ backgroundColor: theme.palette.primary.main }}>
                     {
                         props.isProductSaved(id) ? <BookmarkAddedIcon onClick={() => { props.unsaveProduct(id) }} /> :
                             <BookmarkAddOutlinedIcon onClick={() => { props.saveProduct(id) }} />

@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, deleteCartItemAction, deleteCartItemByProductAction, fetchCartItems } from '../../CartPage/cartSlice';
 import { userDataSelector } from '../../../userSlice';
 import { CircularProgress } from '@mui/material';
-import { fetchProducts, productsDataSelector } from '../ProductsSlice';
+import { fetchProducts } from '../ProductsSlice';
 import { addToSavedProducts, fetchSavedProducts, removeFromSavedProducts, savedProductsDataSelector } from '../savedProductsSlice';
+import { authHeaders } from '../../../config/axiosConfig';
 
 
 export default function ProductsContainer(props) {
@@ -73,10 +74,7 @@ export default function ProductsContainer(props) {
             // add to saved
             axios.post(`${baseURL}/api/products/save/${userData.user.id}`, JSON.stringify({ product_id: productId },
                 {
-                    haeders: {
-                        Authorization: `Bearer ${userData.user.token}`,
-                        crossDomain: true
-                    }
+                    haeders: authHeaders
                 }
             )).catch(err => console.log(err));
     }
@@ -112,12 +110,12 @@ export default function ProductsContainer(props) {
         }
         console.log(userData.user);
 
-    }, []);
+    }, [userData]);
 
     return (
         <>
             {userData.loading || cart.loading || productsSl.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
-                <h4 className='pb-2  border-bottom'>Android Phones</h4>
+                <h4 id="productsContainerTop" className='pb-2  border-bottom'>Android Phones</h4>
                 <div className="product-cards row flex-wrap g-3">
                     {
                         products?.map((prod) => {

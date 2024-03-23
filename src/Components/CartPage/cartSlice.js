@@ -108,7 +108,7 @@ export const cartSlice = createSlice({
             // reset to initial values
             state.cart = [];
             state.totalItems = 0;
-            state.productsCount = null;
+            state.productsCount = {};
         }
 
     },

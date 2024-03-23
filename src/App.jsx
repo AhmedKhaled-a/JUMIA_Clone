@@ -92,7 +92,7 @@ export const access = async () => {
 
 function App() {
     const userData = useSelector(userDataSelector);
-
+    let category_id = 7;
     let cart = useSelector(cartDataSelector);
     const dispatch = useDispatch();
     // get userData
@@ -143,7 +143,7 @@ function App() {
                         { path: '/register', element: <Register /> },
                         { path: '/login', element: <Login /> },
 
-                        { path: '/store', element: <Store /> },
+                        { path: '/store', element: <Store id={category_id} /> },
                         { path: '/store/product/:id', element: <ProductDetailView /> },
 
                         { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
