@@ -2,15 +2,19 @@ import { Button, Card, CardActions, CardContent, Container, Typography } from '@
 import React, {  useState } from 'react'
 import { baseURL } from '../../../config/config';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { userDataSelector } from '../../../userSlice';
 
 export default function CartSummery() {
     const {total} = useState(0);
     // TODO: get user_id from context
-    let user_id = 1;
+    
+    let userData = useSelector(userDataSelector);
+
     
     // TODO: Remove this function and get the cart items from cart component
     const handleClick = () => {
-        axios.get(`${baseURL}/api/cart/usercart/1`)
+        axios.get(`${baseURL}/api/cart/usercart/${userData.user.id}`)
             .then(function (response) {
                 const cart = response.data;
                 console.log(cart);

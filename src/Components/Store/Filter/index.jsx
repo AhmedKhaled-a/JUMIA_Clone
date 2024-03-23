@@ -15,7 +15,7 @@ import { styled } from '@mui/styles';
 function valuetext(value) {
     return value;
 }
-const minDistance = 10;
+const minDistance = 300;
 
 export default function Filter(props) {
 
@@ -85,7 +85,7 @@ export default function Filter(props) {
 
                 {/*  PRICE FILTER  */}
                 <div className="price-filter mb-3 p-3 border-bottom">
-                    <Box sx={{ width: 140 }}>
+                    <Box sx={{ width: "100"  }}>
                         <Slider
                             getAriaLabel={() => 'Minimum distance'}
                             max={10000}
@@ -102,7 +102,7 @@ export default function Filter(props) {
                     <div class="price-input d-flex space-between">
                         <div class="field d-flex align-items-center">
                             <span>Min</span>
-                            <input type="text" style={{width: '1.7em'}} class="input-min" value={priceValue[0]} />
+                            <input type="text"  class="input-min" value={priceValue[0]} />
                         </div>
                         
                         <div className="separator p-0 m-0">-</div>

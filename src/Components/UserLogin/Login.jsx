@@ -107,6 +107,7 @@ function Login() {
                 <div className='my-4 input-box'>
                     <input onChange={getUserData} type="password" name='password' id='password' className='form-control px-3 py-2' />
                     <span>Password</span>
+                    <a href="/reset-password/request" style={{ float: 'left', cursor: 'pointer' }} className='mt-1'>Forgot password?</a>
                     {errorList.filter((error) => error.context.label == 'password')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'password')[0].message !== '"password" is not allowed to be empty' ? 'password is invalid please try again!' : '"password" is not allowed to be empty'}
