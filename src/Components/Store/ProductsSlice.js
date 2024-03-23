@@ -17,7 +17,9 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', (url) =>
         {},
         { headers: authHeaders})
         .then((res) => {
+            console.log(res)
             return res.data;
+
         });
 });
 

@@ -5,8 +5,7 @@ import { useParams } from "react-router-dom";
 import "./Style.module.css";
 import CardServices from "../card/CardServices";
 import Reviews from "./Reviews"; // Import the Reviews component
-import { fetchProducts } from '../ProductsSlice'
-
+import { fetchProducts, productsDataSelector } from '../ProductsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 // import { fetchOrders, ordersDataSelector } from '../../ordersSlice';
 import { CircularProgress, Rating } from '@mui/material';
@@ -14,24 +13,34 @@ import axios from 'axios';
 import { addProductToCart, cartDataSelector, changeCountByValueAction } from "../../CartPage/cartSlice";
 import { userDataSelector, userSlice } from "../../../userSlice";
 import { baseURL, storageURL } from "../../../config/config";
+import Carousel from 'react-bootstrap/Carousel';
 
 
 
 
 function ProductDetailView(props) {
 
-  const { id } = useParams()
+  // const id  = props.id
+  const{ id } =useParams();
+  console.log(id);
 
   // const [product, setProduct] = useState(null);
   const [activeImg, setActiveImg] = useState("");
   const userData = useSelector(userDataSelector)
   const dispatch = useDispatch();
-  const productsSl = useSelector((state) => state.products);
-  const products = productsSl.products;
+    const productsSl = useSelector((state) => state.products);
+    const products = useSelector(productsDataSelector);
+  // const products = productsSl.products;
+  console.log(products);
+  // let products=useSelector(productsDataSelector)
   const product = products.find((p) => { return (p.id == id) })
+  console.log(product);
+  console.log(product.stock);
+
   const cart = useSelector(cartDataSelector);
   const cartProducts = cart.cart;
 
+// console.log(productsData)
   const addCart = (pId) => {
     dispatch(addProductToCart([pId, userData.user.id]))
   }
@@ -49,15 +58,20 @@ function ProductDetailView(props) {
   // change count in cart
   const changeInCart = (pId, n) => {
     let cartItem = cartProducts.find((c) => c.product.id == pId);
-
-    let count = cartItem.count;
-    let newCount = count + n;
-    dispatch(changeCountByValueAction([cartItem.id, n]))
-
-    axios.put(`${baseURL}/api/cart/${cartItem.id}/update-count`, JSON.stringify({
-      count: newCount
-    }, { Authorization: `Bearer ${userData.token}` })).then(res => console.log(res));
+  
+    if (cartItem) {
+      let count = cartItem.count;
+      let newCount = count + n;
+      dispatch(changeCountByValueAction([cartItem.id, n]));
+  
+      axios.put(`${baseURL}/api/cart/${cartItem.id}/update-count`, JSON.stringify({
+        count: newCount
+      }, { Authorization: `Bearer ${userData.token}` })).then(res => console.log(res));
+    } else {
+      console.error('Product not found in cart');
+    }
   }
+  
   const reviewsData = [
     { name: "John Doe", rating: 4, feedback: "Great product, fast shipping!" },
     { name: "Jane Smith", rating: 5, feedback: "Excellent quality, highly recommend!" },
@@ -76,69 +90,79 @@ function ProductDetailView(props) {
         <div className="col-md-8  bg-white">
           <div className="row mb-3">
             <div className="col-md-5 text-center">
-              <img
+              {/* <img
                 src={`${storageURL}${product.thumbnail}`}
-                className="img-fluid mb-3 product-image"
+                className=" mb-3 product-imaage "
                 alt=""
-              />
-              {product.images.map((img, index) => (
-                <img
-                  key={index}
-                  src={`${storageURL}${img}`}
-                  className={`border product-thumbnail ${activeImg === img ? 'active' : ''}`}
-                  width="75"
-                  onClick={() => setActiveImg(img)}
-                  alt={`Thumbnail ${index}`}
-                />
-              ))}
+              /> */}
+              
+              <Carousel style={{ maxWidth: '400px' }}> {/* Set max width for the carousel */}
+                  {product.images.map((img, index) => (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        src={`${storageURL}${img.image}`}
+                        alt={`Slide ${index}`}
+                        onClick={() => setActiveImg(img.image)} // Set the active image when clicked
+                        style={{ cursor: 'pointer', height: '150px', objectFit: 'contain' }} // Adjust height and object-fit properties
+                      />
+                    </Carousel.Item>
+                  ))}
+                    </Carousel>   
+
             </div>
             <div className="col-md-7">
               <h1 className="product-name">{product.title}</h1>
               <div className="d-flex align-items-center mb-3">
-                <div className="stars"><Rating readOnly defaultValue={product.rating}></Rating></div>
-                <span className="ml-2">(4)</span>
+                <div className="stars"><Rating readOnly defaultValue={Math.round(product.rating * 2) / 2} precision={0.5}></Rating></div>
+                <span className="ml-2">({Math.round(product.rating * 2) / 2})</span>
               </div>
 
               <div className="price mb-3">
-                <span className="discounted-price">
-                  EGP{product.price - (product.price * product.discount)}
-                </span>
-                <del className="original-price ml-2">
-                  EGP{product.price}
-                </del>
-                <span className="discount-badge ml-2">
-                  {product.discount * 100} OFF
-                </span>
+                  <del className="original-price ml-2 d-block">
+                    Original Price: ${product.price.toFixed(2)}
+                  </del>
+                  <span className="discounted-price d-block">
+                    Discounted Price: ${(product.price - (product.price * (product.discount / 100))).toFixed(2)}
+                  </span>
+                  <span className="discount-badge ml-2">
+                    {product.discount}% OFF
+                  </span>
+                </div>
+
+
                 <p> Shipping fees from EGP 20.00 to 6th of October (free delivery if order above EGP 200.00). Save 10 EGP on shipping with prepaid payment</p>
 
-              </div>
+              
               <div className="mb-3">
-                {product.stock ? (
-                  <div className="quantity">
-                    Out of stock
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="button btn btn-warning"
-                    onClick={() => addCart(id)}
-                    disabled={isInCart(id)}
-                  >
-                    <FontAwesomeIcon icon={faCartPlus} /> Add to cart
-                  </button>
-                )}
-              </div>
+                  {product.stock ? (
+                    <button
+                      type="button"
+                      className="button btn btn-warning"
+                      onClick={() => addCart(id)}
+                      disabled={isInCart(id)}
+                    >
+                      <FontAwesomeIcon icon={faCartPlus} /> Add to cart
+                    </button>
+                  ) : (
+                    <div className="quantity">
+                      Out of stock
+                    </div>
+                  )}
+                </div>
+
 
               <div className="mb-3">
+              <button
+                className="btn btn-sm btn-warning me-3"
+                onClick={() => changeInCart(id, -1)} // Minus button
+                disabled={cartProducts.find(c => c.product.id == id)?.count <= 0}
+              >
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+
                 <button
-                  className="btn btn-sm btn-secondary mr-2"
-                  onClick={() => changeInCart(id, -1)} // Minus button
-                  disabled={cartProducts.find(c => c.product.id == id).stock <= 1}
-                >
-                  <FontAwesomeIcon icon={faMinus} />
-                </button>
-                <button
-                  className="btn btn-sm btn-secondary ml-2"
+                  className="btn btn-sm btn-warning ml-2"
                   onClick={() => changeInCart(id, 1)} // Plus button
                 >
                   <FontAwesomeIcon icon={faPlus} />

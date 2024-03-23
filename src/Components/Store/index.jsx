@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts, productsDataSelector, setProducts } from './ProductsSlice'
 import { CircularProgress } from '@mui/material'
 import { searchQuerySelector } from './searchSlice'
-
+import Categories from '../CategoryPage/Categories/Categories'
+import CategoryPage from '../CategoryPage/CategoryPage'
 export const lowPriceDefault = 20;
 export const highPriceDefault = 10000;
-export default function Store() {
+export default function Store(props) {
     let title = useSelector(searchQuerySelector);
     console.log(title);
     const params = new URLSearchParams(
@@ -71,6 +72,7 @@ export default function Store() {
 
     return (
         <div className="row my-5">
+            <CategoryPage id={props.id}/>
             <div className="col-lg-3 col-md-4 col-sm-8 my-5">
                 <Filter clearFilter={clearFilter} handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />
             </div>

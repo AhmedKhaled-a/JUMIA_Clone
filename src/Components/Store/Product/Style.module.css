@@ -8,6 +8,22 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* CSS */
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1); /* Change icon color to white */
+}
+/* CSS */
+.carousel-item img {
+  width: 100%; /* Set the width of the images to 100% of the carousel item */
+  height: auto; /* Maintain aspect ratio */
+}
+
 .product {
   display: flex;
   flex-direction: column;
@@ -40,6 +56,14 @@
   margin-bottom: 10px;
 }
 
+.product-imaage{
+width:50 px !important;
+height: auto !important;;
+border-radius:10% !important;
+margin-top:10px !important;
+cursor: pointer !important;; 
+
+}
 .stars {
   color: #ffd700;
   font-size: 1rem;
