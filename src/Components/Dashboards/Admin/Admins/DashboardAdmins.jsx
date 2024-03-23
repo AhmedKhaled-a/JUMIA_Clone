@@ -13,7 +13,8 @@ export default function DashboardAdmins() {
     }
 
     useEffect(() => {
-        dispatch(fetchAdmins());
+        if(admins.admins == null)
+            dispatch(fetchAdmins());
 
     }, []);
 

@@ -63,6 +63,7 @@ import MainDash from './Components/Dashboards/Admin/muiDashboard/mainDash';
 import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmins';
 import DashboardSellers from './Components/Dashboards/Admin/Sellers/DashboardSellers';
 import ProductDetailView from './Components/Store/Product/Detail';
+import Unauth from './Components/Errors/UnauthPage/Unauth';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -91,7 +92,7 @@ export const access = async () => {
 
 function App() {
     const userData = useSelector(userDataSelector);
-    let categoryId = 7;
+
     let cart = useSelector(cartDataSelector);
     const dispatch = useDispatch();
     // get userData
@@ -106,9 +107,9 @@ function App() {
             dispatch(getCartTotal(userData.user.id));
 
         }
+        // if(userData.error) {  }
 
         const token = localStorage.getItem('userToken');
-
         // solves the problem associated with not authorized with axios not sending jwt token
         // if (token) {
             // Add a request interceptor
@@ -134,14 +135,15 @@ function App() {
     let routers = createBrowserRouter([
         {
             path: '/', errorElement: <ErrorPage />, element: <GLayout />, children: [
+                {path: '/unauth' , element: <Unauth />},
                 {
                     path: "", element: <Layout />, children: [
                         { index: true, element: <Home /> },
-                        { path: '/cart', element: <CartPage /> },
                         { path: '/seller/login', element: <SellerLogin /> },
                         { path: '/register', element: <Register /> },
                         { path: '/login', element: <Login /> },
-                        { path: '/store', element: <Store id={categoryId} /> },
+
+                        { path: '/store', element: <Store /> },
                         { path: '/store/product/:id', element: <ProductDetailView /> },
 
                         { path: '/reset-password/request', element: <ResetPassowrdForUser /> },
@@ -161,8 +163,9 @@ function App() {
                                 { path: '/account/address', element: <AddressBook /> },
                                 { path: '/account/newsletter', element: <Newsletter /> },
                                 { path: '/seller/signup', element: <SellerSignup /> },
-                                { path: '/cat', element: <CategoryPage /> },
+                                // { path: '/cat', element: <CategoryPage /> },
                                 { path: '/payment/success', element: <Success /> },
+                                { path: '/cart', element: <CartPage /> },
                                 { path: '/verification/success', element: <VerificationSuccess /> },
                             ]
                         }]

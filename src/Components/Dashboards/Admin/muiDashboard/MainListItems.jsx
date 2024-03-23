@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../../../userSlice';
 
-
 export default function MainListItems() {
     const userData = useSelector(userDataSelector);
 
@@ -62,7 +61,6 @@ export default function MainListItems() {
                 </ListItemIcon>
 
                 <ListItemText primary="Sellers" />
-
             </ListItemButton>
         </Link>
 

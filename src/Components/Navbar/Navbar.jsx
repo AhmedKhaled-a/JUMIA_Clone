@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 import logo from './imgs/jumia logo1.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { faRocketchat } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ function Navbar({ logout }) {
   const cartCount = useSelector(cartDataSelector).totalItems;
   const userData = useSelector(userDataSelector);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchQ, setSearchQ] = useState('')
   // console.log(userData);
   const keyPressSearch = (e) => {
@@ -37,7 +38,7 @@ function Navbar({ logout }) {
             value={searchQ}
             onChange={(e) => {setSearchQ(e.target.value)}}
             />
-          <button className='search-button' onClick={() => {dispatch(setSearchQueryAction(searchQ))}} >SEARCH</button>
+          <button className='search-button' onClick={() => {dispatch(setSearchQueryAction(searchQ)); navigate('/store')}} >SEARCH</button>
         </div>
 
         <div className="dropdown">

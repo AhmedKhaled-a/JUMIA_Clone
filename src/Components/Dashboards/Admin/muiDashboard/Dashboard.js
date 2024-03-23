@@ -21,6 +21,7 @@ import { secondaryListItems } from './listItems';
 import DashboardOrders from '../Orders/Orders';
 import { Outlet } from 'react-router-dom';
 import MainListItems from './MainListItems';
+import SecondaryListItems from './SecondaryListItems';
 
 function Copyright(props) {
   return (
@@ -133,7 +134,7 @@ export default function Dashboard() {
           <List component="nav">
             <MainListItems />
             <Divider sx={{ my: 1, width:'100%' }} />
-            {secondaryListItems}
+            <SecondaryListItems />
           </List>
 
         </Drawer>

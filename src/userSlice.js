@@ -28,13 +28,15 @@ export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
 export const userSlice = createSlice({
     name: 'users',
     initialState,
-
     reducers : {
         // you can mutate state here it is okay
         setUserAction : (state, action) => {state.user = action.payload},
         setTypeAction : (state, action) => {state.type = action.payload},
         setTokenAction : (state, action) => {state.token = action.payload},
         setSuperAdminAction: (state, action) => {state.isSuperAdmin = action.payload},
+        resetUserData: (state) => {
+            state = initialState;
+        },
     },
     
     // for async fetchUser call
@@ -60,6 +62,6 @@ export const userSlice = createSlice({
     }
 });
 
-export const { setUserAction, setTypeAction, setTokenAction, setSuperAdminAction } = userSlice.actions;
+export const { setUserAction, setTypeAction, setTokenAction, setSuperAdminAction, resetUserData } = userSlice.actions;
 export const userDataSelector = (state) => state.users;
 export default userSlice.reducer;

@@ -4,25 +4,30 @@ import { useNavigate, Outlet } from 'react-router-dom'
 import axios from 'axios';
 import { authHeaders } from '../../config/axiosConfig';
 import { baseURL } from '../../config/config';
+import { useDispatch } from 'react-redux';
+import { resetUserData } from '../../userSlice';
 
 
 export default function Layout() {
-  let navigate = useNavigate()
-  const logout = () => {
-    let usertype = localStorage.getItem('userType');
-    axios.post(`${baseURL}/api/auth/${usertype}/logout`,{} ,authHeaders)
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userType');
-    // setUserData(null);
-    navigate('/');
-  }
+    const logout = () => {
+        let usertype = localStorage.getItem('userType');
+        axios.post(`${baseURL}/api/auth/${usertype}/logout`, {}, authHeaders)
 
-  return <>
-    <Navbar userData={ {} } logOut={logout} />
-    <div className="" style={{width:'85%',margin:'auto'}}>
-      <Outlet></Outlet>
-    </div>
-    <Footer />
-  </>
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userType');
+        // setUserData(null);
+        dispatch(resetUserData());
+        navigate('/');
+    }
+
+    return <>
+        <Navbar userData={{}} logOut={logout} />
+        <div className="" style={{ width: '85%', margin: 'auto' }}>
+            <Outlet></Outlet>
+        </div>
+        <Footer />
+    </>
 }
