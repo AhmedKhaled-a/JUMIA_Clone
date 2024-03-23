@@ -159,7 +159,7 @@ Route::put('/orders/{orderId}', [OrderController::class, 'changeOrderStatus'])
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
     ->name('orders.delete')
-    // ->middleware('auth:admin')
+    ->middleware('auth:admin')
     ;
 
 /**************************************** Sellers ************************************************/
@@ -197,7 +197,7 @@ Route::post('sellers/register', [SellerController::class, 'register'])
 
 Route::group([
     'prefix' => 'admins',
-    // 'middleware' => 'auth:admin'
+    'middleware' => 'auth:admin'
 ], function () {
     Route::get('/', [AdminController::class, 'index']);
     Route::post('/add-admin', [AdminController::class, 'store']);

@@ -47,7 +47,7 @@ $app->singleton(
 
 // $app->register(App\Providers\AuthServiceProvider::class);
 
-// $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// $app->register(PHPOpenSourceSaver\JWTAuth\Providers\LumenServiceProvider::class);
 
 // $app->configure('jwt');
 
