@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function index() {
 
         $orders = Order::orderBy('created_at' , 'desc')->get();
-        return response()->json([ "orders" => $orders ]);
+        return response()->json([ "orders" => $orders ], 200);
 
     }
     public function store(Request $request)

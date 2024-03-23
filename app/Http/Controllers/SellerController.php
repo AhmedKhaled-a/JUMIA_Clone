@@ -29,6 +29,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class SellerController extends Controller
 {
+    public function index() 
+    {
+        return response()->json(['sellers' => Seller::all()], 200);
+    }
     public function register(Request $request) {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {

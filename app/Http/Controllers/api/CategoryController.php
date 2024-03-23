@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
-
 {
+    
 public function index(Request $request)
 {
     // Retrieve super category ID from the query string

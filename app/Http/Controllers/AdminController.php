@@ -14,8 +14,8 @@
         public function store(Request $request)
         {
             // Check if the authenticated user is a super admin
-            if (!Auth::user()->isSuperAdmin()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+            if (!Auth::guard('admin')->user()->isSuperAdmin()) {
+                return response()->json(['error' => 'Not Authorized'], 401);
             }
     
             // Validate request data
@@ -38,8 +38,8 @@
         public function update(Request $request, $id)
         {
             // Check if the authenticated user is a super admin
-            if (!Auth::user()->isSuperAdmin()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+            if (!Auth::guard('admin')->user()->isSuperAdmin()) {
+                return response()->json(['error' => 'Not Authorized'], 401);
             }
     
             // Validate request data
@@ -64,8 +64,8 @@
         public function destroy($id)
         {
             // Check if the authenticated user is a super admin
-            if (!Auth::user()->isSuperAdmin()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+            if (!Auth::guard('admin')->user()->isSuperAdmin()) {
+                return response()->json(['error' => 'Not Authorized'], 401);
             }
     
             // Find the admin by id and delete it
@@ -75,18 +75,19 @@
             return response()->json(['message' => 'Admin deleted successfully'], 200);
         }
     
-        public function adminLogin(Request $request)
-        {
-            // Validate request data
-            $request->validate([
-                'email' => 'required|email',
-                'password' => 'required|string',
-            ]);
+        // public function adminLogin(Request $request)
+        // {
+        //     // Validate request data
+        //     $request->validate([
+        //         'email' => 'required|email',
+        //         'password' => 'required|string',
+        //     ]);
     
-            if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-                $token = Auth::guard('admin')->user()->createToken('Admin Access Token')->plainTextToken;
-                return response()->json(['token' => $token], 200);
-            }
+        //     if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
+        //         $token = Auth::guard('admin')->user()->createToken('Admin Access Token')->plainTextToken;
+        //         return response()->json(['token' => $token], 200);
+        //     }
     
-            return response()->json(['error' => 'Unauthorized'], 401);
-        } }
+        //     return response()->json(['error' => 'Not Authorized'], 401);
+        // } 
+    }
