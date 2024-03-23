@@ -178,10 +178,10 @@ class ProductController extends Controller
             });
 
         if (is_null($orderByPrice)) {
-            return response()->json($query->get(), 200);
+            return response()->json($query->with(['images'])->get(), 200);
         }
         else {
-            return response()->json($query->orderBy("price", $orderByPrice)->get(), 200);
+            return response()->json($query->with(['images'])->orderBy("price", $orderByPrice)->paginate(4), 200);
         }
     }
 
