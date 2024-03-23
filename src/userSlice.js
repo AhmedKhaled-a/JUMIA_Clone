@@ -53,7 +53,7 @@ export const userSlice = createSlice({
         builder.addCase(fetchUser.rejected , state => {
             state.loading = false;
             state.error = true;
-            state.user = {};
+            state.user = null;
             state.type = null;
             state.token = null;
         })

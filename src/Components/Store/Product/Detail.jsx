@@ -64,9 +64,9 @@ function ProductDetailView(props) {
     // Add more static reviews here as needed
   ];
   useEffect(() => {
-    if (!productsSl.loaded) {
-      dispatch(fetchProducts("products"));
-    }
+    // if (!productsSl.loaded && productsSl.products.length === 0) {
+    //   dispatch(fetchProducts("products"));
+    // }
   }, []);
 
   return <>{

@@ -41,6 +41,7 @@ export const productsSlice = createSlice({
             state.loading = false;
             state.loaded = true;
             state.products = action.payload;
+            console.log(action.pay);
 
         })
     }

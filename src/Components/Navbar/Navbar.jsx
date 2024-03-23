@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.css';
 import logo from './imgs/jumia logo1.png';
 import { Link } from 'react-router-dom';
 import { faRocketchat } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userDataSelector } from '../../userSlice';
 import { cartDataSelector } from '../CartPage/cartSlice';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { setSearchQueryAction } from '../Store/searchSlice';
 
 
 function Navbar({ logout }) {
   const cartCount = useSelector(cartDataSelector).totalItems;
   const userData = useSelector(userDataSelector);
+  const dispatch = useDispatch();
+  const [searchQ, setSearchQ] = useState('')
   // console.log(userData);
+  const keyPressSearch = (e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      dispatch(setSearchQueryAction(searchQ));
+    }
+  }
   return (
     
     <header className="navbar m-0 mb-5">
@@ -22,8 +31,13 @@ function Navbar({ logout }) {
           <Link to="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></Link>
         </div>
         <div className="search-bar">
-          <input type="text" placeholder="Search products, brands, and categories" className="search-input" />
-          <button className='search-button'> SEARCH</button>
+          <input onKeyUp={(e) => { keyPressSearch(e) }}
+           type="text" placeholder="Search products, brands, and categories"
+            className="search-input" id='search' 
+            value={searchQ}
+            onChange={(e) => {setSearchQ(e.target.value)}}
+            />
+          <button className='search-button' onClick={() => {dispatch(setSearchQueryAction(searchQ))}} >SEARCH</button>
         </div>
 
         <div className="dropdown">
@@ -34,9 +48,9 @@ function Navbar({ logout }) {
             {userData.user ?
               <>
                 <li><Link className="dropdown-item" to="/account"><i className="fa-regular me-2 fa-user"></i> My Account</Link></li>
-                <li><a className="dropdown-item" href="#"><i className="fa-regular fa-heart me-2"></i> Orders</a></li>
-                <li><a className="dropdown-item" href="#"><i className="fa-regular fa-heart me-2"></i> Saved Items</a></li>
-                <li onClick={logout}><span>Logout</span></li>
+                <li><Link className="dropdown-item" to="/orders/index"><i className="fa-regular fa-heart me-2"></i> Orders</Link></li>
+                <li><Link className="dropdown-item" to="/account/saved"><i className="fa-regular fa-heart me-2"></i> Saved Items</Link></li>
+                <li><Link  onClick={logout}><span>Logout</span></Link></li>
               </>:
               <></>
   }

@@ -1,14 +1,21 @@
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import { useNavigate, Outlet } from 'react-router-dom'
+import axios from 'axios';
+import { authHeaders } from '../../config/axiosConfig';
+import { baseURL } from '../../config/config';
 
 
 export default function Layout() {
   let navigate = useNavigate()
-  function logout() {
+  const logout = () => {
+    let usertype = localStorage.getItem('userType');
+    axios.post(`${baseURL}/api/auth/${usertype}/logout`,{} ,authHeaders)
+
     localStorage.removeItem('userToken');
+    localStorage.removeItem('userType');
     // setUserData(null);
-    navigate('/login')
+    navigate('/');
   }
 
   return <>

@@ -107,7 +107,7 @@ export default function ProductsContainer(props) {
             console.log("done");
         }
 
-        if(!productsSl.loaded) {
+        if(!productsSl.loaded && productsSl.products.length === 0) {
             dispatch(fetchProducts("products"));
         }
         console.log(userData.user);

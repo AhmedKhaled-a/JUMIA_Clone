@@ -7,58 +7,72 @@ import { baseURL } from '../../config/config'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts, productsDataSelector, setProducts } from './ProductsSlice'
 import { CircularProgress } from '@mui/material'
+import { searchQuerySelector } from './searchSlice'
 
-
+export const lowPriceDefault = 20;
+export const highPriceDefault = 10000;
 export default function Store() {
-    // let [ products, setProducts] = useState(null);
+    let title = useSelector(searchQuerySelector);
+    console.log(title);
+    const params = new URLSearchParams(
+        title ? `title=${title}&pricelow=${lowPriceDefault}&pricehigh=${highPriceDefault}` : `pricelow=${lowPriceDefault}&pricehigh=${highPriceDefault}`
+    );
+    console.log(params);
+    console.log(params.toString());
 
     const productsSl = useSelector((state) => state.products);
     const products = productsSl.products;
     const dispatch = useDispatch();
 
-    let [params, setParams] = useState({
-        pricelow: 20,
-        pricehigh: 10000
-    });
+    // let [params, setParams] = useState({
+    //     pricelow: 20,
+    //     pricehigh: 10000
+    // });
+
+    let clearFilter = () => {
+        params.delete('brand');
+        params.set('pricelow', lowPriceDefault);
+        params.set('pricehigh', highPriceDefault);
+        filter();
+    }
 
     let handleBrand = (brand) => {
-        setParams({ ...params, brand: brand })
+        if (params.has('brand'))
+            params.set( 'brand', brand );
+        else
+            params.append('brand', brand );
     }
 
     let handlePrice = (priceLow, priceHigh) => {
-        setParams({ ...params, pricelow: priceLow, pricehigh: priceHigh })
+        params.set('pricelow', priceLow);
+        params.set('pricehigh', priceHigh);
     }
 
     let makeArgumentStr = () => {
-        let paramString = '';
-        for (let key in params) {
-            paramString += `${key}=${params[key]}&`
-        }
-
-        return paramString;
+        return params.toString();
     }
 
     let filter = () => {
         let argString = makeArgumentStr();
-
         // remove trailing &
-        if (argString[argString.length - 1] == '&') {
-            argString.substring(argString.length - 2, argString.length - 1);
-        }
         dispatch(fetchProducts(`products?${argString}`));
         window.scrollTo(0, 0);
     }
 
     useEffect(() => {
-        if(!productsSl.loaded) {
-            dispatch(fetchProducts("products"));
-        }
+        // if (!productsSl.loaded && productsSl.products.length === 0) {
+        //     dispatch(fetchProducts("products"));
+        // }
     }, []);
+
+    useEffect(() => {
+        filter();
+    }, [title]);
 
     return (
         <div className="row my-5">
             <div className="col-lg-3 col-md-4 col-sm-8 my-5">
-                <Filter handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />
+                <Filter clearFilter={clearFilter} handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />
             </div>
             <div className="col-lg-9 col-md-8 col-sm-12 my-5">
                 <ProductsContainer products={products} />

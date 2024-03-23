@@ -34,7 +34,7 @@ export default function Product(props) {
                 <p className="product-title text-muted mb-1">{title}</p>
                 <p className="product-price mb-1 fw-semibold">{price}$</p>
                 <div className="d-flex align-items-center">
-                    <Rating name="half-rating-read" readonly value={Math.round(rating * 2) / 2} precision={0.5} />
+                    <Rating name="half-rating-read" readOnly value={Math.round(rating * 2) / 2} precision={0.5} />
                     <p className='m-0 ms-1 text-muted'>({Math.round(rating * 2) / 2})</p>
                 </div>
             </div>

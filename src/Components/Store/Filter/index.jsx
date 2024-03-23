@@ -11,6 +11,7 @@ import axios from 'axios';
 import { baseURL } from '../../../config/config';
 import { Box, Button } from '@mui/material';
 import { styled } from '@mui/styles';
+import { highPriceDefault, lowPriceDefault } from '..';
 
 function valuetext(value) {
     return value;
@@ -136,7 +137,12 @@ export default function Filter(props) {
                         </RadioGroup>
                     </FormControl> */}
                 </div>
+                
+                <Box sx={{ display: 'flex' }} flexDirection={'row'} gap={4} justifyContent={'space-between'} >
+                <Button variant="contained" onClick={() => {props.clearFilter();setPriceValue([lowPriceDefault, highPriceDefault])  }}>clearFilter</Button>
+
                 <Button variant="contained" onClick={props.filter}>Filter</Button>
+                </Box>
             </div>
         </>
     )
