@@ -46,14 +46,14 @@ export default function MainListItems() {
 
             </ListItemButton>
         </Link>
-        {/* <Link to="admins">
+        <Link to="admins">
             <ListItemButton>
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>
                 <ListItemText primary="Admins" />
             </ListItemButton>
-        </Link> */}
+        </Link>
 
         <Link to="sellers">
             <ListItemButton>

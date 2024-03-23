@@ -15,13 +15,16 @@ export const fetchSellers = createAsyncThunk('sellers/fetchSellers', () => {
     console.log(token);
     return axios.get(
         `${baseURL}/api/sellers`,
-        {},
+        null,
         {
+            
             headers: {
-                Authorization: "Bearer " + token,
+                Authorization: "JWT " + token,
                 crossDomain: true,
                 contentType: 'application/json',
-                Connection: 'keep-alive'
+                Connection: 'keep-alive',
+                AcceptEncoding : 'gzip, deflate, br'
+
             }
         })
         .then((res) => {

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
 import { baseURL } from '../../../../config/config';
-import { setTokenAction, setTypeAction, setUserAction } from '../../../../userSlice';
+import { setSuperAdminAction, setTokenAction, setTypeAction, setUserAction } from '../../../../userSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -55,6 +55,10 @@ function AdminLogin() {
                 dispatch(setUserAction(data.admin));
                 dispatch(setTypeAction('admin'));
                 dispatch(setTokenAction(data.token));
+                // console.log(data.admin);
+                if(data.admin.super_admin_id === null) {
+                    dispatch(setSuperAdminAction(true));
+                }
                 navigate('/dashboard')
             } else {
                 setLoading(false)

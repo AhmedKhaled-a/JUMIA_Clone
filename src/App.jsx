@@ -106,6 +106,29 @@ function App() {
             dispatch(getCartTotal(userData.user.id));
 
         }
+
+        const token = localStorage.getItem('userToken');
+
+        // solves the problem associated with not authorized with axios not sending jwt token
+        // if (token) {
+            // Add a request interceptor
+            // axios.interceptors.request.use(function (config) {
+            //     console.log(config);
+            //     config.headers.Authorization = `Bearer ${token}`;
+
+            //     return config;
+            // });
+
+            if (token) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            } else {
+                axios.defaults.headers.common['Authorization'] = null;
+                /*if setting null does not remove `Authorization` header then try     
+                  delete axios.defaults.headers.common['Authorization'];
+                */
+            }
+        // }
+
     }, [userData]);
 
     let routers = createBrowserRouter([
@@ -163,11 +186,11 @@ function App() {
                                 { path: 'orders', element: <DashboardOrders /> },
                                 { path: 'products', element: <DashboardProducts /> },
                                 { path: 'sellers', element: <DashboardSellers /> },
-                                // {
-                                //     path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
-                                //         { index: true, element: <DashboardAdmins /> }
-                                //     ]
-                                // }
+                                {
+                                    path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
+                                        { index: true, element: <DashboardAdmins /> }
+                                    ]
+                                }
 
                             ]
                         },
