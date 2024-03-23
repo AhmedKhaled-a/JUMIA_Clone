@@ -158,12 +158,12 @@ Route::put('/orders/{orderId}', [OrderController::class, 'changeOrderStatus'])
     ->name('orders.update');
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
-    ->name('orders.delete');
+    ->name('orders.delete')
+    // ->middleware('auth:admin')
+    ;
 
 /**************************************** Sellers ************************************************/
-Route::get('/sellers', [SellerController::class, 'index'])
-    // ->middleware("auth:admin")
-;
+Route::get('/sellers', [SellerController::class, 'index'])->middleware("auth:admin");
 
 
 
