@@ -34,7 +34,7 @@ class ProductController extends Controller
     //     $priceHigh = $request->input('pricehigh');
     //     $brand = $request->input('brand');
     //     $search = $request->input('search');
-        
+
     //     // if(!$search){
     //         // if (!$limit) {
     //         //     $limit = Product::count();
@@ -47,12 +47,12 @@ class ProductController extends Controller
     //         //     $priceLow = 0;
     //         //     // dd($priceLow);
     //         // }
-    
+
     //         // if (!$priceHigh) {
     //         //     $priceHigh = Product::max('price');
     //         //     // dd($priceHigh);
     //         // }
-    
+
     //         if (!$brand) {
     //             if (!$cat) {
     //                 $products = Product::where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
@@ -75,110 +75,116 @@ class ProductController extends Controller
     //                 if (!$category) {
     //                     return response()->json(['message' => 'Not a category'], 404);
     //                 }
-    
+
     //                 $products = $category->products()->with('images')->where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
     //             }
     //         }
-    
-    
+
+
     //         if ($products->count() > 0) {
     //             return response()->json($products, 200);
     //         } else {
     //             return response()->json(['message' => 'no thing bro']);
     //         }
-            
-        // }else{
-            // $results = Product::where('title', 'like', "%$search%")->get();
-            // return($results);
-            // if (!$limit) {
-            //     $limit = Product::count();
-            //     // dd($limit);
-            // }
-            // if (!$offset) {
-            //     $offset = 0;
-            // }
-            // if (!$priceLow) {
-            //     $priceLow = 0;
-            //     // dd($priceLow);
-            // }
-    
-            // if (!$priceHigh) {
-            //     $priceHigh = Product::max('price');
-            //     // dd($priceHigh);
-            // }
-    
-            // if (!$brand) {
-            //     if (!$cat) {
-            //         $products = Product::where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
-            //     } else {
-            //         // get by category
-            //         $category = Category::where('name', '=', $cat)->first();
-            //         // dd($category, $cat);
-            //         if (!$category) {
-            //             return response()->json(['message' => 'Not a category products found'], 404);
-            //         }
-            //         // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
-            //         $products = $category->products()->with('images')->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
-            //     }
-            // } else {
-            //     if (!$cat) {
-            //         $products = Product::where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
-            //     } else {
-            //         $category = Category::where('name', '=', $cat)->first();
-            //         // dd($category, $cat);
-            //         if (!$category) {
-            //             return response()->json(['message' => 'Not a category'], 404);
-            //         }
-    
-            //         $products = $category->products()->with('images')->where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
-            //     }
-            // }
-    
-    
-            // if ($products->count() > 0) {
-            //     return response()->json($products, 200);
-            // } else {
-            //     return response()->json([]);
-            // }
-            
-        // }
-       
-       
-       
+
+    // }else{
+    // $results = Product::where('title', 'like', "%$search%")->get();
+    // return($results);
+    // if (!$limit) {
+    //     $limit = Product::count();
+    //     // dd($limit);
     // }
-    public function index(Request $request){
-        
+    // if (!$offset) {
+    //     $offset = 0;
+    // }
+    // if (!$priceLow) {
+    //     $priceLow = 0;
+    //     // dd($priceLow);
+    // }
+
+    // if (!$priceHigh) {
+    //     $priceHigh = Product::max('price');
+    //     // dd($priceHigh);
+    // }
+
+    // if (!$brand) {
+    //     if (!$cat) {
+    //         $products = Product::where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
+    //     } else {
+    //         // get by category
+    //         $category = Category::where('name', '=', $cat)->first();
+    //         // dd($category, $cat);
+    //         if (!$category) {
+    //             return response()->json(['message' => 'Not a category products found'], 404);
+    //         }
+    //         // dd($category->products()->with('images')->offset($offset)->take($limit)->get());
+    //         $products = $category->products()->with('images')->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
+    //     }
+    // } else {
+    //     if (!$cat) {
+    //         $products = Product::where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->with(['images'])->get();
+    //     } else {
+    //         $category = Category::where('name', '=', $cat)->first();
+    //         // dd($category, $cat);
+    //         if (!$category) {
+    //             return response()->json(['message' => 'Not a category'], 404);
+    //         }
+
+    //         $products = $category->products()->with('images')->where('brand', '=', $brand)->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh)->offset($offset)->take($limit)->get();
+    //     }
+    // }
+
+
+    // if ($products->count() > 0) {
+    //     return response()->json($products, 200);
+    // } else {
+    //     return response()->json([]);
+    // }
+
+    // }
+
+
+
+    // }
+    public function index(Request $request)
+    {
+
         $priceLow = $request->input('pricelow');
         $priceHigh = $request->input('pricehigh');
         $brand = $request->input('brand');
-        $productTitle=$request->input('title');
-        $discount=$request->input('discount');
+        $productTitle = $request->input('title');
+        $discount = $request->input('discount');
         $cat = $request->input('category');
+        $orderByPrice =  $request->input('orderbyprice');
 
-        $products=Product::query()
-        ->when($productTitle,function ($query) use($productTitle) {
-            $query->where('title','like','%'. $productTitle . '%');
-             })
-    
-        ->when($priceLow && $priceHigh, function ($query) use ($priceLow, $priceHigh) {
-            $query->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh);
-        })
-        ->when($brand,function($query) use($brand){
-            $query->where('brand','like','%'. $brand . '%');
-        })
-        ->when ($discount,function($query) use ($discount){
-            $query->where('discount','!=','null');
-        })
-        ->when($cat, function ($query) use ($cat) {
-            $query->whereHas('category', function ($subquery) use ($cat) {
-            $subquery->where('name', 'like', '%' . $cat . '%');
+        $query = Product::query()
+            ->when($productTitle, function ($query) use ($productTitle) {
+                $query->where('title', 'like', '%' . $productTitle . '%');
+            })
+
+            ->when($priceLow && $priceHigh, function ($query) use ($priceLow, $priceHigh) {
+                $query->where('price', '>=', $priceLow)->where('price', '<=', $priceHigh);
+            })
+            ->when($brand, function ($query) use ($brand) {
+                $query->where('brand', 'like', '%' . $brand . '%');
+            })
+            ->when($discount, function ($query) use ($discount) {
+                $query->where('discount', '!=', 'null');
+            })
+            ->when($cat, function ($query) use ($cat) {
+                $query->whereHas('category', function ($subquery) use ($cat) {
+                    $subquery->where('name', 'like', '%' . $cat . '%');
+                });
             });
-        })
-        ->get();
-        return($products);
-        
+
+        if (is_null($orderByPrice)) {
+            return response()->json($query->get(), 200);
+        }
+        else {
+            return response()->json($query->orderBy("price", $orderByPrice)->get(), 200);
+        }
     }
- 
+
 
     /**
      * Store a new product in the database.
@@ -469,12 +475,12 @@ class ProductController extends Controller
         return response()->json($seller->products);
     }
 
-//     public function searchProduct(Request $request)
-// {
-//     $search = $request->input('search');
-//     $results = Product::where('title', 'like', "%$search%")->get();
-//     return($results);
+    //     public function searchProduct(Request $request)
+    // {
+    //     $search = $request->input('search');
+    //     $results = Product::where('title', 'like', "%$search%")->get();
+    //     return($results);
 
-//     // return view('products.index', ['results' => $results]);
-// }
+    //     // return view('products.index', ['results' => $results]);
+    // }
 }
