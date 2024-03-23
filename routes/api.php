@@ -268,17 +268,17 @@ Route::get('product/user-viewed/{userId}', [ViewedProductsController::class, 'ge
 Route::get('user/verify/{verification_code}', [UserController::class, 'verifyUser']);
 
 /**************************************** reset password routes for users  ************************************************/
-Route::post('user/foreget', [UserController::class, 'resetPasswordLink']);
-Route::get('user/resetPassword/{remember_token}', [UserController::class, 'reset']);
-Route::post('user/userResetPassword/{remember_token}', [UserController::class, 'postResetPasswordLink']);
+Route::post('user/foreget',[UserController::class,'resetPasswordLink'])->middleware('cors');
+Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ])->middleware('cors');
+Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink'])->middleware('cors');
 
 /**************************************** email varification for sellers  ************************************************/
 Route::get('seller/verify/{verification_code}', [SellerController::class, 'verifySeller']);
 
 /**************************************** reset password routes for sellers  ************************************************/
-Route::post('seller/foreget', [SellerController::class, 'resetPasswordLink']);
-Route::get('seller/resetPassword/{remember_token}', [SellerController::class, 'reset']);
-Route::post('seller/sellerResetPassword/{remember_token}', [SellerController::class, 'postResetPasswordLink']);
+Route::post('seller/foreget',[SellerController::class,'resetPasswordLink'])->middleware('cors');
+Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ])->middleware('cors');
+Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink'])->middleware('cors');
 /**************************************** search Routes  ************************************************/
 // Route::post('search/product',[ProductController::class,'searchProduct']);
 Route::get('search/product', [ProductController::class, 'searchProduct'])->name('products.search');
