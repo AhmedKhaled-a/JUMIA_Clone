@@ -37,7 +37,7 @@ export default function TopDeals() {
                 </Typography>
             </Box>
 
-            <Grid container alignItems='center' sx={{ padding:8, width: '100%', backgroundColor: 'primary.contrastText' }} columns={12} rowHeight={255}>
+            <Grid container alignItems='center' sx={{ padding:8, width: '100%', backgroundColor: 'primary.contrastText' }} columns={12}>
                 <Grid item sx={{padding: 0}} className={classes.card}  xs={12} md={6}>
                     <Paper sx={{width:'98%'}} className={classes.paper}>
                         <img style={{ width: '100%'}} src={img1} alt="" loading="lazy" />

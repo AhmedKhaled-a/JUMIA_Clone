@@ -14,7 +14,7 @@ export const ProtectedRoute = (props) => {
       return false; // user, seller, admin not logged in
     }
 
-    if (role == 'superAdmin' && userData.isSuperAdmin == true && userData.type == 'admin') {
+    if (role == 'superAdmin' && userData.isSuperAdmin && userData.type == 'admin') {
       return true;
     } else if (role == 'superAdmin') {
       return false;

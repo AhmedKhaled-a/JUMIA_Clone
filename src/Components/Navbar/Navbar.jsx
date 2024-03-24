@@ -9,9 +9,10 @@ import { userDataSelector } from '../../userSlice';
 import { cartDataSelector } from '../CartPage/cartSlice';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { setSearchQueryAction } from '../Store/searchSlice';
+import { Button } from '@mui/material';
 
 
-function Navbar({ logout }) {
+function Navbar(props) {
   const cartCount = useSelector(cartDataSelector).totalItems;
   const userData = useSelector(userDataSelector);
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function Navbar({ logout }) {
                 <li><Link className="dropdown-item" to="/account"><i className="fa-regular me-2 fa-user"></i> My Account</Link></li>
                 <li><Link className="dropdown-item" to="/orders/index"><i className="fa-regular fa-heart me-2"></i> Orders</Link></li>
                 <li><Link className="dropdown-item" to="/account/saved"><i className="fa-regular fa-heart me-2"></i> Saved Items</Link></li>
-                <li><Link  onClick={logout}><span>Logout</span></Link></li>
+                <li><Button onClick={() => {props.logout()}}><span>Logout</span></Button></li>
               </>:
               <></>
   }

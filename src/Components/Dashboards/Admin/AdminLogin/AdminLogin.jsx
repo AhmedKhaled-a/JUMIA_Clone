@@ -93,9 +93,9 @@ function AdminLogin() {
     return (
         <div className='login-container w-50 mx-auto text-center'>
             <div className='w-50 mx-auto d-flex justify-content-center'>
-                <img className='my-5' src={process.env.PUBLIC_URL + '/images/jumia logo2.png'} alt="" />
+                <img className='my-5' src={process.env.PUBLIC_URL + '/images/admin/admin.jpg'} alt="" width={300} />
             </div>
-            <h4>Welcome to Jumia</h4>
+            <h4>Welcome Admin</h4>
             <p>Type your e-mail or phone number to log in or create a Jumia account.</p>
             <form onSubmit={sumbitLoginForm} className='Login-form w-75 mx-auto my-5'>
                 <div className='my-4 input-box'>

@@ -15,14 +15,16 @@ let initialState = {
 export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
     let userType = localStorage.getItem('userType') // user, seller, admin
     let token = localStorage.getItem('userToken') // user, seller, admin 
-
-    return axios.post(
-        `${baseURL}/api/auth/${userType}/me`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => {
-            return res.data;
-        })
+    if(userType)
+        return axios.post(
+            `${baseURL}/api/auth/${userType}/me`,
+            {},
+            { headers: { Authorization: `Bearer ${token}` } })
+            .then((res) => {
+                return res.data;
+            })
+    
+    return initialState;
 })
 
 export const userSlice = createSlice({
@@ -43,6 +45,8 @@ export const userSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchUser.pending, state => {
             state.loading = true;
+            state.error = false;
+
         })
         builder.addCase(fetchUser.fulfilled , (state,action) => {
             state.loading = false;
@@ -50,6 +54,7 @@ export const userSlice = createSlice({
             state.type = action.payload.role;
             state.isSuperAdmin = action.payload.isSuperAdmin;
             state.token = localStorage.getItem('userToken');
+            state.error = false;
         })
 
         builder.addCase(fetchUser.rejected , state => {

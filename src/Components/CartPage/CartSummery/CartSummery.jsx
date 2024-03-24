@@ -4,9 +4,11 @@ import { baseURL } from '../../../config/config';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../../userSlice';
+import { cartDataSelector } from '../cartSlice';
 
 export default function CartSummery() {
-    const {total} = useState(0);
+    const cart = useSelector(cartDataSelector);
+    const cartTotal = cart.cartTotalPrice;
     // TODO: get user_id from context
     
     let userData = useSelector(userDataSelector);
@@ -42,7 +44,7 @@ export default function CartSummery() {
                 
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Subtotal : {total}
+                Subtotal : {cartTotal}
             </Typography>
             
             </CardContent>

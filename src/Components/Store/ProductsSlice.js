@@ -7,7 +7,9 @@ import { authHeaders } from "../../config/axiosConfig";
 let initialState = {
     loading: false,
     loaded: false,
-    products: []
+    products: [],
+    reviews:null,
+
 }
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', (url) => {
@@ -23,6 +25,14 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', (url) =>
         });
 });
 
+export const fetchReviewsByProductId = createAsyncThunk(
+    "products/fetchReviewsByProductId",
+     (productId, thunkAPI) => {
+    
+       return axios.get(`${baseURL}/api/reviews/get-by-product?prodId=${productId}`).then(response=> response.data);
+       
+      }
+  );
 
 export const productsSlice = createSlice({
     name: 'products',
@@ -38,6 +48,10 @@ export const productsSlice = createSlice({
         builder.addCase(fetchProducts.pending, state => {
             state.loading = true;
         })
+        builder.addCase(fetchReviewsByProductId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+          })
 
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.loading = false;
@@ -46,11 +60,23 @@ export const productsSlice = createSlice({
             console.log(action.pay);
 
         })
-    }
+        .addCase(fetchReviewsByProductId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.reviews = action.payload;
+          })
+          .addCase(fetchReviewsByProductId.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+          });
+    
+}
+
+
 
 });
 
 
 export const { setProductsAction } = productsSlice.actions;
 export const productsDataSelector = (state) => state.products.products;
+export const reviewsDataSelector = (state) => state.products.reviews;
 export default productsSlice.reducer;
