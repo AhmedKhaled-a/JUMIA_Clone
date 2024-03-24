@@ -68,7 +68,7 @@ export default function Store(props) {
         let argString = makeArgumentStr();
         // remove trailing &
         dispatch(fetchProducts(`products?${argString}`));
-        // window.scrollTo(0, 1000);
+        // window.scrollTo(0, 1350);
 
         const anchor = document.querySelector('#productsContainerTop')
         anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })

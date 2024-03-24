@@ -40,6 +40,10 @@ export const productsSlice = createSlice({
     reducers: {
         setProductsAction: (state, action) => {
             state.products = action.payload;
+        },
+
+        resetReviewsAction: (state) => {
+            state.reviews = null;
         }
     },
 
@@ -76,7 +80,7 @@ export const productsSlice = createSlice({
 });
 
 
-export const { setProductsAction } = productsSlice.actions;
+export const { setProductsAction, resetReviewsAction } = productsSlice.actions;
 export const productsDataSelector = (state) => state.products.products;
 export const reviewsDataSelector = (state) => state.products.reviews;
 export default productsSlice.reducer;

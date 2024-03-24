@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { storageURL } from '../../../../config/config'
 import { Rating } from '@mui/material';
 import { faHeart, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,11 @@ export default function Product(props) {
 
     let { id, title, price, rating, thumbnail, stock, desc } = props.product;
     const userData = useSelector(userDataSelector);
+
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    },[])
     return (
         <div className="product-card col-lg-3 col-md-4 col-sm-6 p-0" id={id}>
             <div class="product-image-container overflow-hidden">
