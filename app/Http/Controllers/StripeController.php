@@ -74,7 +74,7 @@ class StripeController extends Controller
 
         foreach ($CartProducts as $CartProduct) {
             $product = $CartProduct['product'];
-            $total_price += $product['price'] * $CartProduct['count'];
+            $total_price += ($product['price'] - ($product['price'] * $product['discount'] / 100)) * $CartProduct['count'];
 
             $line_items[] = [
                 'price_data' => [
@@ -83,7 +83,7 @@ class StripeController extends Controller
                         'name' => $product['title'] ,
                         // 'images' => [$CartProduct->image],
                     ],
-                    'unit_amount' => $product['price'] * 100,
+                    'unit_amount' => ceil(($product['price'] - ($product['price'] * $product['discount'] / 100)) * 100),
                 ],
                 'quantity' => $CartProduct['count'],
             ];
