@@ -13,34 +13,32 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    
-public function index(Request $request)
-{
-    // Retrieve super category ID from the query string
-    $Id = $request->input('id');
 
-    // Fetch categories based on super category ID if provided
+    public function index(Request $request)
+    {
+        // Retrieve super category ID from the query string
+        $id = $request->input('id');
 
-        $categories = Category::find($Id)->subCategories;
-    //    dd($categories);
-        // $categories = Category::all();
-    
+        if (!is_null($id)) {
+            // Fetch categories based on super category ID if provided
+            $superCategory = Category::find($id);
+            if (!$superCategory) {
+                return response()->json(['message' => 'category not found'], 404);
+            }
+            $categories = $superCategory->subCategories;
+            return response()->json($categories, 200);
+        }
+        else {
+            return response()->json(Category::all(), 200);
+        }
+    }
 
-    // Modify category_thumb paths to start with 'storage'
-    // $categories->transform(function ($category) {
-    //     $category->category_thumb = 'storage/' . $category->category_thumb;
-    //     return $category;
-    
 
-    return response()->json($categories, 200);
-}
 
-    
-    
-    
-    
-    
-    
+
+
+
+
     public function show(string $id)
     {
         $category = category::find($id);
@@ -58,7 +56,7 @@ public function index(Request $request)
             }
         }
     }
-    
+
     public function store(Request $request)
     {
         // $data = json_decode($request->getContent(), true);

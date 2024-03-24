@@ -178,13 +178,12 @@ class ProductController extends Controller
             });
 
         if (is_null($orderByPrice)) {
-            return response()->json($query->with(['images'])->get(), 200);
+            return response()->json( $query->with(['images'])->get(), 200 );
         }
         else {
-            return response()->json($query->with(['images'])->orderBy("price", $orderByPrice)->paginate(4), 200);
+            return response()->json($query->with(['images'])->orderBy( "price", $orderByPrice)->get(), 200 );
         }
     }
-
 
     /**
      * Store a new product in the database.
@@ -218,22 +217,6 @@ class ProductController extends Controller
         if ($ValidatedData->fails()) {
             return response()->json($ValidatedData->errors(), 400);
         }
-        /*
-            {
-                "title" : "pp",
-                "desc" : "desc",
-                "spec" : "this is very long spec",
-                "price" : 22,
-                "discount": 22.6,
-                "stock" : 100,
-                "rating" : 2.4,
-                "category_id" : 1,
-                "seller_id" : 1,
-                "thumbnail": "",
-                "images" : []
-
-            }
-        */
 
         $product = new Product();
 
