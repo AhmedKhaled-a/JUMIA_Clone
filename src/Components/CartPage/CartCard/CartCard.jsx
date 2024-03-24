@@ -69,7 +69,7 @@ export default function CartCard(props) {
                                 variant='contained'
                             >
                                 
-                                <CartButton onClick={() => {if(props.count - 1) props.changeCount(props.cartId, -1)}}><RemoveIcon /></CartButton>
+                                <CartButton onClick={() => {if(props.count - 1 > 0 ) props.changeCount(props.cartId, -1)}}><RemoveIcon /></CartButton>
 
                                 <Typography sx={{ padding: '8px' }} component="div" variant="h6">
                                     {props.count}

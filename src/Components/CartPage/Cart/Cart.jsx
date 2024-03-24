@@ -5,18 +5,21 @@ import axios from 'axios';
 import { Container, Divider, Grid, Typography, Button, CircularProgress } from '@mui/material';
 import { baseURL } from '../../../config/config';
 import { useDispatch, useSelector } from 'react-redux';
-import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems } from '../cartSlice';
+import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems, setCartTotalPriceAction } from '../cartSlice';
 import { userDataSelector } from '../../../userSlice';
 import { authenticatedClient } from '../../../config/axiosConfig';
+import { productsDataSelector } from '../../Store/ProductsSlice';
 
 const Cart = () => {
     const cart = useSelector(cartDataSelector);
     const cartCount = cart.totalItems;
     const cartProducts = cart.cart;
+    const productsCount = cart.productsCount;
+    const products = useSelector(productsDataSelector)
     // console.log(cartProducts);
     const userData = useSelector(userDataSelector);
 
-    const [total, setTotal] = useState(0);
+    const cartTotalPrice = cart.cartTotalPrice;
 
 
     const dispatch = useDispatch();
@@ -30,9 +33,16 @@ const Cart = () => {
     }
 
     let changeCount = (cartId, n) => {
-        let count = cartProducts.find((c) => c.id == cartId).count;
-        dispatch(changeCountByValueAction([cartId, n]));
-        authenticatedClient.put(`/cart/${cartId}/update-count`, JSON.stringify({ count: count }));
+        let cartItem = cartProducts.find((c) => c.id == cartId);
+
+        let count = cartItem.count;
+        let newCount = count + n;
+        dispatch(changeCountByValueAction([cartId, n]))
+
+        axios.put(`${baseURL}/api/cart/${cartItem.id}/update-count`, JSON.stringify({
+            count: newCount
+        }, { Authorization: `Bearer ${userData.token}` })).then(res => console.log(res));
+
     }
 
     let deleteProduct = (cartId) => {
@@ -51,14 +61,16 @@ const Cart = () => {
 
 
     useEffect(() => {
-        // if (cartProducts) {
-        //     let calculatedTotal = 0;
-        //     cartProducts?.forEach((c) => {
-        //         let count = c.count; // will change
-        //         calculatedTotal += cart.product.price * count;
-        //     })
-        //     setTotal(calculatedTotal.toFixed(2));
-        // }
+        console.log(cartProducts);
+        if (cartProducts) {
+            let calculatedTotal = 0;
+            cartProducts.forEach((cartItem) => {
+                let price = cartItem.product.price;
+                let count = cartItem.count; // will change
+                calculatedTotal += price * count;
+            })
+            dispatch(setCartTotalPriceAction(calculatedTotal.toFixed(2)));
+        }
     }, [cartProducts]);
 
     return <div>{userData.loading || cart.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <Grid container spacing={1} justifyContent='center' sx={{ marginBottom: '20px' }}>
