@@ -10,6 +10,7 @@ let initialState = {
     loading: false,
     cart: [],
     totalItems: null,
+    cartTotalPrice : 0,
     productsCount: null,
     error: false,
 }
@@ -50,6 +51,7 @@ export const cartSlice = createSlice({
     name: 'carts',
     initialState,
     reducers: {
+
         initCartAction: (state, action) => {
             state = action.payload;
         },
@@ -59,6 +61,9 @@ export const cartSlice = createSlice({
             state.cart.push(action.payload); state.productsCount[action.payload.product.id] = 1; state.totalItems++
         },
 
+        setCartTotalPriceAction: (state, action) => {
+            state.cartTotalPrice = action.payload;
+        },
         // takes cart_item id and value [cart_item_id, value]
         changeCountByValueAction: (state, action) => { // takes array(2) [0 => cid , 1 => val]
 
@@ -160,6 +165,6 @@ export const cartSlice = createSlice({
     }
 });
 
-export const { addItemToCartAction, changeCountByValueAction, addOneExistingProductAction, deleteCartItemAction, clearCartAction, initCartAction, deleteCartItemByProductAction } = cartSlice.actions;
+export const { setCartTotalPriceAction, addItemToCartAction, changeCountByValueAction, addOneExistingProductAction, deleteCartItemAction, clearCartAction, initCartAction, deleteCartItemByProductAction } = cartSlice.actions;
 export const cartDataSelector = (state) => state.carts;
 export default cartSlice.reducer;
