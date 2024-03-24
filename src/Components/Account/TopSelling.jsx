@@ -56,7 +56,6 @@ export default function TopSelling() {
                             <CardActionArea>
                                 <CardMedia
                                 component="img"
-                                maxWidth="100%"
                                 image="https://eg.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/48/948715/1.jpg?1326"
                                 alt="shoes"
                                 className='p-0 m-0'

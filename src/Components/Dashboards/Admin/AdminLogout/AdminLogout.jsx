@@ -2,7 +2,7 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { resetUserData } from '../../../../userSlice';
+import { fetchUser, resetUserData } from '../../../../userSlice';
 import axios from 'axios';
 import { baseURL } from '../../../../config/config';
 import { authHeaders } from '../../../../config/axiosConfig';
@@ -18,7 +18,8 @@ export default function AdminLogout() {
         localStorage.removeItem('userToken');
         localStorage.removeItem('userType');
         dispatch(resetUserData());
-        // setUserData(null);
+        // fetch one more time
+        dispatch(fetchUser());
         navigate('/admin/login');
     }
 

@@ -51,7 +51,7 @@ import DashboardOrders from './Components/Dashboards/Admin/Orders/Orders';
 import { ErrorPage } from './Components/Errors/ErrorPage/ErrorPage';
 import AdminLogin from './Components/Dashboards/Admin/AdminLogin/AdminLogin';
 import DashboardProducts from './Components/Dashboards/Admin/Products/Products';
-import AddProductForm from './Components/addProductForm';
+import AddProductForm from './Components/Dashboards/Admin/AddProduct/addProductForm';
 import { jwtDecode } from 'jwt-decode';
 import { ResetPassowrdForUser } from './Components/ResetPassword/ResetPassowrdForUser';
 import { ResetPasswordFieldsForUser } from './Components/ResetPassword/ResetPasswordFieldsForUser';
@@ -103,6 +103,12 @@ function App() {
     }, []);
 
     useEffect(() => {
+        // if (userData.user == null) {
+        //     dispatch(fetchUser());
+        //     console.log("dispatched again");
+        //     console.log(userData);
+        // }
+
         if (userData.user && !cart.totalItems) {
             dispatch(getCartTotal(userData.user.id));
 
@@ -110,24 +116,16 @@ function App() {
         // if(userData.error) {  }
 
         const token = localStorage.getItem('userToken');
-        // solves the problem associated with not authorized with axios not sending jwt token
-        // if (token) {
-            // Add a request interceptor
-            // axios.interceptors.request.use(function (config) {
-            //     console.log(config);
-            //     config.headers.Authorization = `Bearer ${token}`;
 
-            //     return config;
-            // });
-
-            if (token) {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            } else {
-                axios.defaults.headers.common['Authorization'] = null;
-                /*if setting null does not remove `Authorization` header then try     
-                  delete axios.defaults.headers.common['Authorization'];
-                */
-            }
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            axios.defaults.headers.common['Authorization'] = null;
+            delete axios.defaults.headers.common['Authorization'];
+            /*if setting null does not remove `Authorization` header then try     
+              delete axios.defaults.headers.common['Authorization'];
+            */
+        }
         // }
 
     }, [userData]);
@@ -135,7 +133,7 @@ function App() {
     let routers = createBrowserRouter([
         {
             path: '/', errorElement: <ErrorPage />, element: <GLayout />, children: [
-                {path: '/unauth' , element: <Unauth />},
+                { path: '/unauth', element: <Unauth /> },
                 {
                     path: "", element: <Layout />, children: [
                         { index: true, element: <Home /> },
@@ -189,12 +187,12 @@ function App() {
                                 { path: 'orders', element: <DashboardOrders /> },
                                 { path: 'products', element: <DashboardProducts /> },
                                 { path: 'sellers', element: <DashboardSellers /> },
+                                { path: 'add-product', element: <AddProductForm /> },
                                 {
                                     path: 'admins', element: <ProtectedRoute role={'superAdmin'} ></ProtectedRoute>, children: [
                                         { index: true, element: <DashboardAdmins /> }
                                     ]
                                 }
-
                             ]
                         },
                     ]

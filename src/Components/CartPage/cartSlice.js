@@ -142,12 +142,16 @@ export const cartSlice = createSlice({
         })
 
         builder.addCase(addProductToCart.fulfilled, (state, action) => {
-            state.loading = false;
             state.cart.push({ ...action.payload.cart, count: 1, product: action.payload.product });
             state.totalItems += 1;
-            state.productsCount[action.payload.cart.product.id] = 1;
 
+            state.productsCount[action.payload.product.id] = 1;
         });
+
+        builder.addCase(addProductToCart.rejected, (state) => {
+            state.error = true;
+        })
+        
 
         builder.addCase(getCartTotal.pending, (state) => {
             state.totalItemsLoading = true;

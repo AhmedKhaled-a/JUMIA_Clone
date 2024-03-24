@@ -98,23 +98,23 @@ export default function ProductsContainer(props) {
 
 
     useEffect(() => {
-        if (userData.user && productsSl.loaded) {
+        if (userData.user) {
             dispatch(fetchCartItems(userData.user.id));
             dispatch(fetchSavedProducts(userData.user.id));
 
             console.log("done");
         }
 
-        if(!productsSl.loaded && productsSl.products.length === 0) {
-            dispatch(fetchProducts("products"));
-        }
-        console.log(userData.user);
+        // if(!productsSl.loaded && productsSl.products.length === 0) {
+        //     dispatch(fetchProducts("products"));
+        // }
+        // console.log(userData.user);
 
     }, [userData]);
 
     return (
         <>
-            {userData.loading || cart.loading || productsSl.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
+            {userData.loading || cart.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
                 <h4 id="productsContainerTop" className='pb-2  border-bottom'>Android Phones</h4>
                 <div className="product-cards row flex-wrap g-3">
                     {

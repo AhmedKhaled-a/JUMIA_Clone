@@ -6,7 +6,7 @@ import { Container, Divider, Grid, Typography, Button, CircularProgress } from '
 import { baseURL } from '../../../config/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartDataSelector, changeCountByValue, changeCountByValueAction, clearCartAction, deleteCartItemAction, fetchCartItems, setCartTotalPriceAction } from '../cartSlice';
-import { userDataSelector } from '../../../userSlice';
+import { fetchUser, userDataSelector } from '../../../userSlice';
 import { authenticatedClient } from '../../../config/axiosConfig';
 import { productsDataSelector } from '../../Store/ProductsSlice';
 
@@ -14,8 +14,8 @@ const Cart = () => {
     const cart = useSelector(cartDataSelector);
     const cartCount = cart.totalItems;
     const cartProducts = cart.cart;
-    const productsCount = cart.productsCount;
-    const products = useSelector(productsDataSelector)
+    // const productsCount = cart.productsCount;
+    // const products = useSelector(productsDataSelector)
     // console.log(cartProducts);
     const userData = useSelector(userDataSelector);
 
@@ -55,9 +55,13 @@ const Cart = () => {
         if (userData.user) {
             dispatch(fetchCartItems(userData.user.id));
             console.log("done");
+        } else {
+            dispatch(fetchUser());
+            console.log(userData);
+
         }
         console.log(userData.user);
-    }, [])
+    }, []);
 
 
     useEffect(() => {
@@ -65,9 +69,12 @@ const Cart = () => {
         if (cartProducts) {
             let calculatedTotal = 0;
             cartProducts.forEach((cartItem) => {
-                let price = cartItem.product.price;
-                let count = cartItem.count; // will change
-                calculatedTotal += price * count;
+                if (cartItem) {
+                    let price = cartItem.product.price;
+                    let priceAfterDiscount = price - (price * (cartItem.product.discount / 100))
+                    let count = cartItem.count; // will change
+                    calculatedTotal += priceAfterDiscount * count;
+                }
             })
             dispatch(setCartTotalPriceAction(calculatedTotal.toFixed(2)));
         }
@@ -81,7 +88,7 @@ const Cart = () => {
         </Grid>
         <Divider sx={{ width: '100%' }} />
         {
-            cartProducts?.map( (cart) => {
+            cartProducts?.map((cart) => {
                 if (cart)
                     return <Grid item xs={12}>
                         <CartCard count={cart.count} cartId={cart.id} product={cart.product} key={cart.id} changeCount={changeCount} deleteProduct={deleteProduct} />

@@ -15,14 +15,16 @@ let initialState = {
 export const fetchUser = createAsyncThunk('users/fetchUsers' , () => {
     let userType = localStorage.getItem('userType') // user, seller, admin
     let token = localStorage.getItem('userToken') // user, seller, admin 
-
-    return axios.post(
-        `${baseURL}/api/auth/${userType}/me`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => {
-            return res.data;
-        })
+    if(userType)
+        return axios.post(
+            `${baseURL}/api/auth/${userType}/me`,
+            {},
+            { headers: { Authorization: `Bearer ${token}` } })
+            .then((res) => {
+                return res.data;
+            })
+    
+    return initialState;
 })
 
 export const userSlice = createSlice({

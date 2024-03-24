@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Divider } from '@mui/material';
+import { Box, Typography, Divider, CircularProgress } from '@mui/material';
 import Carousel from "react-multi-carousel";
 // import "react-multi-carousel/lib/styles.css";
 import { responsive } from '../carouselResponsive';
 import Category from './Category/Category'
 import axios from 'axios';
 import { makeStyles } from '@mui/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { categoriesDataSelector, fetchCategories } from '../../../categorySlice';
 
 const useStyles = makeStyles({
     carContainer: {
@@ -16,29 +18,20 @@ const useStyles = makeStyles({
 
 const Categories = (props) => {
     const classes = useStyles();
+    const categoriesSl = useSelector(categoriesDataSelector);
     const [categories, setCategories] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                // Retrieve the query parameter from the URL
-                const params = new URLSearchParams(window.location.search);
-                const superCategories = props.id;
-
-                // Fetch categories with the query parameter
-                const response = await axios.get(`http://localhost:8000/api/categories?id=${superCategories}`);
-                setCategories(response.data);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        };
-
-        fetchCategories();
+        if(!categoriesSl.categories) {
+            dispatch(fetchCategories(props.id));
+        }
     }, []);
 
     return (
         <>
-            <Box sx={{ width: '100%', height: '68px', backgroundColor: 'secondary.light', paddingTop: '8px', paddingBottom: '8px' }}>
+            { categoriesSl.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <>
+                <Box sx={{ width: '100%', height: '68px', backgroundColor: 'secondary.light', paddingTop: '8px', paddingBottom: '8px' }}>
                 <Typography variant='h6' textAlign={'center'} fontWeight={100}>
                     Phones Top Deals
                 </Typography>
@@ -49,6 +42,8 @@ const Categories = (props) => {
                     <Category key={cat.id} cat={cat} />
                 ))}
             </Carousel>
+            </>
+            }
         </>
     );
 }

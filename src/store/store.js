@@ -7,6 +7,7 @@ import ordersReducer from '../Components/Dashboards/ordersSlice';
 import adminsReducer from '../Components/Dashboards/Admin/adminSlice';
 import sellersReducer from '../Components/Dashboards/Admin/sellerSlice';
 import searchReducer from '../Components/Store/searchSlice';
+import categoriesReducer from '../categorySlice';
 
 export const store = configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
         admins: adminsReducer,
         sellers: sellersReducer,
         search:searchReducer,
+        categories: categoriesReducer
     }
 })

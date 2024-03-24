@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './index.css'
 import Slider from '@mui/material/Slider';
-import Rating from '@mui/material/Rating';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,7 +9,6 @@ import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 import { baseURL } from '../../../config/config';
 import { Box, Button } from '@mui/material';
-import { styled } from '@mui/styles';
 import { highPriceDefault, lowPriceDefault } from '..';
 
 function valuetext(value) {
@@ -70,7 +68,7 @@ export default function Filter(props) {
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue="female"
-                                name="radio-buttons-group"
+                                name="brandFilter"
                                 onChange={(e) => { props.handleBrand(e.target.value) }}
                             >
                                 {
@@ -92,7 +90,7 @@ export default function Filter(props) {
                             max={10000}
                             min={20}
                             shiftStep={100}
-                            value={priceValue}
+                            defaultValue={priceValue}
                             onChange={handleChange1}
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}

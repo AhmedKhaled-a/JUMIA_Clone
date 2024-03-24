@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { baseURL } from '../config/config';
+import { baseURL } from '../../../../config/config';
+import { authHeaders } from '../../../../config/axiosConfig';
+// import { FormControl, Input, InputLabel, TextField } from '@mui/material';
 
 
 function AddProductForm() {
@@ -86,7 +88,9 @@ function AddProductForm() {
                 }
             }
 
-            await axios.post(`${baseURL}/api/products/add-product`, formDataToSend);
+            await axios.post(`${baseURL}/api/products/add-product`, formDataToSend,
+                { headers: authHeaders }
+            );
 
             // Handle success, maybe show a success message or redirect
             console.log('Product added successfully');
@@ -97,6 +101,36 @@ function AddProductForm() {
     };
 
     return (
+        // <FormControl>
+        //     <InputLabel htmlFor="title">Title</InputLabel>
+        //     <Input id="title" name="title" onChange={handleChange} />
+
+        //     <InputLabel htmlFor="desc">Description</InputLabel>
+        //     <TextField multiline
+        //         rows={4}
+        //         id="desc"
+        //         name="desc"
+        //         onChange={handleChange} />
+
+        //     <InputLabel htmlFor="desc">Specifications</InputLabel>
+        //     <TextField multiline
+        //         rows={4}
+        //         id="desc"
+        //         name="desc"
+        //         onChange={handleChange} />
+
+        //     <InputLabel htmlFor="price">Price</InputLabel>
+        //     <Input id="price" name="price" onChange={handleChange} />
+
+        //     <InputLabel htmlFor="title">Title</InputLabel>
+        //     <Input id="title" name="title" onChange={handleChange} />
+
+        //     <InputLabel htmlFor="title">Title</InputLabel>
+        //     <Input id="title" name="title" onChange={handleChange} />
+
+        //     <InputLabel htmlFor="title">Title</InputLabel>
+        //     <Input id="title" name="title" onChange={handleChange} />
+        // </FormControl>
         <form onSubmit={handleSubmit} className="w-50 mx-auto my-5 ">
             <div className="row">
                 <div className="col-6">
