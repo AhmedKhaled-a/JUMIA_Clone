@@ -178,24 +178,14 @@ function ProductDetailView(props) {
             <hr className="mb-4" />
             <p className="ps-2">{product.desc}</p>
           </div>
-          <div className="container-fluid mt-3 productDetail">
-            <div className="row">
-              <div className="col-md-8">
-                {/* Existing product details and description */}
-              </div>
-              <div className="col-md-4">
-                {/* Existing CardServices component */}
-              </div>
-            </div>
-            <h2>product Reviews</h2>
+          
+            <h2 className="bg-light rounded border-bottom p-3 mt-2">product Reviews</h2>
             <div className="row">
               <div className="col">
                 <Reviews productId={id} />
-
               </div>
             </div>
           </div>
-        </div>
       )}
     </>
   );
