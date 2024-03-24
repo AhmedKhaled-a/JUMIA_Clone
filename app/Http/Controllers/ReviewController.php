@@ -86,6 +86,16 @@ class ReviewController extends Controller
             $review->writer = $review->user->username;
             $review->save();
 
+            // calculate product rating
+            $productReviews = $product->reviews;
+            $reviewsCount = count($productReviews);
+
+            foreach($productReviews as $rev ) {
+                $product->rating += $rev->rating / $reviewsCount ;
+            }
+
+            $product->save();
+
             return response()->json(["message" => "added successfully"]);
         }
     }

@@ -39,7 +39,7 @@ class Product extends Model
     {
         return $this->belongsTo(Order::class);
     }
-    public function review(): HasMany
+    public function reviews(): HasMany
     {
         return $this->HasMany(Review::class);
     }
