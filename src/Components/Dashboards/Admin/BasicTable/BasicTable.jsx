@@ -46,7 +46,7 @@ export default function BasicTable(props) {
                                     }
                                     <TableCell component="th" scope="row" >
                                         <IconButton color='error' onClick={ () => { props.delete(row.id) }}><DeleteIcon /></IconButton>
-                                        <IconButton color='primary'><UpdateIcon /></IconButton>
+                                        {/* <IconButton color='primary'><UpdateIcon /></IconButton> */}
                                     </TableCell>
                                 </TableRow>
                             })}

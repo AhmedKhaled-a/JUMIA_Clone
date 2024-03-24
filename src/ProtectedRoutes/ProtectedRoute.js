@@ -10,7 +10,6 @@ export const ProtectedRoute = (props) => {
   // const [auth, setAuth] = useState(undefined);
   const getAuth = (role) => {
     if(userData.error) {
-      console.log('returning false');
       return false; // user, seller, admin not logged in
     }
 

@@ -1,4 +1,9 @@
 /* General */
+/* to hide error overlay */
+/* iframe
+{
+    display: none;
+} */
 
 body {
   background-image: url(../public/images/body.jpg);

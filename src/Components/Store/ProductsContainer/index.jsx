@@ -33,7 +33,7 @@ export default function ProductsContainer(props) {
     const isInCart = (pId) => {
         // console.log(cartProducts);
         if (cartProducts?.length > 0) {
-            if (cartProducts.find((c) => c.product.id == pId)) {
+            if (cartProducts.find( (c) => c.product.id == pId) ) {
                 return true
             }
             return false
@@ -117,10 +117,12 @@ export default function ProductsContainer(props) {
             {userData.loading || cart.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1 py-3'>
                 <div className='d-flex justify-content-between  mb-3'>
                     <h4 id="productsContainerTop" className='pb-2'>Android Phones</h4>
-                    <select name="" id="" className='sorting'>
+                    <select name="order" id="order" className='sorting'
+                        onChange={ (e) => {props.handleOrder(e.target.value)}  }
+                    >
                         <option value="">Sort by popularity</option>
-                        <option value="">Price: Low to Hight</option>
-                        <option value="">Price: Hight to Low</option>
+                        <option value="asc">Price: Low to Hight</option>
+                        <option value="desc">Price: Hight to Low</option>
                     </select>
                 </div>
                 <div className="product-cards row flex-wrap g-3">

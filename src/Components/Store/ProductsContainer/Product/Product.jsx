@@ -41,7 +41,10 @@ export default function Product(props) {
             </div>
             {props.isInCart(id) ?
                 <div className=''>
-                    <div className="d-flex justify-content-between  align-items-center">
+
+
+
+                    {!userData.user ? '' : <div className="d-flex justify-content-between  align-items-center">
                         <div >
                             <button className='cart-counter-btn' onClick={() => { stock <= productsCartCounts[id] ? void (0) : props.changeInCart(id, 1) }} ><FontAwesomeIcon icon={faPlus} /></button>
                         </div>
@@ -52,10 +55,11 @@ export default function Product(props) {
 
                         <div >
 
-                            <button className='cart-counter-btn'  onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} ><FontAwesomeIcon icon={faMinus} /></button>
+                            <button className='cart-counter-btn' onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} ><FontAwesomeIcon icon={faMinus} /></button>
                         </div>
 
                     </div>
+                    }
                     {/* 
                     <div className="row">
                         <Link to="/cart">
@@ -69,7 +73,7 @@ export default function Product(props) {
             {
                 saved.error || !userData.user ? '' : <span className='save-icon' style={{ backgroundColor: theme.palette.primary.main }}>
                     {
-                        props.isProductSaved(id) ? <BookmarkAddedIcon fontSize='small'  onClick={() => { props.unsaveProduct(id) }} /> :
+                        props.isProductSaved(id) ? <BookmarkAddedIcon fontSize='small' onClick={() => { props.unsaveProduct(id) }} /> :
                             <BookmarkAddOutlinedIcon fontSize='small' onClick={() => { props.saveProduct(id) }} />
                     }
                 </span>

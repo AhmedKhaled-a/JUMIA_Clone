@@ -33,7 +33,14 @@ const Cart = () => {
     }
 
     let changeCount = (cartId, n) => {
-        let cartItem = cartProducts.find((c) => c.id == cartId);
+        let cartItem = cartProducts.find((c) => {
+            console.log(c);
+            if(c) {
+                return c.id == cartId;
+            }
+            return false;
+            
+        });
 
         let count = cartItem.count;
         let newCount = count + n;
