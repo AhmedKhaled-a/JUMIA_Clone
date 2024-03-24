@@ -33,7 +33,7 @@ export default function ProductsContainer(props) {
     const isInCart = (pId) => {
         // console.log(cartProducts);
         if (cartProducts?.length > 0) {
-            if (cartProducts.find((c) => c.product.id == pId)) {
+            if (cartProducts.find( (c) => c.product.id == pId) ) {
                 return true
             }
             return false

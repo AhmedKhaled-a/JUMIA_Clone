@@ -31,8 +31,9 @@ function ProductDetailView(props) {
   // const products = productsSl.products;
   // let products=useSelector(productsDataSelector)
   const product = products.find((p) => { return (p.id == id) })
-  console.log(Math.round(product.rating * 2) / 2);
-  console.log(product);
+  
+  // console.log(Math.round(product.rating * 2) / 2);
+  // console.log(product);
   const loading = useSelector((state) => state.products.loading);
   const cart = useSelector(cartDataSelector);
   const cartProducts = cart.cart;
