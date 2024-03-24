@@ -30,6 +30,17 @@ export default function Store(props) {
     //     pricehigh: 10000
     // });
 
+    let handleOrder = (order) => {
+        console.log("handle order");
+        console.log(order);
+        if (order) {
+            params.delete('orderbyprice');
+            params.set('orderbyprice', order);
+        }
+
+        filter();
+    }
+
     let clearFilter = () => {
         params.delete('brand');
         params.set('pricelow', lowPriceDefault);
@@ -80,7 +91,7 @@ export default function Store(props) {
                 <Filter clearFilter={clearFilter} handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />
             </div>
             <div className="col-lg-9 col-md-8 col-sm-12 my-5">
-                <ProductsContainer products={products} />
+                <ProductsContainer handleOrder={handleOrder}  products={products} />
             </div>
         </div>
     )
