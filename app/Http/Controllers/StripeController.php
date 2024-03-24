@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,60 +12,11 @@ class StripeController extends Controller
 {
     function checkout(Request $request)
     {
+        $userId = $request->input('userId');
+        // dd($userId);
+
         $orders = $request->input('cart');
-        // dd($orders);
-        // $orders = '{
-        //     "total_items": 3,
-        //     "productsCount": {
-        //         "1": 2,
-        //         "2": 1
-        //     },
-        //     "cart_items": [
-        //         {
-        //             "id": 1,
-        //             "count": 2,
-        //             "product": {
-        //                 "id": 1,
-        //                 "created_at": "2024-03-16T14:56:03.000000Z",
-        //                 "updated_at": "2024-03-16T15:01:02.000000Z",
-        //                 "title": "Samsung S10 4777 update 2",
-        //                 "desc": "Test Desc For Sasmung S10",
-        //                 "spec": "test spec s10",
-        //                 "price": 5000,
-        //                 "discount": 2,
-        //                 "brand": "samsung",
-        //                 "stock": 25,
-        //                 "rating": 3,
-        //                 "thumbnail": "assets/uploads/product/CfCEz1PFJQlZ56JifUHC.png",
-        //                 "category_id": 2,
-        //                 "seller_id": 1
-        //             }
-        //         },
-        //         {
-        //             "id": 2,
-        //             "count": 1,
-        //             "product": {
-        //                 "id": 2,
-        //                 "created_at": "2024-03-16T14:56:55.000000Z",
-        //                 "updated_at": "2024-03-16T15:01:08.000000Z",
-        //                 "title": "Samsung S10 4777 update 2",
-        //                 "desc": "Test Desc For Sasmung S10",
-        //                 "spec": "test spec s10",
-        //                 "price": 5000,
-        //                 "discount": 2,
-        //                 "brand": "samsung",
-        //                 "stock": 25,
-        //                 "rating": 3,
-        //                 "thumbnail": "assets/uploads/product/npxKCcuiORbAFprnG58W.png",
-        //                 "category_id": 2,
-        //                 "seller_id": 1
-        //             }
-        //         }
-        //     ]
-        // }';
-
-        // $data = json_decode($orders, true);
-
+    
         $CartProducts = $orders['cart_items'];
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
@@ -72,7 +24,7 @@ class StripeController extends Controller
         $line_items = [];
         $total_price = 0;
 
-        foreach ($CartProducts as $CartProduct) {
+        foreach ( $CartProducts as $CartProduct ) {
             $product = $CartProduct['product'];
             $total_price += ($product['price'] - ($product['price'] * $product['discount'] / 100)) * $CartProduct['count'];
 
@@ -98,7 +50,7 @@ class StripeController extends Controller
 
         foreach ($CartProducts as $cartItem) {
             $order = new Order();
-            $order->user_id = 1; // TODO: get user id from auth
+            $order->user_id = $userId; // TODO: get user id from auth
             $order->count = $cartItem['count'];
             $order->price = $cartItem['product']['price'] * $cartItem['count'];
             $order->order_status = 'processing';
@@ -106,10 +58,21 @@ class StripeController extends Controller
             $order->shipping_cost = 50;
             $order->seller_id = $cartItem['product']['seller_id'];
             $order->product_id = $cartItem['product']['id'];
+
+            $prodcutInstance = Product::find($cartItem['product']['id']);
+            $prodcutInstance->stock -= $order->count;
+            $prodcutInstance->save();
+
             $order->payment_status = 'unpaid';
             $order->session_id = $checkout_session->id;
             $order->save();
+
+            // delete cartiem here
+            $cartItem->delete();
+            
         }
+
+        
 
         return response()->json(['redirectUrl' => $checkout_session->url]);
     }

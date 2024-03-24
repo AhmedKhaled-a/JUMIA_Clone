@@ -33,6 +33,17 @@ class SellerController extends Controller
     {
         return response()->json(['sellers' => Seller::all()], 200);
     }
+    public function destroy(string $sellerId) 
+    {   
+        $seller = Seller::find($sellerId);
+        if(!$seller) {
+              return response()->json(["code" => Errors::ERR_SELLER_NOT_FOUND, 'message' => 'Seller not found'] , 404);
+        }
+
+        $seller->delete();
+        return response()->json("seller delete successfully" , 201);
+    }
+    
     public function register(Request $request) {
         $data = json_decode($request->getContent(), true);
         if (empty($data)) {

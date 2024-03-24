@@ -164,6 +164,7 @@ Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
 
 /**************************************** Sellers ************************************************/
 Route::get('/sellers', [SellerController::class, 'index'])->middleware("auth:admin");
+Route::delete('/sellers/{sellerId}', [SellerController::class, 'destroy'])->middleware("auth:admin");
 
 
 
