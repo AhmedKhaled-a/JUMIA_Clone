@@ -124,7 +124,7 @@ function Login() {
                 <div className="my-5">
                     <button type='sumbit' className='continue form-control btn mt-3'>{isLoading == true ? <FontAwesomeIcon icon={faSpinner} className='spinner fs-3' /> : 'Login'}</button>
                 </div>
-                <p className='my-4'>New to Jumia ? <Link className='ms-2 log' to='/login'>Register</Link></p>
+                <p className='my-4'>New to Jumia ? <Link className='ms-2 log' to='/register'>Register</Link></p>
 
                 <div>
                     <p>For further support, you may visit the Help Center or contact our customer service team.</p>
