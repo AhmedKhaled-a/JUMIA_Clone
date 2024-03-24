@@ -37,13 +37,13 @@ export default function Home() {
         <>
             {/* FIRST SECTION => SLIDER WITH CATEGORIES LIST */}
             <div className="row mb-5">
-                <div className='col-2'>
+                <div className='col-lg-2 col-md-3 col-sm-12 mb-4'>
                     <CategoryList />
                 </div>
-                <div className="col-8">
+                <div className="col-lg-8 col-md-9 col-sm-12 mb-4">
                     <ItemCarousel />
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-md-6 col-sm-12 mb-4 d-sm-none d-md-none d-lg-block d-sm-block">
                     <div className='home-info mb-5 rounded-1 h-50'>
                         <div className='d-flex mb-4'>
                             <div><FontAwesomeIcon icon={faBuilding} className='icon-orange fs-2 me-3' /></div>
@@ -67,7 +67,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div><img src={process.env.PUBLIC_URL + '/images/buy now.gif'} className='w-100 rounded-1' /></div>
+                    <div className='mb-5'><img src={process.env.PUBLIC_URL + '/images/buy now.gif'} className='w-100 rounded-1' /></div>
                 </div>
             </div>
 
