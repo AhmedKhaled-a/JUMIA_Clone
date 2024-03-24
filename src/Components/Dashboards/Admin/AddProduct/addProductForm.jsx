@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseURL } from '../../../../config/config';
 import { authHeaders } from '../../../../config/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 // import { FormControl, Input, InputLabel, TextField } from '@mui/material';
 
 
 function AddProductForm() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         "title": '',
         "desc": '',
@@ -92,6 +94,8 @@ function AddProductForm() {
                 { headers: authHeaders }
             );
 
+            navigate('/dashboard/products')
+
             // Handle success, maybe show a success message or redirect
             console.log('Product added successfully');
         } catch (error) {
@@ -165,13 +169,7 @@ function AddProductForm() {
                     <div className='mb-2'>
                         <label className="form-label">
                             Brand:</label>
-                        {/* <input type="text" name="brand" onChange={handleChange} className="form-control" /> */}
-                        <select name="brand" onChange={handleChange} className="form-select">
-                            <option value="">Select brand</option>
-                            {brands.map((brand, index) => (
-                                <option key={index} value={brand.brand}>{brand.brand}</option>
-                            ))}
-                        </select>
+                        <input type="text" name="brand" onChange={handleChange} className="form-control" />
                     </div>
                 </div>
                 <div className="col-6">
