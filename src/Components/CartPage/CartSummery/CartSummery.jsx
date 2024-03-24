@@ -43,8 +43,8 @@ export default function CartSummery() {
             <Typography variant="h5" component="div">
                 
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Subtotal : {cartTotal}
+            <Typography sx={{ mb: 1.5 }} color="text.primary">
+                Subtotal : {cartTotal} $
             </Typography>
             
             </CardContent>

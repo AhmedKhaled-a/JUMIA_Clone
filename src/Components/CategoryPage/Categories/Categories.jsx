@@ -31,11 +31,6 @@ const Categories = (props) => {
     return (
         <>
             { categoriesSl.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <>
-                <Box sx={{ width: '100%', height: '68px', backgroundColor: 'secondary.light', paddingTop: '8px', paddingBottom: '8px' }}>
-                <Typography variant='h6' textAlign={'center'} fontWeight={100}>
-                    Phones Top Deals
-                </Typography>
-            </Box>
             <Divider sx={{ height: '22px', width: '100%' }} orientation='horizontal' />
             <Carousel infinite={true} className={classes.carContainer} responsive={responsive}>
                 {categories.map((cat) => (

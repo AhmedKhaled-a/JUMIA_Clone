@@ -1,5 +1,5 @@
 .login-container img {
-    width: 64px;
+    width: 100px;
 }
 
 .input-box {
@@ -66,4 +66,13 @@ form .facebook {
 
 form i {
     font-size: 25px;
+}
+
+.orange-hover:hover{
+    color: orange !important;
+}
+
+.small-img{
+    width: 20px !important;
+    vertical-align: middle;
 }

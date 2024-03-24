@@ -1,20 +1,29 @@
 /* General */
 
-body{
+body {
   background-image: url(../public/images/body.jpg);
   /* background-repeat: no-repeat; */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  
 }
-a{
+.background1 {
+  background-image: url(../public/images/body.jpg); 
+}
+
+.nobackground {
+  background-image: none;
+}
+
+a {
   text-decoration: none !important;
   color: #000 !important;
-} 
+}
 
-a:hover{
+a:hover {
   color: orange;
 }
 
-.backToTOPButton{
+.backToTOPButton {
   position: fixed;
   right: 40px;
   bottom: 40px;
@@ -23,13 +32,14 @@ a:hover{
   border: 2px solid transparent;
   padding: 5px 7px;
 }
-.backToTOPButton:hover{
+
+.backToTOPButton:hover {
   transform: scale(1.03);
 }
 
 /* Home Page */
 
-.home-category-list{
+.home-category-list {
   background-color: #FFFFFF;
   height: 100%;
   padding: 15px;
@@ -40,17 +50,21 @@ a:hover{
   flex-direction: column;
   justify-content: space-around;
 }
-.home-category-list li{
+
+.home-category-list li {
   color: black;
   margin-bottom: 10px;
 }
-.home-category-list li:hover{
+
+.home-category-list li:hover {
   color: orange;
 }
-.icon-orange{
+
+.icon-orange {
   color: orange;
 }
-.home-info{
+
+.home-info {
   background-color: #FFF;
   padding: 15px;
   display: flex;
@@ -59,35 +73,48 @@ a:hover{
 }
 
 .ad-horizontal,
-.ad-cards{
-background-color: #FFF;
-padding: 9px 8px;
-border-radius: 5px;
+.ad-cards {
+  background-color: #FFF;
+  padding: 9px 8px;
+  border-radius: 5px;
 }
+
 .ad-horizontal img {
   border-radius: 5px;
 }
-.ad-cards{
+
+.ad-cards {
   display: flex;
   justify-content: space-around;
 }
-.ad-horizontal:hover{
+
+.ad-horizontal:hover {
   transform: scale(1.01);
 }
-.ad-cards .ad-card{
+
+.ad-cards .ad-card {
   width: calc(100%/6.5);
   display: block;
 }
-.ad-cards .ad-card:hover{
+
+.ad-cards .ad-card:hover {
+  transform: scale(1.02);
+}
+.ad-card{
+    cursor: pointer;
+}
+.ad-card:hover {
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, .12);
   transform: scale(1.02);
 }
 
 /* ABOUT */
-.about{
+.about {
   border-radius: 5px;
   background-color: #FFF;
   padding: 1rem 1.5rem;
 }
+
 :root {
   --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
   --orange: #fca61f;
@@ -101,4 +128,18 @@ border-radius: 5px;
   --activeItem: #f799a354;
 }
 
- 
+.top-deals {
+  background-color: #FFF;
+  padding: 9px 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.top-deals img {
+  transition: all .3s;
+  cursor: pointer;
+}
+
+.top-deals img:hover {
+  transform: scale(1.02);
+}
