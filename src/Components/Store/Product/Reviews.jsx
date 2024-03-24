@@ -45,7 +45,7 @@ function Reviews({productId}) {
       {reviews?.map((review) => (
         <div key={review.id}>
           <h3>{review.title}</h3>
-          <p> By: {review.writer}</p>
+          <p> By:{review.writer}</p>
           <p><Rating readOnly defaultValue={Math.round(review.rating * 2) / 2} precision={0.5}></Rating></p>
           <p>{review.content}</p>
         </div>
