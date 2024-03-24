@@ -77,7 +77,7 @@ class ReviewController extends Controller
             if (!$user) {
                 return response()->json(["message" => "no user with this id"]);
             }
-            $product = Product::find($data['product']['id']);
+            $product = Product::find($data['product_id']);
             if (!$product) {
                 return response()->json(["message" => "no product with this id"]);
             }

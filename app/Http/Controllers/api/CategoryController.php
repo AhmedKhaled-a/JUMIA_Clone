@@ -29,21 +29,14 @@ class CategoryController extends Controller
             return response()->json($categories, 200);
         }
         else {
-            return response()->json(Category::all(), 200);
+            // dd(Category::whereNull('super_category_id'));
+            return response()->json(Category::whereNull('super_category_id')->get(), 200);
         }
     }
-
-
-
-
-
-
 
     public function show(string $id)
     {
         $category = category::find($id);
-
-
 
         if ($category) {
             if ($category->thumbnail && file_exists(public_path($category->thumbnail))) {
@@ -59,8 +52,6 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        // $data = json_decode($request->getContent(), true);
-        // dd($data['category']['id']);
         $validator = Validator::make($request['category'], [
             'name' => 'required|string|max:255',
             'id' => 'required',

@@ -62,7 +62,7 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 // Route::get('/reviews/{id}', [ReviewController::class, 'show'])
 // ->name('reviews.show');
 
-// ex : /api/reviews/getbyproduct?prodId=1
+// ex : /api/reviews/get-by-product?prodId=1
 Route::get('/reviews/get-by-product', [ReviewController::class, 'getProductReviews'])
     ->name('reviews.getbyproduct');
 
@@ -156,11 +156,11 @@ Route::get('/orders/seller/{sellerId}', [OrderController::class, 'getForSeller']
 
 Route::put('/orders/{orderId}', [OrderController::class, 'changeOrderStatus'])
     ->name('orders.update');
+    
 // Admins only
 Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
     ->name('orders.delete')
-    ->middleware('auth:admin')
-    ;
+    ->middleware('auth:admin');
 
 /**************************************** Sellers ************************************************/
 Route::get('/sellers', [SellerController::class, 'index'])->middleware("auth:admin");
@@ -176,9 +176,9 @@ Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categ
 Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-// Admins only
-Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
-    ->name('orders.store');
+// // Admins only
+// Route::delete('/orders/{orderId}', [OrderController::class, 'deleteOrder'])
+//     ->name('orders.delete');
 
 
 /**************************************** Users ************************************************/
@@ -268,17 +268,17 @@ Route::get('product/user-viewed/{userId}', [ViewedProductsController::class, 'ge
 Route::get('user/verify/{verification_code}', [UserController::class, 'verifyUser']);
 
 /**************************************** reset password routes for users  ************************************************/
-Route::post('user/foreget',[UserController::class,'resetPasswordLink'])->middleware('cors');
-Route::get('user/resetPassword/{remember_token}',[UserController::class,'reset' ])->middleware('cors');
-Route::post('user/userResetPassword/{remember_token}',[UserController::class,'postResetPasswordLink'])->middleware('cors');
+Route::post('user/foreget', [UserController::class, 'resetPasswordLink'])->middleware('cors');
+Route::get('user/resetPassword/{remember_token}', [UserController::class, 'reset'])->middleware('cors');
+Route::post('user/userResetPassword/{remember_token}', [UserController::class, 'postResetPasswordLink'])->middleware('cors');
 
 /**************************************** email varification for sellers  ************************************************/
 Route::get('seller/verify/{verification_code}', [SellerController::class, 'verifySeller']);
 
 /**************************************** reset password routes for sellers  ************************************************/
-Route::post('seller/foreget',[SellerController::class,'resetPasswordLink'])->middleware('cors');
-Route::get('seller/resetPassword/{remember_token}',[SellerController::class,'reset' ])->middleware('cors');
-Route::post('seller/sellerResetPassword/{remember_token}',[SellerController::class,'postResetPasswordLink'])->middleware('cors');
+Route::post('seller/foreget', [SellerController::class, 'resetPasswordLink'])->middleware('cors');
+Route::get('seller/resetPassword/{remember_token}', [SellerController::class, 'reset'])->middleware('cors');
+Route::post('seller/sellerResetPassword/{remember_token}', [SellerController::class, 'postResetPasswordLink'])->middleware('cors');
 /**************************************** search Routes  ************************************************/
 // Route::post('search/product',[ProductController::class,'searchProduct']);
 Route::get('search/product', [ProductController::class, 'searchProduct'])->name('products.search');

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->enum('order_status',['processing', 'rejected' ,'shipping', 'delivered']);
             $table->integer('shipping_period');
             $table->integer('shipping_cost');
-            $table->unsignedBigInteger('seller_id')->nullable()->references('id')->on('sellers');
-            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users');
-            $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products');
+            $table->unsignedBigInteger('seller_id')->nullable()->references('id')->on('sellers')->onDelete();
+            $table->unsignedBigInteger('user_id')->nullable()->references('id')->on('users')->onDelete();
+            $table->unsignedBigInteger('product_id')->nullable()->references('id')->on('products')->onDelete();
 
         });
     }

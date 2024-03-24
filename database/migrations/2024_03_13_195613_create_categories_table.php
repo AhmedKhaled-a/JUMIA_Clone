@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name')->unique;
             $table->string('category_thumb');
             $table->unsignedBigInteger('super_category_id')->nullable();
-            $table->foreign('super_category_id')->references('id')->on('categories');
+            $table->foreign('super_category_id')->references('id')->on('categories')->onDelete('SET NULL');
 
         });
     }

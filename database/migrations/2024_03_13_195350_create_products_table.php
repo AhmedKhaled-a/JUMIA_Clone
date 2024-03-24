@@ -23,8 +23,8 @@ return new class extends Migration
             $table->integer('stock');
             $table->float('rating');
             $table->string('thumbnail');
-            $table->unsignedBigInteger('category_id')->nullable()->references('id')->on('categories');
-            $table->unsignedBigInteger('seller_id')->nullable()->references('id')->on('sellers');
+            $table->unsignedBigInteger('category_id')->nullable()->references('id')->on('categories')->onDelete();
+            $table->unsignedBigInteger('seller_id')->nullable()->references('id')->on('sellers')->onDelete();
 
             // $table->foreign('category_id')
             // $table->foreign('seller_id')
