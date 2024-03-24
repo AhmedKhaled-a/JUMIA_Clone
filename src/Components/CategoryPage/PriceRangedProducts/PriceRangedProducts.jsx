@@ -19,11 +19,11 @@ export default function PriceRangedProducts() {
     const classes = hoverStyles();
     const matchDownLg = useMediaQuery(theme.breakpoints.down('md'));
 
-    
+
 
     return (
         <>
-            <Box sx={{ height: '48px', backgroundColor: 'secondary.light', padding: '8px' }}>
+            <Box sx={{backgroundColor: '#FFF2D6', padding: '8px' }}>
                 <Typography variant='h6' textAlign={'center'} fontWeight={100}>
                     From Budget-Friendly to Premium Picks!
                 </Typography>
@@ -34,29 +34,13 @@ export default function PriceRangedProducts() {
                         <img src={img1} alt="" loading="lazy" />
                     </Paper>
                 </ImageListItem> */}
-            <Carousel responsive={responsive}>
-                <Paper sx={{padding:'2px'}} className={classes.card}>
-
-                    <img src={img2} alt="" loading="lazy" />
-                </Paper>
-
-                <Paper className={classes.card}>
-
-                    <img src={img3} alt="" loading="lazy" />
-                </Paper>
-
-
-                <Paper className={classes.card}>
-                    <img src={img4} alt="" loading="lazy" />
-                </Paper>
-
-                <Paper className={classes.card}>
-                    <img src={img5} alt="" loading="lazy" />
-                </Paper>
-
-                <Paper className={classes.card}>
-                    <img src={img6} alt="" loading="lazy" />
-                </Paper>
+            <Carousel responsive={responsive} className='mb-5 pb-1 bg-white rounded-bottom'>
+                <img className='m-0 ad-card' src={img2} alt="" />
+                <img className='m-0 ad-card' src={img3} alt="" />
+                <img className='m-0 ad-card' src={img4} alt="" />
+                <img className='m-0 ad-card' src={img5} alt="" />
+                <img className='m-0 ad-card' src={img6} alt="" />
+                <img className='m-0 ad-card' src={img3} alt="" />
             </Carousel>
             {/* </ImageList> */}
         </>

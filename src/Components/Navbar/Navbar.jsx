@@ -20,26 +20,26 @@ function Navbar(props) {
   const [searchQ, setSearchQ] = useState('')
   // console.log(userData);
   const keyPressSearch = (e) => {
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       dispatch(setSearchQueryAction(searchQ));
     }
   }
   return (
-    
+
     <header className="navbar m-0 mb-5">
       <div className="container  d-flex justify-content-around">
         <div className='img-container'>
-          <Link to="/" className="logo"><img className='logo m-0' src={logo} alt="Logo" /></Link>
+          <Link to="/" className="logo"><img className='logo m-0' src={process.env.PUBLIC_URL + '/images/logo/Joya2.png'} alt="Logo" /></Link>
         </div>
         <div className="search-bar">
           <input onKeyUp={(e) => { keyPressSearch(e) }}
-           type="text" placeholder="Search products, brands, and categories"
-            className="search-input" id='search' 
+            type="text" placeholder="Search products, brands, and categories"
+            className="search-input" id='search'
             value={searchQ}
-            onChange={(e) => {setSearchQ(e.target.value)}}
-            />
-          <button className='search-button' onClick={() => {dispatch(setSearchQueryAction(searchQ)); navigate('/store')}} >SEARCH</button>
+            onChange={(e) => { setSearchQ(e.target.value) }}
+          />
+          <button className='search-button' onClick={() => { dispatch(setSearchQueryAction(searchQ)); navigate('/store') }} >SEARCH</button>
         </div>
 
         <div className="dropdown">
@@ -52,10 +52,10 @@ function Navbar(props) {
                 <li><Link className="dropdown-item" to="/account"><i className="fa-regular me-2 fa-user"></i> My Account</Link></li>
                 <li><Link className="dropdown-item" to="/orders/index"><i className="fa-regular fa-heart me-2"></i> Orders</Link></li>
                 <li><Link className="dropdown-item" to="/account/saved"><i className="fa-regular fa-heart me-2"></i> Saved Items</Link></li>
-                <li><Button onClick={() => {props.logout()}}><span>Logout</span></Button></li>
-              </>:
+                <li><Button className="dropdown-item" onClick={() => { props.logout() }}><span>Logout</span></Button></li>
+              </> :
               <></>
-  }
+            }
           </ul>
         </div>
         <div className="dropdown">
@@ -73,7 +73,7 @@ function Navbar(props) {
           </ul>
         </div>
         <div className="user-links">
-          <Link  className='cart-icon' to="cart"><FontAwesomeIcon icon={faCartShopping}/> <span className='cart-count'>{cartCount}</span></Link>
+          <Link className='cart-icon' to="cart"><FontAwesomeIcon icon={faCartShopping} /> <span className='cart-count'>{cartCount}</span></Link>
           {/* <Link to="/dashboard">dashboard</Link> */}
         </div>
       </div>

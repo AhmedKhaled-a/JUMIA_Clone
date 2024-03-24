@@ -5,8 +5,7 @@ import './index.module.css';
 export default function Unauth() {
 
     return (<GenericError title="401"
-        comment="UnAuthorized What did you do maaaaan"
-        lowerComment="This is for developers and admins what are you doing"
+        comment="UnAuthorized!"
         redirects={[{ title: 'Login', path: '/login' }]}
     />
   )
