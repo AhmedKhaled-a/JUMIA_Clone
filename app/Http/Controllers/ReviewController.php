@@ -89,10 +89,13 @@ class ReviewController extends Controller
             // calculate product rating
             $productReviews = $product->reviews;
             $reviewsCount = count($productReviews);
-
+            $productRating = 0;
             foreach($productReviews as $rev ) {
-                $product->rating += $rev->rating / $reviewsCount ;
+                
+                $productRating += $rev->rating / $reviewsCount ;
             }
+
+            $product->rating = $productRating;
 
             $product->save();
 
