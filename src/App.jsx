@@ -64,7 +64,6 @@ import DashboardAdmins from './Components/Dashboards/Admin/Admins/DashboardAdmin
 import DashboardSellers from './Components/Dashboards/Admin/Sellers/DashboardSellers';
 import ProductDetailView from './Components/Store/Product/Detail';
 import Unauth from './Components/Errors/UnauthPage/Unauth';
-
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         setUserName: (data) => {
@@ -215,8 +214,12 @@ function App() {
                 }
 
             </ThemeProvider>
-
         </>
+
+
+
+
+
     );
 }
 

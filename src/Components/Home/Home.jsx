@@ -36,7 +36,6 @@ export default function Home() {
     return (
         <>
             {/* FIRST SECTION => SLIDER WITH CATEGORIES LIST */}
-
             <div className="row mb-5">
                 <div className='col-2'>
                     <CategoryList />
@@ -90,8 +89,8 @@ export default function Home() {
             </div>
 
             {/* carousel */}
-            <Carousel responsive={responsive} className='my-5 ad-cards rounded-1'>
-            <div className='ad-card rounded-1'>
+            <Carousel responsive={responsive} className='my-5 ad-cards rounded-1' infinite={true} autoPlay={true} swipeable={true}>
+                <div className='ad-card rounded-1'>
                     <img className='m-0' src={process.env.PUBLIC_URL + '/images/multi carousel/1.png'} alt="" />
                 </div>
                 <div className='ad-card'>

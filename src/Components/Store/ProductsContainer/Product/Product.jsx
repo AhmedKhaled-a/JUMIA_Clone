@@ -1,7 +1,7 @@
 import React from 'react'
 import { storageURL } from '../../../../config/config'
 import { Rating } from '@mui/material';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -36,23 +36,23 @@ export default function Product(props) {
                 <p className="product-price mb-1 fw-semibold">{price}$</p>
                 <div className="d-flex align-items-center">
                     <Rating name="half-rating-read" readOnly value={Math.round(rating * 2) / 2} precision={0.5} />
-                    <p className='m-0 ms-1 text-muted'>({Math.round(rating * 2) / 2})</p>
+                    {/* <p className='m-0 ms-1 text-muted'>({Math.round(rating * 2) / 2})</p> */}
                 </div>
             </div>
             {props.isInCart(id) ?
                 <div className=''>
-                    <div className="d-flex justify-content-between flex-row align-items-center">
+                    <div className="d-flex justify-content-between  align-items-center">
                         <div >
-                            <button style={{ width: 70, margin: 0, padding: '8px', backgroundColor: 'orange' }} onClick={() => { stock <= productsCartCounts[id] ? void (0) : props.changeInCart(id, 1) }} ><AddIcon /></button>
+                            <button className='cart-counter-btn' onClick={() => { stock <= productsCartCounts[id] ? void (0) : props.changeInCart(id, 1) }} ><FontAwesomeIcon icon={faPlus} /></button>
                         </div>
                         <div className='px-5 fs-5'>
 
-                            <p>{productsCartCounts[id]}</p>
+                            <p className='m-0'>{productsCartCounts[id]}</p>
                         </div>
 
                         <div >
 
-                            <button style={{ width: 70, margin: 0, padding: '8px', backgroundColor: 'orange' }} onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} ><RemoveIcon /></button>
+                            <button className='cart-counter-btn'  onClick={() => { productsCartCounts[id] <= 1 ? void (0) : props.changeInCart(id, -1) }} ><FontAwesomeIcon icon={faMinus} /></button>
                         </div>
 
                     </div>
@@ -64,13 +64,13 @@ export default function Product(props) {
                     </div> */}
                 </div>
                 :
-                saved.error || !userData.user ? '' : <button onClick={() => { props.addCart(id) }}>Add to Cart</button>
+                saved.error || !userData.user ? '' : <button className='add-cart-btn' onClick={() => { props.addCart(id) }}>Add to Cart</button>
             }
             {
                 saved.error || !userData.user ? '' : <span className='save-icon' style={{ backgroundColor: theme.palette.primary.main }}>
                     {
-                        props.isProductSaved(id) ? <BookmarkAddedIcon onClick={() => { props.unsaveProduct(id) }} /> :
-                            <BookmarkAddOutlinedIcon onClick={() => { props.saveProduct(id) }} />
+                        props.isProductSaved(id) ? <BookmarkAddedIcon fontSize='small'  onClick={() => { props.unsaveProduct(id) }} /> :
+                            <BookmarkAddOutlinedIcon fontSize='small' onClick={() => { props.saveProduct(id) }} />
                     }
                 </span>
             }

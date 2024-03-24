@@ -14,13 +14,13 @@ export const useStyles = makeStyles({
         "&:hover": {
             // height: '500px',
             boxShadow: '4px 4px 4px 4px rgb(0 0 0 / 30%)',
-            zIndex : '999'
+            zIndex: '999'
         },
     },
     paper: {
         transition: '0.3s',
         "&:hover": {
-            width : '100%'
+            width: '100%'
         }
     }
 });
@@ -31,42 +31,25 @@ export default function TopDeals() {
     const classes = useStyles();
     return (
         <>
-            <Box sx={{ width:'100%', height: '68px', backgroundColor: 'secondary.light', paddingTop: '8px', paddingBottom: '8px' }}>
+            <Box sx={{ width: '100%', backgroundColor: '#FFF2D6', paddingTop: '8px', paddingBottom: '8px' }}>
                 <Typography variant='h6' textAlign={'center'} fontWeight={100}>
                     Phones Top Deals
                 </Typography>
             </Box>
 
-            <Grid container alignItems='center' sx={{ padding:8, width: '100%', backgroundColor: 'primary.contrastText' }} columns={12}>
-                <Grid item sx={{padding: 0}} className={classes.card}  xs={12} md={6}>
-                    <Paper sx={{width:'98%'}} className={classes.paper}>
-                        <img style={{ width: '100%'}} src={img1} alt="" loading="lazy" />
-                    </Paper>
-                </Grid>
-
-                <Grid item className={classes.card} xs={12} md={6}>
-                <Paper sx={{width:'98%'}} className={classes.paper}>
-                    
-                    <img style={{ width: '100%'}} src={img2} alt="" loading="lazy" />
-                </Paper>
-                </Grid>
-                <Divider orientation='horizontal' sx={{width:'100%', height:'1.5em'}} />
-
-                <Grid  item className={classes.card} xs={12} md={6}>
-                <Paper sx={{width:'98%'}} className={classes.paper}>
-                    
-                    <img style={{ width: '100%'}} src={img3} alt="" loading="lazy" />
-                </Paper>
-                </Grid>
-
-                <Grid  item className={classes.card} xs={12} md={6}>
-                <Paper sx={{width:'98%'}} className={classes.paper}>
-                    
-                    <img style={{ width: '100%'}} src={img4} alt="" loading="lazy" />
-                </Paper>
-                </Grid>
-            </Grid>
-
+            <div className='top-deals mb-5'>
+                <div className='d-flex g-2'>
+                    <div className='p-2'><img src={img1} className='w-100 m-0 ' alt=''/></div>
+                    <div className='p-2'><img src={img2} className='w-100 m-0' alt=''/></div>
+                </div>
+                <div className='d-flex g-2'>
+                    <div className='p-2'><img src={img3} className='w-100 m-0 ' alt=''/></div>
+                    <div className='p-2'><img src={img4} className='w-100 m-0' alt=''/></div>
+                </div>
+            </div>
+            <div className='ad-horizontal mb-5'>
+                <a href=""><img src={process.env.PUBLIC_URL + '/images/shop-ad.gif'} className='w-100 m-0' /></a>
+            </div>
 
 
         </>

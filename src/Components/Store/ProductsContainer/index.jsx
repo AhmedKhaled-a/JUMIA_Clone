@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCartAction, addProductToCart, cartDataSelector, changeCountByValueAction, deleteCartItemAction, deleteCartItemByProductAction, fetchCartItems } from '../../CartPage/cartSlice';
 import { userDataSelector } from '../../../userSlice';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, MenuItem, TextField } from '@mui/material';
 import { fetchProducts } from '../ProductsSlice';
 import { addToSavedProducts, fetchSavedProducts, removeFromSavedProducts, savedProductsDataSelector } from '../savedProductsSlice';
 import { authHeaders } from '../../../config/axiosConfig';
@@ -67,16 +67,16 @@ export default function ProductsContainer(props) {
     }
 
     const saveProduct = (productId) => {
-            let product = products?.find((p) => p.id == productId);
-            dispatch(addToSavedProducts(product));
+        let product = products?.find((p) => p.id == productId);
+        dispatch(addToSavedProducts(product));
 
 
-            // add to saved
-            axios.post(`${baseURL}/api/products/save/${userData.user.id}`, JSON.stringify({ product_id: productId },
-                {
-                    haeders: authHeaders
-                }
-            )).catch(err => console.log(err));
+        // add to saved
+        axios.post(`${baseURL}/api/products/save/${userData.user.id}`, JSON.stringify({ product_id: productId },
+            {
+                haeders: authHeaders
+            }
+        )).catch(err => console.log(err));
     }
 
     const unsaveProduct = (productId) => {
@@ -84,8 +84,8 @@ export default function ProductsContainer(props) {
 
 
         // add to saved
-        axios.post(`${baseURL}/api/products/unsave/${userData.user.id}`, JSON.stringify({ 
-            "product_id": productId 
+        axios.post(`${baseURL}/api/products/unsave/${userData.user.id}`, JSON.stringify({
+            "product_id": productId
         },
             {
                 haeders: {
@@ -114,8 +114,15 @@ export default function ProductsContainer(props) {
 
     return (
         <>
-            {userData.loading || cart.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1'>
-                <h4 id="productsContainerTop" className='pb-2  border-bottom'>Android Phones</h4>
+            {userData.loading || cart.loading || saved.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <div className='products-container rounded-1 py-3'>
+                <div className='d-flex justify-content-between  mb-3'>
+                    <h4 id="productsContainerTop" className='pb-2'>Android Phones</h4>
+                    <select name="" id="" className='sorting'>
+                        <option value="">Sort by popularity</option>
+                        <option value="">Price: Low to Hight</option>
+                        <option value="">Price: Hight to Low</option>
+                    </select>
+                </div>
                 <div className="product-cards row flex-wrap g-3">
                     {
                         products?.map((prod) => {

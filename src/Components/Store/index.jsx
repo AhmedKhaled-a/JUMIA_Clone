@@ -74,7 +74,7 @@ export default function Store(props) {
     }, [title]);
 
     return (
-        <div className="row my-5">
+        <div className="row my-5 nobackground">
             <CategoryPage id={props.id}/>
             <div className="col-lg-3 col-md-4 col-sm-8 my-5">
                 <Filter clearFilter={clearFilter} handleBrand={handleBrand} handlePrice={handlePrice} filter={filter} />

@@ -14,6 +14,7 @@ import FormLabel from '@mui/material/FormLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { TextField } from '@mui/material';
 
 
 
@@ -98,13 +99,14 @@ export default function Register() {
         <div className='register-container w-50 mx-auto text-center'>
 
             <div className='w-50 mx-auto d-flex justify-content-center'>
-                <img className='my-5' src={process.env.PUBLIC_URL + '/images/jumia logo2.png'} alt="" />
+                <img className='my-5' src={process.env.PUBLIC_URL + '/images/logo/Joya2.png'} alt="" />
             </div>
-            <h4>Welcome to Jumia</h4>
+            <h4>Welcome to JOYA</h4>
             <form onSubmit={sumbitRegisterForm} className='register-form w-75 mx-auto my-5'>
                 <div className='my-4 input-box'>
-                    <input onChange={getUserData} type="text" name='fullname' id='fullname' className='form-control px-3 py-2' />
-                    <span>Name</span>
+                    <TextField label="Name" variant="standard" onChange={getUserData} type="text" name='fullname' id='fullname' className='w-100' />
+                    {/* <input onChange={getUserData} type="text" name='fullname' id='fullname' className='form-control px-3 py-2' /> */}
+                    {/* <span>Name</span> */}
                     {errorList.filter((error) => error.context.label == 'fullname')[0] ?
                         <div className='form-alert-msg my-2 py-1'>
                             {errorList.filter((error) => error.context.label == 'fullname')[0].message}
@@ -113,8 +115,9 @@ export default function Register() {
                     }
                 </div>
                 <div className='my-4 input-box'>
-                    <input onChange={getUserData} type="text" name='username' id='username' className='form-control px-3 py-2' />
-                    <span>Username</span>
+                    <TextField label="Username" variant="standard" onChange={getUserData} type="text" name='username' id='username' className='w-100' />
+                    {/* <input onChange={getUserData} type="text" name='username' id='username' className='form-control px-3 py-2' />
+                    <span>Username</span> */}
                     {errorList.filter((error) => error.context.label == 'username')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'username')[0].message}
@@ -123,8 +126,9 @@ export default function Register() {
                     }
                 </div>
                 <div className='my-4 input-box'>
-                    <input onChange={getUserData} type="email" name='email' id='email' className='form-control px-3 py-2' />
-                    <span>Email</span>
+                    <TextField label="Email" variant="standard" onChange={getUserData} type="email" name='email' id='email' className='w-100' />
+                    {/* <input onChange={getUserData} type="email" name='email' id='email' className='form-control px-3 py-2' />
+                    <span>Email</span> */}
                     {errorList.filter((error) => error.context.label == 'email')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'email')[0].message}
@@ -133,8 +137,9 @@ export default function Register() {
                     }
                 </div>
                 <div className='my-4 input-box'>
-                    <input onChange={getUserData} type="tel" name='phone_number' id='phone_number' className='form-control px-3 py-2' />
-                    <span>Phone</span>
+                    <TextField  label="Phone number" variant="standard" onChange={getUserData} type="tel" name='phone_number' id='phone_number' className='w-100' />
+                    {/* <input onChange={getUserData} type="tel" name='phone_number' id='phone_number' className='form-control px-3 py-2' />
+                    <span>Phone</span> */}
                     {errorList.filter((error) => error.context.label == 'phone_number')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'phone_number')[0].message}
@@ -143,8 +148,10 @@ export default function Register() {
                     }
                 </div>
                 <div className='my-4 input-box'>
-                    <input onChange={getUserData} type="password" name='password' id='password' className='form-control px-3 py-2' />
-                    <span>Password</span>
+                    <TextField label="Password" variant="standard" onChange={getUserData} type="password" name='password' id='password' className='w-100' />
+
+                    {/* <input onChange={getUserData} type="password" name='password' id='password' className='form-control px-3 py-2' />
+                    <span>Password</span> */}
                     {errorList.filter((error) => error.context.label == 'password')[0] ?
                         <div className='form-alert-msg my-2 p-1'>
                             {errorList.filter((error) => error.context.label == 'password')[0].message !== '"password" is not allowed to be empty' ? 'password is invalid please try again!' : '"password" is not allowed to be empty'}
@@ -157,7 +164,6 @@ export default function Register() {
                     <InputLabel id="address_countryLB">Country</InputLabel>
                     <Select
                         variant='standard'
-
                         labelId="address_countryLB"
                         id="address_country"
                         name="address_country"
@@ -176,7 +182,7 @@ export default function Register() {
                     <InputLabel id="address_cityLB">City</InputLabel>
                     <Select
                         variant='standard'
-
+                        required
                         labelId="address_cityLB"
                         id="address_city"
                         name="address_city"
@@ -190,9 +196,10 @@ export default function Register() {
                     </Select>
                 </FormControl>
 
-                <FormControl fullWidth sx={{ marginBottom: "18px" }}>
+                <FormControl fullWidth sx={{ marginBottom: "28px" }}>
                     <InputLabel id="address_countryLB">District</InputLabel>
                     <Select
+                        required
                         variant='standard'
                         sx={{ padding: '1px' }}
                         labelId="address_countryLB"
@@ -226,10 +233,9 @@ export default function Register() {
                     <button type='sumbit' className='continue form-control btn mt-3'>{isLoading == true ? <FontAwesomeIcon icon={faSpinner} className='spinner fs-3' /> : 'Create Account'}</button>
                 </div>
                 <div>
-                    <p>For further support, you may visit the Help Center or contact our customer service team.</p>
-                    <img className='' src={process.env.PUBLIC_URL + '/images/jumia logo1.png'} alt="" style={{ width: '130px' }} />
+                <p>For further support, you may visit the <span><a href="$" className='fw-bold orange-hover'>Help Center</a></span> or contact our customer service team.</p>
                 </div>
-                <p className='my-4'>Already a member ? <Link className='ms-2 log' to='/login'>Login</Link></p>
+                <p className='my-4'>Already a member ? <Link className='ms-2 log' to='/login'>Login <span><img className='small-img' src={process.env.PUBLIC_URL + '/images/logo/Joya2.png'} alt="" /></span></Link></p>
             </form>
 
         </div>
