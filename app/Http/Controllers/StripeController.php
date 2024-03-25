@@ -68,8 +68,7 @@ class StripeController extends Controller
             $order->save();
 
             // delete cartiem here
-            $cartItem->delete();
-            
+            // $cartItem->delete();      
         }
 
         
@@ -141,7 +140,7 @@ class StripeController extends Controller
             return response('', 400);
         }
 
-// Handle the event
+        // Handle the event
         switch ($event->type) {
             case 'checkout.session.completed':
                 $session = $event->data->object;
