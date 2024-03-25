@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 const Categories = (props) => {
     const classes = useStyles();
     const categoriesSl = useSelector(categoriesDataSelector);
-    const [categories, setCategories] = useState([]);
+    const categories = categoriesSl.categories;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const Categories = (props) => {
             { categoriesSl.loading ? <CircularProgress sx={{ marginLeft: '50%' }} /> : <>
             <Divider sx={{ height: '22px', width: '100%' }} orientation='horizontal' />
             <Carousel infinite={true} className={classes.carContainer} responsive={responsive}>
-                {categories.map((cat) => (
+                {categories?.map((cat) => (
                     <Category key={cat.id} cat={cat} />
                 ))}
             </Carousel>

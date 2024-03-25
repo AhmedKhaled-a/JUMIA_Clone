@@ -19,7 +19,6 @@ export default function CategoryList() {
             <a href=""><li><FontAwesomeIcon icon={faGamepad} className='me-2'/>Gaming</li></a>
             <a href=""><li><FontAwesomeIcon icon={faEllipsis} className='me-2'/>Other Categories</li></a>
         </ul>
-
     </>
   )
 }
