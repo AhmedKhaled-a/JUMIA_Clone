@@ -1,0 +1,28 @@
+.custom-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #777;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.custom-checkbox input[type="checkbox"]:checked {
+    background-color: #f68b1e;
+    border-color: #f68b1e;
+}
+
+.submit {
+    background-color: #f68b1e !important;
+    border: 1px solid #f68b1e !important;
+    color: #FFF !important;
+    letter-spacing: 1px !important;
+}
+
+.submit:hover {
+    background-color: #e07e1b !important;
+}

@@ -1,0 +1,69 @@
+.login-container img {
+    width: 64px;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box  span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+    font-size: 1rem;
+    color: #808080;
+    pointer-events: none;
+    transition: all .2s;
+}
+.input-box input:focus ~ span{
+    color: orange;
+    transform: translateX(20px) translateY(-8px);
+    font-size: .8rem;
+    padding: 0 10px;
+    background-color: #F4DDBE;
+    border-radius: 5px;
+}
+
+
+form .continue {
+    background-color: darkorange;
+    color: white;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+form .continue:hover {
+    background-color: orange;
+    color: white;
+}
+
+form .passkeys {
+    color: orange;
+    border-color: orange;
+    padding: 15px 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+form .passkeys:hover {
+    background-color: #FFFBF7;
+    border-color: orange;
+    color: orange;
+
+}
+
+form .facebook {
+    padding: 20px, 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    padding-right: 45px;
+    font-weight: 600;
+}
+
+form i {
+    font-size: 25px;
+}

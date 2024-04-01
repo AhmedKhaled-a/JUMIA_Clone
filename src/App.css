@@ -1,0 +1,150 @@
+/* General */
+/* to hide error overlay */
+/* iframe
+{
+    display: none;
+} */
+
+body {
+  background-image: url(../public/images/body.jpg);
+  /* background-repeat: no-repeat; */
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  
+}
+.background1 {
+  background-image: url(../public/images/body.jpg); 
+}
+
+.nobackground {
+  background-image: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: #000 !important;
+}
+
+a:hover {
+  color: orange;
+}
+
+.backToTOPButton {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  border-radius: 10px;
+  background-color: #B177DA;
+  border: 2px solid transparent;
+  padding: 5px 7px;
+}
+
+.backToTOPButton:hover {
+  transform: scale(1.03);
+}
+
+/* Home Page */
+
+.home-category-list {
+  background-color: #FFFFFF;
+  height: 100%;
+  padding: 15px;
+  list-style-type: none;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.home-category-list li {
+  color: black;
+  margin-bottom: 10px;
+}
+
+.home-category-list li:hover {
+  color: orange;
+}
+
+.icon-orange {
+  color: orange;
+}
+
+.home-info {
+  background-color: #FFF;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.ad-horizontal,
+.ad-cards {
+  background-color: #FFF;
+  padding: 9px 8px;
+  border-radius: 5px;
+}
+
+.ad-horizontal img {
+  border-radius: 5px;
+}
+
+.ad-cards {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ad-horizontal:hover {
+  transform: scale(1.01);
+}
+
+.ad-cards .ad-card {
+  width: calc(100%/6.5);
+  display: block;
+}
+
+.ad-cards .ad-card:hover {
+  transform: scale(1.02);
+}
+.ad-card{
+    cursor: pointer;
+}
+.ad-card:hover {
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, .12);
+  transform: scale(1.02);
+}
+
+/* ABOUT */
+.about {
+  border-radius: 5px;
+  background-color: #FFF;
+  padding: 1rem 1.5rem;
+}
+
+:root {
+  --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
+  --orange: #fca61f;
+  --black: #242d49;
+  --gray: #788097;
+  --purple: linear-gradient(180deg, #BB67FF 0%, #C484F3 100%);
+  --pink: #FF919D;
+  --glass: rgba(255, 255, 255, 0.54);
+  --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+  --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+  --activeItem: #f799a354;
+}
+
+.top-deals {
+  background-color: #FFF;
+  padding: 9px 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.top-deals img {
+  transition: all .3s;
+  cursor: pointer;
+}
+
+.top-deals img:hover {
+  transform: scale(1.02);
+}

@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container{
+  width: 75% !important;
+}
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+  }
+  
+  .img-container{
+  /* width: 200px; */
+    margin-right: 20px;
+  }
+  .img-container .logo {
+    width: 110%;
+    height:50px ;
+  }
+
+
+
+  .nav-links a {
+    /* margin-right: 20px; */
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .search-bar input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+      width :90% ;
+    margin-right:10px;
+    outline: none;
+  }
+  
+  
+  .search-bar button {
+    padding: 2px 14px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: orange;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);  
+  }
+  
+  .user-links a {
+    text-decoration: none;
+    color: #333;
+  }
+  .user-links :hover{
+    color: orange;
+    
+  }
+  .search-bar{
+    display: flex;
+    width: 50%;
+  }
+.dropdown-menu .dropdown-item:hover {
+  font-weight: 600;
+}
+
+  .fa-shopping-cart {
+    margin-right: 5px;
+  }
+  .dropdown-menu .dropdown-item {
+    width: 200px;
+    
+  }
+  .dropdown-toggle:hover, .dropdown-toggle:hover .fa-regular, .dropdown-toggle:hover .text-hover {
+    color: orange !important;
+  }
+  .dropdown-menu .sign-in-button {
+    background-color: orange;
+    width: 90%;
+    margin-left: 10px;
+  
+}
+
+.search-bar .search-button:hover {
+  background-color: darkorange;   
+
+
+}
+.dropdown-menu .sign-in-button:hover {
+    background-color: darkorange;   
+}
+
+
+.cart-icon{
+  position: relative;
+}
+.cart-count{
+  position: absolute;
+  top: -17px;
+  right: -15px;
+color: orange;
+}

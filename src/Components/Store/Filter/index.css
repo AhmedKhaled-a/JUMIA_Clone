@@ -1,0 +1,54 @@
+.products-filter{
+    background-color: #fff;
+}
+
+
+.apply-price{
+    border: none;
+    background-color: transparent;
+    color: orange;
+    font-weight: 600;
+}
+
+.apply-price:hover{
+    background-color: #fcdbb9;
+    border-radius: 5px;
+}
+
+.price-input .field {
+    height: 45px;
+    width: 100%;
+}
+.field input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    text-align: center;
+    margin-left: 12px;
+    border: 1px solid #e7e5e5;
+    border-radius: 5px;
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.price-input .separator{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    vertical-align:middle;
+    accent-color: orange;
+    transform: scale(1.5);
+}
+
+.form-control{
+    box-shadow: none !important;
+}
+.form-control:focus{
+    border-color: orange !important;
+}

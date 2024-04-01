@@ -1,0 +1,31 @@
+.register-container img {
+    width: 100px;
+}
+
+.spinner {
+    animation: spin infinite 3s linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.form-alert-msg{
+    background-color: #e57d2d6b;
+    border-radius: 5px;
+}
+
+.log{
+    font-weight: 500;
+    text-decoration-line: underline !important;
+
+}
+.log:hover{
+    color:#ffa81c!important
+}
